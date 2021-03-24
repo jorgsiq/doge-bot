@@ -56,6 +56,17 @@ bot.on("message", (msg) => {
     }
 });
 
+bot.on('guildMemberAdd', member => {
+    member.guild.channels.get('channelID').send("Welcome"); 
+    
+    const welcomeMessage = new Discord.MessageEmbed()
+        .setColor('#ff9900')
+        .setTitle(`Fala, @${member.username}!`)
+        .setDescription('É bom saber que agora você também faz parte da Đoge Style! \n\nAntes de embarcar nessa jornada não esqueça de ler nossas normas de convivência fixadas no canal de texto **#rules** \n\nSe precisar de ajuda ou tiver algum problema é só chamar por um **@staff** em qualquer um dos canais. Espero que se divirta!"')
+        .setImage('https://media1.tenor.com/images/1feaefbc236ec7dead9f225024edc24b/tenor.gif')
+    member.send(welcomeMessage);
+});
+
 
 
 
