@@ -47,10 +47,10 @@ bot.on("message", (msg) => {
             console.log("(NEW ACTIVITY): Command Executed!");
         } 
         catch(e){
-            console.log("(NEW ACTIVITY): Unknow Command!");
+            console.log("(NEW ACTIVITY): Unknow Command!"); 
             //the command is unknown
-            return msg.reply("desculpe! eu ainda não aprendi esse truque");
-            
+            //<:dug:751238735743418449>
+            return msg.reply(`desculpe! eu ainda não aprendi esse truque.. `);
         }
 
     }
