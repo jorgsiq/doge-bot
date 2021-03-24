@@ -1,9 +1,9 @@
 const execute = (bot, msg, args) => {
-    return msg.reply("woof woof!");
+    msg.author.send('text');
+    return msg.reply(`estou enviando minha lista de truques no seu privado!`);
 }
 
 module.exports ={
     name: "help",
-    help: "the dog shows the commands instructions.",
     execute,
 }
