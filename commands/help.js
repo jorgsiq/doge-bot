@@ -3,7 +3,7 @@ const execute = (bot, msg, args) => {
 }
 
 module.exports ={
-    name: "hello",
-    help: "the dog answers you.",
+    name: "help",
+    help: "the dog shows the commands instructions.",
     execute,
 }

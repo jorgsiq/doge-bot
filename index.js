@@ -31,7 +31,15 @@ bot.on("message", (msg) => {
         return;
     } 
     else{
-        return msg.reply("woof woof");
+        const args = msg.content.slice(prefix.length).split(" ");
+        const command = args.shift();
+        
+        try{
+        bot.commands.get(command).execute(bots,msg,args)
+        } catch(e){
+            return msg.reply("desculpe, mas eu ainda não aprendi esse truque!")
+        }
+
     }
 });
 
