@@ -12,7 +12,7 @@ const execute = (bot, msg, args) => {
 
     const commandsMessage = new Discord.MessageEmbed()
     .setColor('#ff9900')
-    .setTitle(`Caro, @${msg.author.username}!`)
+    .setTitle(`Olá, @${msg.author.username}!`)
     .setDescription(`Aqui estão os comandos que você pode utilizar dentro do canal **#commands** no servidor da **Đoge Style**.\n\n\nLista de Comando do **Đoge Bot**:\n\n ${commandsList}\n\n  Se tiver alguma dúvida de como usar, converse com um **@Staff**`)
 
     msg.author.send(commandsMessage);
