@@ -35,9 +35,9 @@ bot.on("message", (msg) => {
         const command = args.shift();
         
         try{
-        bot.commands.get(command).execute(bots,msg,args)
+        bot.commands.get(command).execute(bot, msg, args)
         } catch(e){
-            return msg.reply("desculpe, mas eu ainda não aprendi esse truque!")
+            return msg.reply("desculpe! eu ainda não aprendi esse truque :cheemsDoge:");
         }
 
     }
