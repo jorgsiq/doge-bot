@@ -14,7 +14,6 @@
     "@discordjs/opus": "^0.5.0",
     "discord.js": "^12.5.1",
     "ffmpeg": "0.0.4",
-    "ffmpeg-binaries": "^3.2.2",
     "fluent-ffmpeg": "^2.1.2",
     "heroku": "^7.51.0",
     "yt-search": "^2.7.5",

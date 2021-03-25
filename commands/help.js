@@ -22,6 +22,6 @@ const execute = (bot, msg, args) => {
 
 module.exports = {
     name: "help",
-    help: "você recebe a lista de comandos e funções do bot",
+    help: "você recebe a lista de comandos do bot",
     execute,
 };

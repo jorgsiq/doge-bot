@@ -7,9 +7,8 @@ const token = "ODI0MDQ2ODYzOTc1MzE3NTE2.YFprcg.oeyD-q-5G5caBP1NuoxjhpRRn8M";
 const prefix = "?";
 
 const bot = new Discord.Client();
-
-
 bot.commands = new Discord.Collection();
+bot.queues = new Map();
 
 /*reading javascript commands files from the directory*/
 const commandFiles = fs.readdirSync(path.join(__dirname, "/commands")).filter(filename => filename.endsWith(".js"));
@@ -26,11 +25,11 @@ for (var filename of commandFiles) {
 bot.login(token);
 
 bot.on("ready", () => {
-    console.log(`(NEW ACTIVITY): woof woof, "${bot.user.username}" is now online!`);
+    console.log(`(NEW ACTIVITY): Woof Woof, "${bot.user.username}" is Now Online!`);
 });
 
 
-/*handling with users messages with command prefix*/
+/*handling users messages with command prefix*/
 bot.on("message", (msg) => {
     /*bot does nothing if the message is from a bot or it is not a known command*/
     if (!msg.content.startsWith(prefix) || msg.author.bot) {
