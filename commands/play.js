@@ -30,6 +30,7 @@ const execute = (bot, msg, args) => {
             }
         });
     } catch (e) {
+        msg.reply(`ei! não esqueça de colocar o nome da música após o comando..`);
         console.error(e);
     }
 };
