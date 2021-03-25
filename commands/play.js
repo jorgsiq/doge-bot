@@ -95,10 +95,9 @@ function notifyUser(song, type) {
         const message = new Discord.MessageEmbed()
             .setColor('#ff9900')
             .setAuthor("Adicionado à Fila")
-            .setImage("https://pm1.narvii.com/7475/3738ce8a9e3ead473a8c2f19b0e5150ca17fcd90r1-500-500v2_hq.jpg")
+            .setImage("https://i.imgur.com/EEm4UtH.jpg")
             .setTitle(`\n ${song.title}`)
             .addFields({ name: `Artista`, value: `${song.author.name}` }, { name: `Tempo de Reprodução`, value: `${song.duration.timestamp}` })
-            .setFooter(`Source: ${song.url}`)
         return message;
     }
 };

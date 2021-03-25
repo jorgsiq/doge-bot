@@ -74,7 +74,7 @@ bot.on("guildMemberAdd", (member) => {
         .setTitle("Bem-vindo(a)!")
         .setThumbnail(member.user.displayAvatarURL({ dynamic: true, format: "png", size: 1024 }))
         .setDescription(`@**${member.user.username}** acabou de entrar na Đoge Style!`)
-        .setImage("https://maimee.weebly.com/uploads/2/2/6/1/22614968/665540_orig.gif")
+        .setImage("https://i.imgur.com/DmzdRAk.gif")
         .setFooter(`ID do Usuário: ${member.user}`)
     bot.channels.cache.get("750728830355767296").send(updateMessage);
     console.log(`(NEW ACTIVITY): new member welcome message has sent in the server`);
@@ -84,7 +84,7 @@ bot.on("guildMemberAdd", (member) => {
         .setColor('#ff9900')
         .setTitle(`Fala, @${member.user.username}!`)
         .setDescription("É bom saber que agora você também faz parte da Đoge Style! \n\nAntes de embarcar nessa jornada não esqueça de ler nossas normas de convivência fixadas no canal de texto **#rules** \n\nSe precisar de ajuda ou tiver algum problema é só chamar por um **@staff** em qualquer um dos canais. Espero que se divirta!")
-        .setImage("https://media1.tenor.com/images/1feaefbc236ec7dead9f225024edc24b/tenor.gif")
+        .setImage("https://i.imgur.com/aKe6a1F.gif")
     member.send(welcomeMessage);
     console.log(`(NEW ACTIVITY): new member welcome private message has sent to @${member.user.username}`);
 
@@ -102,7 +102,7 @@ bot.on("guildMemberRemove", member => {
         .setTitle(`Ah Não!`)
         .setThumbnail(member.user.displayAvatarURL({ dynamic: true, format: "png", size: 1024 }))
         .setDescription(`@**${member.user.username}** nos abandonou!`)
-        .setImage("https://i.imgur.com/vWERQ46.gif")
+        .setImage("https://i.imgur.com/cApLkJo.gif")
         .setFooter(`ID do Usuário: ${member.user}`)
     bot.channels.cache.get("750728830355767296").send(updateMessage);
     console.log(`(NEW ACTIVITY): removed member message has sent in the server`);

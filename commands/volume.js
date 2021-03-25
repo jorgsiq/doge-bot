@@ -15,7 +15,7 @@ const execute = (bot, msg, args) => {
     .setColor('#ff9900')
     .setAuthor("Volume Ajustado")
     .setDescription(`Você alterou o volume para (${volume}/10)`)
-    .setImage("https://pm1.narvii.com/7475/3738ce8a9e3ead473a8c2f19b0e5150ca17fcd90r1-500-500v2_hq.jpg")
+    .setImage("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
 
   //set volume scale
