@@ -4,7 +4,6 @@ const execute = (bot, msg, args) => {
 
     if (msg.member.roles.cache.has(role)) {
         msg.member.roles.remove(role);
-        timestamp: new Date();
         console.log(`(NEW ACTIVITY): @${msg.member.username} has no more the role ${role}`);
 
         const message = new Discord.MessageEmbed()
