@@ -13,9 +13,19 @@ const execute = (bot, msg, args) => {
             else if (result && result.videos.length > 0) {
                 //picks the first result in youtube search
                 const song = result.videos[0];
+                const queue = bot.queues.get(msg.guild.id);
+                //if already exists a queue than enqueue new song
+                if (queue){
+                    queue.songs.push(song);
+                    bot.queues.set(msg.guild.id, queue);
+                }
+                //if there are not any queue than just play the requested music
+                else{
+                    playSong(bot, msg, song);
+                }
                 console.log(`(NEW ACTIVITY): New Music Requested - ${song.title} `);
                 //call function to play the song
-                playSong(bot, msg, song);
+                
             }
             else{
                 return msg.reply(`desculpe! não consegui encontrar a música que você pediu..`);
