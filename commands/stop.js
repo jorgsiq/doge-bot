@@ -11,7 +11,7 @@ const execute = (bot, msg, args) => {
   queue.dispatcher.end();
 
   const message = new Discord.MessageEmbed()
-    .setColor('#ff9900')
+    .setColor('#8c8c8c')
     .setAuthor("Reprodução Interrompida")
     .setDescription("Todas as trilhas foram encerradas")
     .setImage("https://i.imgur.com/EEm4UtH.jpg")

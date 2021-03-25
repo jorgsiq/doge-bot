@@ -1,9 +1,29 @@
+const Discord = require('discord.js');
 const execute = (bot, msg, args) => {
-   
+    let role = msg.member.guild.roles.cache.find(role => role.name === "Subscribed");
+
+    if (msg.member.roles.cache.has(role)) {
+        msg.member.roles.remove(role);
+        timestamp: new Date();
+        console.log(`(NEW ACTIVITY): @${msg.member.username} has no more the role ${role}`);
+
+        const message = new Discord.MessageEmbed()
+            .setTitle("Inscrição Removida")
+            .setColor('#8c8c8c')
+            .setAuthor(msg.member.user.tag, msg.member.user.displayAvatarURL())
+            .setDescription("você não irá mais receber alertas de promoções, jogos gratuítos e notícias na sua conta")
+            .setTimestamp()
+            .setFooter("Inscrição Encerrada ")
+        msg.reply(message);
+    }
+    else{
+        msg.reply("opa! parece que você não era um inscrito da nossa newsletter..");
+    }
+
 };
 
-module.exports ={
-    name: "subscribe",
+module.exports = {
+    name: "unsubscribe",
     help: "você desativa o alerta de jogos grátis",
     execute,
 };
