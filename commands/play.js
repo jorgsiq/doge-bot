@@ -19,9 +19,11 @@ const execute = (bot, msg, args) => {
 
                 }
                 //if there are not any queue than just play the requested music
-                else playSong(bot, msg, song);
+                else {
+                    playSong(bot, msg, song);
+                }
             } else {
-                return msg.reply("desculpe, não encontrei o que você desejava!");
+                return msg.reply(`desculpe! não consegui encontrar a música que você pediu..`);
             }
         });
     } catch (e) {
@@ -38,9 +40,7 @@ const playSong = async (bot, msg, song) => {
         }
     }
     if (!msg.member.voice.channel) {
-        return msg.reply(
-            "você precisa estar em um canal de voz para reproduzir uma música!"
-        );
+        return msg.reply(`**${song.title}**?! bom gosto! mas você precisa estar em um canal de voz para poder reproduzir essa música..`);
     }
     //create a new queue if it does not exists
     if (!queue) {
@@ -69,8 +69,8 @@ const playSong = async (bot, msg, song) => {
 };
 
 module.exports = {
-    name: "p",
-    help: "Reproduz a música desejada no canal atual do usuário",
+    name: "play",
+    help: "você reproduz a música informada",
     execute,
     playSong,
 };

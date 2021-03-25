@@ -4,6 +4,6 @@ const execute = (bot, msg, args) => {
 
 module.exports ={
     name: "hello",
-    help: "cuidado! o doge vai lamber você",
+    help: "cuidado! o doge é babão",
     execute,
 };
