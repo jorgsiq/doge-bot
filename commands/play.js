@@ -3,55 +3,44 @@ const ytdl = require("ytdl-core-discord");
 
 const execute = (bot, msg, args) => {
     //build a string with all the args 
-    const songName = args.join(" ");
-
+    const s = args.join(" ");
     try {
-        search(songName, (err, result) => {
+        search(s, (err, result) => {
             if (err) {
                 throw err;
-            }
-            else if (result && result.videos.length > 0) {
+            } else if (result && result.videos.length > 0) {
                 //picks the first result in youtube search
                 const song = result.videos[0];
                 const queue = bot.queues.get(msg.guild.id);
                 //if already exists a queue than enqueue new song
-                if (queue){
+                if (queue) {
                     queue.songs.push(song);
                     bot.queues.set(msg.guild.id, queue);
+
                 }
                 //if there are not any queue than just play the requested music
-                else{
-                    playSong(bot, msg, song);
-                }
-                console.log(`(NEW ACTIVITY): New Music Requested - ${song.title} `);
-                //call function to play the song
-                
+                else playSong(bot, msg, song);
+            } else {
+                return msg.reply("desculpe, não encontrei o que você desejava!");
             }
-            else{
-                return msg.reply(`desculpe! não consegui encontrar a música que você pediu..`);
-            }
-
         });
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
-
-
 };
-
 //handle with voice channel, user and music queue
 const playSong = async (bot, msg, song) => {
     let queue = bot.queues.get(msg.member.guild.id);
     if (!song) {
         if (queue) {
-            //when there is not more songs in queue
             queue.connection.disconnect();
             return bot.queues.delete(msg.member.guild.id);
         }
     }
     if (!msg.member.voice.channel) {
-        return msg.reply(`**${song.title}**?! bom gosto! mas você precisa estar em um canal de voz para poder reproduzir essa música..`);
+        return msg.reply(
+            "você precisa estar em um canal de voz para reproduzir uma música!"
+        );
     }
     //create a new queue if it does not exists
     if (!queue) {
@@ -80,7 +69,8 @@ const playSong = async (bot, msg, song) => {
 };
 
 module.exports = {
-    name: "play",
-    help: "você reproduz a música informada",
+    name: "p",
+    help: "Reproduz a música desejada no canal atual do usuário",
     execute,
+    playSong,
 };
