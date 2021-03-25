@@ -14,6 +14,7 @@ const execute = (bot, msg, args) => {
             .setFooter("Inscrição Iniciada ")
         msg.reply(message);
     }
+    //simple
     else{
         msg.reply("opa! parece que você já é um inscrito da nossa newsletter..");
     }
