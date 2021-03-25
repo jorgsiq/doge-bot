@@ -2,9 +2,9 @@ const Discord = require('discord.js');
 const execute = (bot, msg, args) => {
     let role = msg.member.guild.roles.cache.find(role => role.name === "Subscribed");
 
-    if (msg.member.roles.cache.has(role)) {
+    if (message.member.roles.cache.some(role => role.name === 'Subscribed')) {
         msg.member.roles.remove(role);
-        console.log(`(NEW ACTIVITY): @${msg.member.username} has no more the role ${role}`);
+        console.log(`(NEW ACTIVITY): @${msg.member.user.username} has no more the role ${role}`);
 
         const message = new Discord.MessageEmbed()
             .setTitle("Inscrição Removida")
@@ -18,7 +18,6 @@ const execute = (bot, msg, args) => {
     else{
         msg.reply("opa! parece que você não era um inscrito da nossa newsletter..");
     }
-
 };
 
 module.exports = {

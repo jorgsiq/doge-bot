@@ -2,9 +2,10 @@ const Discord = require('discord.js');
 const execute = (bot, msg, args) => {
     let role = msg.member.guild.roles.cache.find(role => role.name === "Subscribed");
 
-    if (!msg.member.roles.cache.has(role)) {
+    if (!message.member.roles.cache.some(role => role.name === 'Subscribed')) {
         msg.member.roles.add(role);
-        console.log(`(NEW ACTIVITY): @${msg.member.username} has now the role ${role}`);
+        console.log(`(NEW ACTIVITY): @${msg.member.user.username} has now the role ${role}`);
+
         const message = new Discord.MessageEmbed()
             .setTitle("Nova Inscrição")
             .setColor('#ff9900')
@@ -14,13 +15,12 @@ const execute = (bot, msg, args) => {
             .setFooter("Inscrição Iniciada ")
         msg.reply(message);
     }
-    //simple
     else{
         msg.reply("opa! parece que você já é um inscrito da nossa newsletter..");
     }
 };
 
-module.exports ={
+module.exports = {
     name: "subscribe",
     help: "você ativa o alerta de jogos grátis",
     execute,
