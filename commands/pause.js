@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const execute = (bot, msg, args) => {
   const queue = bot.queues.get(msg.guild.id);
   if (!queue) {

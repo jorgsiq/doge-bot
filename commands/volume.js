@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const execute = (bot, msg, args) => {
   const queue = bot.queues.get(msg.guild.id);
   if (!queue) {
@@ -16,7 +17,7 @@ const execute = (bot, msg, args) => {
     .setDescription(`Você alterou o volume para (${volume}/10)`)
     .setImage("https://pm1.narvii.com/7475/3738ce8a9e3ead473a8c2f19b0e5150ca17fcd90r1-500-500v2_hq.jpg")
   msg.reply(message);
-  
+
   //set volume scale
   queue.dispatcher.setVolume(volume / 10);
   queue.volume = volume;

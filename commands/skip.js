@@ -1,11 +1,11 @@
 const playSong = require("./play").playSong;
+const Discord = require('discord.js');
 
 const execute = (bot, msg, args) => {
   const queue = bot.queues.get(msg.guild.id);
   if (!queue) {
     return msg.reply("opa! parece que não existe nenhuma música sendo reproduzida..");
   }
-  else{
   //remove the music in first position
   queue.songs.shift();
   //do it globally
@@ -18,8 +18,7 @@ const execute = (bot, msg, args) => {
             .setAuthor("Próxima Música")
             .setDescription("Iniciando a próxima música")
             .setImage("https://pm1.narvii.com/7475/3738ce8a9e3ead473a8c2f19b0e5150ca17fcd90r1-500-500v2_hq.jpg")
-  return msg.reply(message);
-}
+  msg.reply(message);
 };
 
 module.exports = {
