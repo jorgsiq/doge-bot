@@ -9,6 +9,9 @@ const execute = (bot, msg, args) => {
             if (err) {
                 throw err;
             } else if (result && result.videos.length > 0) {
+                if (s == null || s.length <=1){
+                   return msg.reply(`ei! não esqueça de colocar o nome da música após o comando..`);
+                }
                 //picks the first result in youtube search
                 const song = result.videos[0];
                 const queue = bot.queues.get(msg.guild.id);
