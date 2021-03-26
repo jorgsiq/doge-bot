@@ -1,17 +1,22 @@
 const Discord = require("discord.js");
 
+
 const fs = require("fs");
 const path = require("path");
 
+
 const token = "ODI0MDQ2ODYzOTc1MzE3NTE2.YFprcg.oeyD-q-5G5caBP1NuoxjhpRRn8M";
 const prefix = "?";
+
 
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 bot.queues = new Map();
 
+
 /*reading javascript commands files from the directory*/
 const commandFiles = fs.readdirSync(path.join(__dirname, "/commands")).filter(filename => filename.endsWith(".js"));
+
 
 /*copying titles and the respective files from diretory to bot commands in discord collection*/
 for (var filename of commandFiles) {
@@ -24,21 +29,51 @@ for (var filename of commandFiles) {
 /*runs the bot, token is the argument in login*/
 bot.login(token);
 
+
+/*bot startup*/
 bot.on("ready", () => {
     bot.user.setPresence({
+        //bot status is now online
         status: 'available',
+        //bot activity setted to "Watching: Đoge Style"
+        //also can be used states like: STREAMING or PLAYING 
         activity: {
             name: 'Đoge Style',
             type: 'WATCHING',
             url: 'https://github.com/jorgsiq/dogge-bot'
         }
     });
-    console.log(`(NEW ACTIVITY): Woof Woof, "${bot.user.username}" is Now Online!`);
+    console.log(`(NEW ACTIVITY): woof woof, "${bot.user.username}" is now online!`);
 });
 
 
-/*handling users messages with command prefix*/
+/*handling with users messages with and without command prefix*/
 bot.on("message", (msg) => {
+    //checks if it was wrote in the channel news
+    if (message.channel.id.toString() == "750472762367279245") {
+        console.log(`(NEW ACTIVITY): new notice sent in channel #news by @${message.author.username}`);
+        //if the message have an attachment, it will be collected by messageAttachment, else it get a null state
+        let messageAttachment = message.attachments.size > 0 ? message.attachments.array()[0].url : null;
+        const news = new Discord.MessageEmbed()
+            .setTitle("Novo Alerta!")
+            .setColor('#5dbea6')
+            .setDescription(message.content)
+            .setTimestamp()
+            .setFooter(`Por: @${message.author.tag}`)
+        //if the past message had an attachment, it will setted in the embed image content
+        if (messageAttachment){
+            news.setImage(messageAttachment);
+        }
+        //iterates arround each member, the member who is a subscriber recieves a direct message with the alert
+        const list = bot.guilds.cache.get("457325029433278468");
+        list.members.cache.each(member => {
+            if (member.roles.cache.some(role => role.name === 'Subscribed')) {
+                member.send(`Você recebeu esta mensagem porque é um membro **inscrito** na nossa **newsletter**`);
+                member.send(news);
+                console.log(`(NEW ACTIVITY): new alert sent to @${member.user.username} as a direct message`);
+            }
+        });
+    }
     /*bot does nothing if the message is from a bot or it is not a known command*/
     if (!msg.content.startsWith(prefix) || msg.author.bot) {
         return;
@@ -59,11 +94,11 @@ bot.on("message", (msg) => {
             //the command is unknown
             return msg.reply(`desculpe! eu ainda não aprendi esse truque.. `);
         }
-
     }
 });
 
-/*new user joined the server*/
+
+/*when a new user joins the server*/
 bot.on("guildMemberAdd", (member) => {
 
     console.log(`(NEW ACTIVITY): @${member.user.username} joined the server`);
@@ -98,9 +133,9 @@ bot.on("guildMemberAdd", (member) => {
 
 });
 
-/*users who left or were banned in the server*/
-bot.on("guildMemberRemove", member => {
 
+/*when user left or was banned from the server*/
+bot.on("guildMemberRemove", member => {
     console.log(`(NEW ACTIVITY): @${member.user.username} removed from the server`);
     //build embed post for channel "updates"
     const updateMessage = new Discord.MessageEmbed()
@@ -113,23 +148,16 @@ bot.on("guildMemberRemove", member => {
         .setFooter(`ID do Usuário: ${member.user}`)
     bot.channels.cache.get("750728830355767296").send(updateMessage);
     console.log(`(NEW ACTIVITY): removed member message has sent in the server`);
-    //build embed post to send as a private message
-    /*
-    const byeMessage = new Discord.MessageEmbed()
-        .setColor('#8c8c8c')
-        .setTitle(`Poxa, @${member.user.username}!`)
-        .setDescription("Iremos sentir muito a sua falta! \n\nSe no futuro você mudar de ideia, utilize este link para voltar ao servidor: **discord.gg/7zP9mjPwDG**")
-        .setImage("https://i.imgur.com/vWERQ46.gif")
-    member.send(byeMessage);
-    console.log(`(NEW ACTIVITY): removed member private message has sent to @${member.user.username}`);
-    */
 });
 
+
+/*when a member changes something in profile*/
 bot.on("guildMemberUpdate", (oldMember, newMember) => {
+    //checks if the change is the nickname
     if (oldMember.displayName.toString() != newMember.displayName.toString()) {
         console.log(`(NEW ACTIVITY): @${oldMember.displayName} was the username before update`);
         console.log(`(NEW ACTIVITY): @${newMember.displayName} is the username after update`);
-
+        //build embed with old and new info to send it to updates channel
         const updateMessage = new Discord.MessageEmbed()
             .setAuthor(newMember.user.tag, newMember.user.displayAvatarURL())
             .setColor('#ffb361')
@@ -137,28 +165,28 @@ bot.on("guildMemberUpdate", (oldMember, newMember) => {
             .setImage(newMember.user.displayAvatarURL({ dynamic: true, format: "png", size: 1024 }))
             .addFields(
                 { name: `@${oldMember.displayName}`, value: `Antes`, inline: true },
-                { name: `@${newMember.displayName}`, value: 'Agora' , inline: true },
+                { name: `@${newMember.displayName}`, value: 'Agora', inline: true },
             )
             .setFooter(`ID do Usuário: ${newMember.user}`)
         bot.channels.cache.get("750728830355767296").send(updateMessage);
         console.log(`(NEW ACTIVITY): update nickname message has sent in the server`);
     }
-
+    //checks if the change is the profile picture
     if (oldMember.displayAvatarURL != newMember.displayAvatarURL) {
         console.log(`(NEW ACTIVITY): @${newMember.displayName} updated the profile picture`);
-
+        //build embed with old and new info to send it to updates channel
         const updateMessage2 = new Discord.MessageEmbed()
             .setAuthor(newMember.user.tag, newMember.user.displayAvatarURL())
             .setColor('#ffb361')
             .setDescription(`Teve sua **foto** de perfil alterada\n\n(Nova foto de perfil)`)
-            .setImage(newMember.user.displayAvatarURL({ dynamic: true, format: "png"}))
+            .setImage(newMember.user.displayAvatarURL({ dynamic: true, format: "png" }))
             .setThumbnail(oldMember.user.displayAvatarURL({ dynamic: true, format: "png", size: 1024 }))
             .setFooter(`ID do Usuário: ${newMember.user}`)
         bot.channels.cache.get("750728830355767296").send(updateMessage2);
         console.log(`(NEW ACTIVITY): update photo message has sent in the server`);
     }
-
 });
+
 
 
 
