@@ -19,6 +19,7 @@ const execute = (bot, msg, args) => {
             .setDescription("Iniciando a próxima música")
             .setImage("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
+  console.log(`(NEW ACTIVITY): skip song`);
 };
 
 module.exports = {

@@ -16,6 +16,7 @@ const execute = (bot, msg, args) => {
     .setDescription("Todas as trilhas foram encerradas")
     .setImage("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
+  console.log(`(NEW ACTIVITY): stop playing`);
 };
 
 module.exports = {

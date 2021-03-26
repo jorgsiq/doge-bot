@@ -87,10 +87,10 @@ bot.on("message", (msg) => {
         try {
             //executes the command stored in collections
             bot.commands.get(command).execute(bot, msg, args)
-            console.log("(NEW ACTIVITY): Command Executed!");
+            console.log("(NEW ACTIVITY): command executed!");
         }
         catch (e) {
-            console.log("(NEW ACTIVITY): Unknow Command!");
+            console.log("(NEW ACTIVITY): unknow command!");
             //the command is unknown
             return msg.reply(`desculpe! eu ainda não aprendi esse truque.. `);
         }
@@ -107,7 +107,7 @@ bot.on("guildMemberAdd", (member) => {
         //the universal role "Crew" is autofilled for the new member
         let role = member.guild.roles.cache.find(role => role.name === "Crew");
         member.roles.add(role);
-        console.log(`(NEW ACTIVITY): @${member.user.username} has now the role ${role}`);
+        console.log(`(NEW ACTIVITY): @${member.user.username} has now the role ${role.name}`);
     }, 60000);
 
     //build embed post for channel "updates"
@@ -120,7 +120,7 @@ bot.on("guildMemberAdd", (member) => {
         .setImage("https://i.imgur.com/DmzdRAk.gif")
         .setFooter(`ID do Usuário: ${member.user}`)
     bot.channels.cache.get("750728830355767296").send(updateMessage);
-    console.log(`(NEW ACTIVITY): new member welcome message has sent in the server`);
+    console.log(`(NEW ACTIVITY): new member update message has sent in the server`);
 
     //build embed post to send as a private message
     const welcomeMessage = new Discord.MessageEmbed()
@@ -136,7 +136,7 @@ bot.on("guildMemberAdd", (member) => {
 
 /*when user left or was banned from the server*/
 bot.on("guildMemberRemove", member => {
-    console.log(`(NEW ACTIVITY): @${member.user.username} removed from the server`);
+    console.log(`(NEW ACTIVITY): @${member.user.username} left the server`);
     //build embed post for channel "updates"
     const updateMessage = new Discord.MessageEmbed()
         .setAuthor(member.user.tag, member.user.displayAvatarURL())
@@ -147,7 +147,7 @@ bot.on("guildMemberRemove", member => {
         .setImage("https://i.imgur.com/cApLkJo.gif")
         .setFooter(`ID do Usuário: ${member.user}`)
     bot.channels.cache.get("750728830355767296").send(updateMessage);
-    console.log(`(NEW ACTIVITY): removed member message has sent in the server`);
+    console.log(`(NEW ACTIVITY): removed member update has sent in the server`);
 });
 
 
@@ -169,11 +169,11 @@ bot.on("guildMemberUpdate", (oldMember, newMember) => {
             )
             .setFooter(`ID do Usuário: ${newMember.user}`)
         bot.channels.cache.get("750728830355767296").send(updateMessage);
-        console.log(`(NEW ACTIVITY): update nickname message has sent in the server`);
+        console.log(`(NEW ACTIVITY): nickname changed update message has sent in the server`);
     }
     //checks if the change is the profile picture
     if (oldMember.displayAvatarURL != newMember.displayAvatarURL) {
-        console.log(`(NEW ACTIVITY): @${newMember.displayName} updated the profile picture`);
+        console.log(`(NEW ACTIVITY): @${newMember.displayName} updated profile picture`);
         //build embed with old and new info to send it to updates channel
         const updateMessage2 = new Discord.MessageEmbed()
             .setAuthor(newMember.user.tag, newMember.user.displayAvatarURL())
