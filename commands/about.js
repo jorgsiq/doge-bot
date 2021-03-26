@@ -6,8 +6,9 @@ const execute = (bot, msg, args) => {
     const message = new Discord.MessageEmbed()
         .setColor('#ffb361')
         .setTitle(`Đoge Bot`)
-        .setDescription(`Eu sou um bot projetado especialmente para o servidor **Đoge Style**\n\nSe você deseja ver meu código fonte, ele está disponível no [Github](https://github.com/jorgsiq/dogge-bot)\n\nUtilize "**?help**" e descubra o que posso fazer!\n\nㅤ ㅤ`)
+        .setDescription(`Eu sou um bot projetado especialmente para atender ao servidor **Đoge Style**\n\nSe você deseja conhecer ou colaborar com meu código fonte, ele está disponível neste repositório no [Github](https://github.com/jorgsiq/dogge-bot)\n\nUtilize "**?help**" e descubra o que posso fazer!\n\nㅤ ㅤ`)
         .setFooter(`ㅤ ㅤ\n\nPrecisa de ajuda? Contate: support@jorgesiqueira.com`)
+        .setImage("https://i.imgur.com/qzdBgGD.png")
         .addFields(
             { name: 'Versão Atual', value: `29#d330d84`, inline: true },
             { name: 'Último Update', value: '2021-03-25 22:45:10 UTC', inline: true },

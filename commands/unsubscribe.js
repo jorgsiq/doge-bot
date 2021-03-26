@@ -4,7 +4,7 @@ const execute = (bot, msg, args) => {
     /*if member does have the role os subscribed members then subscribe*/
     if (msg.member.roles.cache.some(role => role.name === 'Subscribed')) {
         msg.member.roles.remove(role);
-        console.log(`(NEW ACTIVITY): @${msg.member.user.username} has no more the role ${role}`);
+        console.log(`(NEW ACTIVITY): @${msg.member.user.username} has no more the role ${role.name}`);
 
         const message = new Discord.MessageEmbed()
             .setTitle("Inscrição Removida")
