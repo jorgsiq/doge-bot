@@ -4,16 +4,17 @@ const { DiscordAPIError } = require("discord.js");
 const execute = (bot, msg, args) => {
     let commandsList = "";
     const prefix = "?";
-    bot.commands.forEach((command) =>{
-        if (command.help){
-            commandsList += `**${prefix}${command.name}**: ${command.help}\n`;
+    let x = 1;
+    bot.commands.forEach((command) => {
+        if (command.help) {
+            commandsList += `(${(x++)}) **${prefix}${command.name}** -> ${command.help}\n\n`;
         }
     });
 
     const commandsMessage = new Discord.MessageEmbed()
-    .setColor('#ff9900')
-    .setTitle(`Olá, @${msg.author.username}!`)
-    .setDescription(`Aqui estão os comandos que você pode utilizar dentro do canal **#commands** no servidor da **Đoge Style**.\n\n\nLista de Comando do **Đoge Bot**:\n\n ${commandsList}\n\n  Se tiver alguma dúvida de como usar, converse com um **@Staff**`)
+        .setColor('#ff9900')
+        .setTitle(`Olá, @${msg.author.username}!`)
+        .setDescription(`Aqui estão os comandos que você pode utilizar dentro do canal **#commands** no servidor da **Đoge Style**.\n\n Para realizar um comando, escreva no seguinte formato: **?[comando]**\n A lista completa de comandos você confere na lista abaixo:\n\n\n ${commandsList}\nSe tiver alguma dúvida, peça ajuda a um **@Staff**`)
 
     msg.author.send(commandsMessage);
 
