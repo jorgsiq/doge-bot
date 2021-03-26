@@ -48,7 +48,7 @@ bot.on("ready", () => {
 
 
 /*handling with users messages with and without command prefix*/
-bot.on("message", (msg) => {
+bot.on("message", (message) => {
     //checks if it was wrote in the channel news
     if (message.channel.id.toString() == "750472762367279245") {
         console.log(`(NEW ACTIVITY): new notice sent in channel #news by @${message.author.username}`);
@@ -75,24 +75,24 @@ bot.on("message", (msg) => {
         });
     }
     /*bot does nothing if the message is from a bot or it is not a known command*/
-    if (!msg.content.startsWith(prefix) || msg.author.bot) {
+    if (!message.content.startsWith(prefix) || message.author.bot) {
         return;
     }
     /*bot command treatment*/
     else {
         //splits the command from the command prefix
-        const args = msg.content.slice(prefix.length).split(" ");
+        const args = message.content.slice(prefix.length).split(" ");
         const command = args.shift();
 
         try {
             //executes the command stored in collections
-            bot.commands.get(command).execute(bot, msg, args)
+            bot.commands.get(command).execute(bot, message, args)
             console.log("(NEW ACTIVITY): command executed!");
         }
         catch (e) {
             console.log("(NEW ACTIVITY): unknow command!");
             //the command is unknown
-            return msg.reply(`desculpe! eu ainda não aprendi esse truque.. `);
+            return message.reply(`desculpe! eu ainda não aprendi esse truque.. `);
         }
     }
 });
