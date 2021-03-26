@@ -150,7 +150,7 @@ bot.on("guildMemberUpdate", (oldMember, newMember) => {
         const updateMessage2 = new Discord.MessageEmbed()
             .setAuthor(newMember.user.tag, newMember.user.displayAvatarURL())
             .setColor('#ffb361')
-            .setDescription(`Teve sua **foto** de perfil alterada\n(Nova foto de perfil)`)
+            .setDescription(`Teve sua **foto** de perfil alterada\n\n(Nova foto de perfil)`)
             .setImage(newMember.user.displayAvatarURL({ dynamic: true, format: "png"}))
             .setThumbnail(oldMember.user.displayAvatarURL({ dynamic: true, format: "png", size: 1024 }))
             .setFooter(`ID do Usuário: ${newMember.user}`)
