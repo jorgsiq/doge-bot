@@ -8,7 +8,7 @@ const execute = (bot, msg, args) => {
   queue.dispatcher.pause();
 
   const message = new Discord.MessageEmbed()
-    .setColor('#ff9900')
+    .setColor('#ffb361')
     .setAuthor("Música Interrompida")
     .setDescription("A trilha atual foi interrompida")
     .setImage("https://i.imgur.com/EEm4UtH.jpg")

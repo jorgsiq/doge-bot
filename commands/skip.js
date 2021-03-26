@@ -14,7 +14,7 @@ const execute = (bot, msg, args) => {
   playSong(bot, msg, queue.songs[0]);
 
   const message = new Discord.MessageEmbed()
-            .setColor('#ff9900')
+            .setColor('#ffb361')
             .setAuthor("Próxima Música")
             .setDescription("Iniciando a próxima música")
             .setImage("https://i.imgur.com/EEm4UtH.jpg")

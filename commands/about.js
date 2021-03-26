@@ -3,7 +3,7 @@ const { DiscordAPIError } = require("discord.js");
 
 const execute = (bot, msg, args) => {
     const message = new Discord.MessageEmbed()
-        .setColor('#ff9900')
+        .setColor('#ffb361')
         .setTitle(`Đoge Bot`)
         .setDescription(`Eu sou um bot projetado especialmente para o servidor **Đoge Style**\n\n Se você deseja ver meu código fonte, ele está disponível no [Github](https://github.com/jorgsiq/dogge-bot)\n\nUtilize "**?help**" e descubra o que posso fazer!\n\nㅤ ㅤ`)
         .setFooter(`ㅤ ㅤ\n\nPrecisa de ajuda? Contate: support@jorgesiqueira.com`)

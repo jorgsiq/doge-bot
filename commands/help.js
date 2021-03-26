@@ -12,7 +12,7 @@ const execute = (bot, msg, args) => {
     });
 
     const commandsMessage = new Discord.MessageEmbed()
-        .setColor('#ff9900')
+        .setColor('#ffb361')
         .setTitle(`Olá, @${msg.author.username}!`)
         .setDescription(`Aqui estão os comandos que você pode utilizar dentro do canal **#commands** no servidor da **Đoge Style**.\n\n Para realizar um comando, escreva no seguinte formato: **?[comando]**\n A lista completa de comandos você confere na lista abaixo:\n\n\n ${commandsList}\nSe tiver alguma dúvida, peça ajuda a um **@Staff**`)
 

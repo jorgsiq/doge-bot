@@ -8,7 +8,7 @@ const execute = (bot, msg, args) => {
 
         const message = new Discord.MessageEmbed()
             .setTitle("Nova Inscrição")
-            .setColor('#ff9900')
+            .setColor('#ffb361')
             .setAuthor(msg.member.user.tag, msg.member.user.displayAvatarURL())
             .setDescription("você irá receber alertas de promoções, jogos gratuítos e notícias direto na sua conta")
             .setTimestamp()

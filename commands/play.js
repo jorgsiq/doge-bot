@@ -83,7 +83,7 @@ function notifyUser(song, type) {
 
     if (type == "playing") {
         const message = new Discord.MessageEmbed()
-            .setColor('#ff9900')
+            .setColor('#ffb361')
             .setAuthor("Tocando Agora")
             .setImage(getThumbnail(song.url))
             .setTitle(`\n ${song.title}`)
@@ -93,7 +93,7 @@ function notifyUser(song, type) {
     }
     else {
         const message = new Discord.MessageEmbed()
-            .setColor('#ff9900')
+            .setColor('#ffb361')
             .setAuthor("Adicionado à Fila")
             .setImage("https://i.imgur.com/EEm4UtH.jpg")
             .setTitle(`\n ${song.title}`)

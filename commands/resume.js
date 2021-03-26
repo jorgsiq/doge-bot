@@ -9,7 +9,7 @@ const execute = (bot, msg, args) => {
 
 
   const message = new Discord.MessageEmbed()
-    .setColor('#ff9900')
+    .setColor('#ffb361')
     .setAuthor("Reproduzindo Música")
     .setDescription("A trilha atual foi continuada")
     .setImage("https://i.imgur.com/EEm4UtH.jpg")
