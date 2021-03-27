@@ -8,7 +8,7 @@ const execute = (bot, msg, args) => {
         .setTitle("Đoge Style")
         .setDescription("Por favor! leia todas as **Regras de Comportamento** com muita atenção ㅤㅤㅤ ㅤㅤ ")
     msg.author.send(title);
-    msg.reply(`estou te enviando uma mensagem privada com mais informações!`);
+   
 
     const ruleOne = new Discord.MessageEmbed()
         .setColor('#ffb361')

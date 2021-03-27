@@ -9,7 +9,7 @@ const execute = (bot, msg, args) => {
 
   const message = new Discord.MessageEmbed()
     .setColor('#ffb361')
-    .setAuthor("Música Interrompida")
+    .setAuthor("Música em Pause")
     .setDescription("A trilha atual foi interrompida")
     .setImage("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
