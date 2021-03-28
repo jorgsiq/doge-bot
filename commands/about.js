@@ -10,8 +10,8 @@ const execute = (bot, msg, args) => {
         .setFooter(`ㅤ ㅤ\n\nPrecisa de ajuda? Contate: support@jorgesiqueira.com`)
         .setImage("https://i.imgur.com/qzdBgGD.png")
         .addFields(
-            { name: 'Versão Atual', value: `29#d330d84`, inline: true },
-            { name: 'Último Update', value: '2021-03-25 22:45:10 UTC', inline: true },
+            { name: 'Versão Atual', value: `31#d330d84`, inline: true },
+            { name: 'Último Update', value: '2021-03-28 21:02:57 UTC', inline: true },
             { name: 'Status', value: 'Online', inline: true },
             { name: 'ytdl-core', value: 'Working', inline: true },
             { name: 'Tecnologia', value: 'Discord.js', inline: true },

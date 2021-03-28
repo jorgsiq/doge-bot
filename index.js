@@ -1,15 +1,16 @@
 const Discord = require("discord.js");
-
+const dotenv = require("dotenv");
 
 const fs = require("fs");
 const path = require("path");
 
-
-const token = "ODI0MDQ2ODYzOTc1MzE3NTE2.YFprcg.oeyD-q-5G5caBP1NuoxjhpRRn8M";
 const prefix = "?";
 
 
 const bot = new Discord.Client();
+
+dotenv.config();
+
 bot.commands = new Discord.Collection();
 bot.queues = new Map();
 
@@ -27,7 +28,7 @@ for (var filename of commandFiles) {
 
 
 /*runs the bot, token is the argument in login*/
-bot.login(token);
+bot.login(process.env.TOKEN);
 
 
 /*bot startup*/
@@ -51,28 +52,7 @@ bot.on("ready", () => {
 bot.on("message", (message) => {
     //checks if it was wrote in the channel news
     if (message.channel.id.toString() == "750472762367279245") {
-        console.log(`(NEW ACTIVITY): new notice sent in channel #news by @${message.author.username}`);
-        //if the message have an attachment, it will be collected by messageAttachment, else it get a null state
-        let messageAttachment = message.attachments.size > 0 ? message.attachments.array()[0].url : null;
-        const news = new Discord.MessageEmbed()
-            .setTitle("Novo Alerta!")
-            .setColor('#5dbea6')
-            .setDescription(message.content)
-            .setTimestamp()
-            .setFooter(`Por: @${message.author.tag}`)
-        //if the past message had an attachment, it will setted in the embed image content
-        if (messageAttachment){
-            news.setImage(messageAttachment);
-        }
-        //iterates arround each member, the member who is a subscriber recieves a direct message with the alert
-        const list = bot.guilds.cache.get("457325029433278468");
-        list.members.cache.each(member => {
-            if (member.roles.cache.some(role => role.name === 'Subscribed')) {
-                member.send(`Você recebeu esta mensagem porque é um membro **inscrito** na nossa **newsletter**`);
-                member.send(news);
-                console.log(`(NEW ACTIVITY): new alert sent to @${member.user.username} as a direct message`);
-            }
-        });
+        dmSubscribers(message);
     }
     /*bot does nothing if the message is from a bot or it is not a known command*/
     if (!message.content.startsWith(prefix) || message.author.bot) {
@@ -186,6 +166,32 @@ bot.on("guildMemberUpdate", (oldMember, newMember) => {
         console.log(`(NEW ACTIVITY): update photo message has sent in the server`);
     }
 });
+
+async function dmSubscribers (message) {
+    console.log(`(NEW ACTIVITY): new notice sent in channel #news by @${message.author.username}`);
+    //if the message have an attachment, it will be collected by messageAttachment, else it get a null state
+    let messageAttachment = message.attachments.size > 0 ? message.attachments.array()[0].url : null;
+    const news = new Discord.MessageEmbed()
+        .setTitle("Novo Alerta!")
+        .setColor('#5dbea6')
+        .setDescription(message.content)
+        .setTimestamp()
+        .setFooter(`Por: @${message.author.tag}`)
+    //if the past message had an attachment, it will setted in the embed image content
+    if (messageAttachment){
+        news.setImage(messageAttachment);
+    }
+    //iterates arround each member, the member who is a subscriber recieves a direct message with the alert
+    const list = bot.guilds.cache.get("457325029433278468");
+    list.members.cache.each(member => {
+        if (member.roles.cache.some(role => role.name === 'Subscribed')) {
+            setTimeout(function () {
+                member.send(news);
+                console.log(`(NEW ACTIVITY): new alert sent to @${member.user.username} as a direct message`);
+            }, 2000);
+        }
+    });
+}
 
 
 
