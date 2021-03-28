@@ -10,11 +10,12 @@ const execute = (bot, msg, args) => {
   //music stream now is ended
   queue.dispatcher.end();
 
+  //build embed
   const message = new Discord.MessageEmbed()
     .setColor('#8c8c8c')
     .setAuthor("Reprodução Interrompida")
     .setDescription("Todas as trilhas foram encerradas")
-    .setImage("https://i.imgur.com/EEm4UtH.jpg")
+    .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
   console.log(`(NEW ACTIVITY): stop playing`);
 };

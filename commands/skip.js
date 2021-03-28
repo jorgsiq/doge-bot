@@ -10,14 +10,15 @@ const execute = (bot, msg, args) => {
   queue.songs.shift();
   //do it globally
   bot.queues.set(msg.guild.id, queue);
-  //now position 1 (second) is position 0 (first) and we can play this song
+  //position 1 is now position 0 then play song
   playSong(bot, msg, queue.songs[0]);
 
+  //build embed
   const message = new Discord.MessageEmbed()
-            .setColor('#ffb361')
-            .setAuthor("Próxima Música")
-            .setDescription("Iniciando a próxima música")
-            .setImage("https://i.imgur.com/EEm4UtH.jpg")
+    .setColor('#ffb361')
+    .setAuthor("Próxima Música")
+    .setDescription("Iniciando a próxima música")
+    .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
   console.log(`(NEW ACTIVITY): skip song`);
 };

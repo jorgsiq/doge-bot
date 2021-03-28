@@ -16,7 +16,7 @@ const execute = (bot, msg, args) => {
 
                 //if already exists a queue than enqueue new song
                 if (queue) {
-                    console.log(`(NEW ACTIVITY): ${song.title} - Enqeued`);
+                    console.log(`(NEW ACTIVITY): ${song.title} - enqeued`);
                     msg.reply(notifyUser(song, "enqeued"));
                     queue.songs.push(song);
                     bot.queues.set(msg.guild.id, queue);
@@ -67,7 +67,7 @@ const playSong = async (bot, msg, song) => {
             type: "opus",
         }
     );
-    console.log(`(NEW ACTIVITY): ${song.title} - Now Playing`);
+    console.log(`(NEW ACTIVITY): ${song.title} - now playing`);
     msg.reply(notifyUser(song, "playing"));
 
     //current song finish
@@ -79,8 +79,7 @@ const playSong = async (bot, msg, song) => {
     bot.queues.set(msg.member.guild.id, queue);
 };
 
-function notifyUser(song, type) {
-
+const notifyUser = (song, type) => {
     if (type == "playing") {
         const message = new Discord.MessageEmbed()
             .setColor('#ffb361')
@@ -95,14 +94,14 @@ function notifyUser(song, type) {
         const message = new Discord.MessageEmbed()
             .setColor('#ffb361')
             .setAuthor("Adicionado à Fila")
-            .setImage("https://i.imgur.com/EEm4UtH.jpg")
+            .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
             .setTitle(`\n ${song.title}`)
             .addFields({ name: `Artista`, value: `${song.author.name}` }, { name: `Tempo de Reprodução`, value: `${song.duration.timestamp}` })
         return message;
     }
 };
 
-function getThumbnail(url) {
+const getThumbnail = (url) => {
     const quality = "max";
     if (url) {
         var video_id, thumbnail, result;

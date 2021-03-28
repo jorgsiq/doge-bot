@@ -3,6 +3,7 @@ const { DiscordAPIError } = require("discord.js");
 
 const execute = (bot, msg, args) => {
 
+    //build embed
     const message = new Discord.MessageEmbed()
         .setColor('#ffb361')
         .setTitle(`Đoge Bot`)
@@ -10,15 +11,15 @@ const execute = (bot, msg, args) => {
         .setFooter(`ㅤ ㅤ\n\nPrecisa de ajuda? Contate: support@jorgesiqueira.com`)
         .setImage("https://i.imgur.com/qzdBgGD.png")
         .addFields(
-            { name: 'Versão Atual', value: `31#d330d84`, inline: true },
-            { name: 'Último Update', value: '2021-03-28 21:02:57 UTC', inline: true },
+            { name: 'Versão Atual', value: `41#d7c295d8`, inline: true },
+            { name: 'Último Update', value: '2021-03-28 17:16:31 UTC', inline: true },
             { name: 'Status', value: 'Online', inline: true },
             { name: 'ytdl-core', value: 'Working', inline: true },
             { name: 'Tecnologia', value: 'Discord.js', inline: true },
-            { name: 'Autor', value: 'Jorge Siqueira', inline: true },    
+            { name: 'Autor', value: 'Jorge Siqueira', inline: true },
         )
     msg.author.send(message);
-    console.log(`(NEW ACTIVITY): direct message with bot info was sent as a direct message`);
+    console.log(`(NEW ACTIVITY): message with bot info was sent as a direct message`);
     return msg.reply(`estou te enviando uma mensagem privada com mais informações!`);
 };
 

@@ -2,23 +2,22 @@ const Discord = require('discord.js');
 
 const execute = (bot, msg, args) => {
 
-    //the rules are larger than allowed in embed code, so the slution is split them and send rules one per one
+    //the rules are larger than allowed in embed code, so the solution was split them all and send rules one per one in dm
     const title = new Discord.MessageEmbed()
         .setColor('#ffb361')
         .setTitle("Đoge Style")
         .setDescription("Por favor! leia todas as **Regras de Comportamento** com muita atenção ㅤㅤㅤ ㅤㅤ ")
     msg.author.send(title);
-   
 
     const ruleOne = new Discord.MessageEmbed()
         .setColor('#ffb361')
-        .setTitle("🏳️‍🌈 **Igualdade & Respeito**")
+        .setTitle(":rainbow_flag: **Igualdade & Respeito**")
         .setDescription("A comunidade **Đoge Style** é um espaço aberto e inclusivo a todos, qualquer um que cumpra com nossas regras de comportamento e respeite os demais membros poderá participar, independentemente de sua orientação sexual, gênero, classe social, posicionamento político, religiosidade ou cor da pele. Membros que demostrarem intolerância e tiverem um discurso de ódio, racista, homofóbico, machista e xenofóbico serão punidos com banimento permanente")
     msg.author.send(ruleOne);
 
     const ruleTwo = new Discord.MessageEmbed()
         .setColor('#ffb361')
-        .setTitle("🙂 **Arte & Cultura**")
+        .setTitle(":slight_smile: **Arte & Cultura**")
         .setDescription("O servidor não se limita apenas a tópicos relacionados a games, mas a quaisquer outros temas que colaborem com a evolução pessoal, cultural, social ou cientifica dos membros, isto é, você pode conversar sobre qualquer coisa, contanto que isso não desrespeite alguém")
     msg.author.send(ruleTwo);
 
@@ -60,11 +59,12 @@ const execute = (bot, msg, args) => {
 
     const ruleNine = new Discord.MessageEmbed()
         .setColor('#ffb361')
-        .setTitle("⚠️ **Atenção!**")
+        .setTitle(":warning: **Atenção!**")
         .setDescription("Se notar que algum membro está infringindo as regras de comportamento, faça uma denúncia para membros com a tag **@Staff**. A punição para o descumprimento das normas aqui expressas será avaliada por membros e moderadores, tendo como base principal dois critérios: periodicidade, ou seja, se aquele usuário já fez o mesmo outras vezes e também a gravidade da infração cometida")
     msg.author.send(ruleNine);
 
-    console.log(`(NEW ACTIVITY): rule message sent as a direct message`);
+    console.log(`(NEW ACTIVITY): rules message sent as a direct message`);
+    return msg.reply(`estou te enviando uma mensagem privada com mais informações!`);
 };
 
 module.exports = {

@@ -7,13 +7,14 @@ const execute = (bot, msg, args) => {
   //resumes the music streaming in channel
   queue.dispatcher.resume();
 
-
+  //build embed
   const message = new Discord.MessageEmbed()
     .setColor('#ffb361')
     .setAuthor("Reproduzindo Música")
     .setDescription("A trilha atual foi continuada")
-    .setImage("https://i.imgur.com/EEm4UtH.jpg")
+    .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
+  console.log(`(NEW ACTIVITY): resume song`);
 };
 
 module.exports = {

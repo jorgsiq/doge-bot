@@ -11,19 +11,20 @@ const execute = (bot, msg, args) => {
     return msg.reply("o volume deve ser um valor entre 0 e 10, tente novamente!");
   }
 
+  //build embed
   const message = new Discord.MessageEmbed()
     .setColor('#ffb361')
     .setAuthor("Volume Ajustado")
-    .setDescription(`Você alterou o volume para (${volume}/10)`)
+    .setDescription(`Você alterou o volume para (**${volume}**/10)`)
     .setImage("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
   console.log(`(NEW ACTIVITY): change volume`);
+
   //set volume scale
   queue.dispatcher.setVolume(volume / 10);
   queue.volume = volume;
   bot.queues.set(msg.guild.id, queue);
 };
-
 
 module.exports = {
   name: "volume",

@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
 const execute = (bot, msg, args) => {
     let role = msg.member.guild.roles.cache.find(role => role.name === "Subscribed");
-    /*if member does not have the role os subscribed members then subscribe*/
+    /*if member does not have the role "subscribed members" then subscribe*/
     if (!msg.member.roles.cache.some(role => role.name === 'Subscribed')) {
         msg.member.roles.add(role);
         console.log(`(NEW ACTIVITY): @${msg.member.user.username} has now the role ${role.name}`);
 
+        //build embed
         const message = new Discord.MessageEmbed()
             .setTitle("Nova Inscrição")
             .setColor('#ffb361')
@@ -14,10 +15,10 @@ const execute = (bot, msg, args) => {
             .setTimestamp()
             .setFooter("Inscrição Iniciada ")
         msg.reply(message);
-        console.log(`(NEW ACTIVITY): subscription message sent in the server`);
+        console.log(`(NEW ACTIVITY): subscription message sent on the server`);
     }
-    else{
-        msg.reply("opa! parece que você já é um inscrito da nossa newsletter..");
+    else {
+        msg.reply("opa! parece que você já é um inscrito na nossa newsletter..");
     }
 };
 

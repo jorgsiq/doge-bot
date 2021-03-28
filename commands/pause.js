@@ -4,15 +4,17 @@ const execute = (bot, msg, args) => {
   if (!queue) {
     return msg.reply("opa! parece que não existe nenhuma música sendo reproduzida..");
   }
-  //pause active music stream in channel
+
   queue.dispatcher.pause();
 
+  //build embed
   const message = new Discord.MessageEmbed()
     .setColor('#ffb361')
     .setAuthor("Música em Pause")
     .setDescription("A trilha atual foi interrompida")
-    .setImage("https://i.imgur.com/EEm4UtH.jpg")
+    .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
+  console.log(`(NEW ACTIVITY): pause song`);
 };
 
 module.exports = {
