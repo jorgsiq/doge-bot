@@ -1,10 +1,9 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const path = require("path");
-const prefix = "?";
-const dotenv = require("dotenv");
 
-dotenv.config();
+const token = "#";
+const prefix = "?";
 
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
@@ -12,6 +11,8 @@ bot.queues = new Map();
 
 const notify = require("./builder/notify.js");
 const messages = require("./builder/messages.js");
+const clean = require("./builder/clean.js");
+const { clear } = require("console");
 
 const commandFiles = fs.readdirSync(path.join(__dirname, "/commands")).filter(filename => filename.endsWith(".js"));
 
@@ -23,7 +24,7 @@ for (var filename of commandFiles) {
 /**
  * --------------------------------------------------------------------------------------------------------------------Bot Startup
  */
-bot.login(process.env.TOKEN);
+bot.login(token);
 
 bot.on("ready", () => {
     bot.user.setPresence({
@@ -37,6 +38,9 @@ bot.on("ready", () => {
         }
     });
     console.log(`(NEW ACTIVITY): woof woof, "${bot.user.username}" is now online!`);
+    //call assync dayly operations to clean chats
+    clean.cleanBulk(bot);
+
 });
 /**
  * --------------------------------------------------------------------------------------------------------------------
@@ -47,31 +51,48 @@ bot.on("ready", () => {
  */
 bot.on("message", (message) => {
     //checks if it was wrote in the channel news
-    if (message.channel.id.toString() == "750472762367279245") {
+    if (message.channel.id.toString() == "826154886676611092") {
         //call notify to send news for subscribers
         notify.messageSubscribers(bot, message);
     }
 
     //checks if it is a command or wrote by a bot
     if (!message.content.startsWith(prefix) || message.author.bot) {
+        if (message.channel.id.toString() == "826077527041638400" && !message.author.bot) {
+            message.delete();
+            message.reply(`lembre-se que no canal <#${826077527041638400}> você só pode utilizar comandos no formato "**?command**", por isso apaguei sua mensagem..`).then(msg => {
+                setTimeout(() => msg.delete(), 10000)
+            });
+        }
         return;
     }
-    
+
     //it is a command, then...
     else {
-        //...splits the command from the command prefix, key word and args
-        const args = message.content.slice(prefix.length).split(" ");
-        const command = args.shift();
 
-        try {
-            //executes the command stored in collection
-            bot.commands.get(command).execute(bot, message, args)
-            console.log("(NEW ACTIVITY): command executed!");
+        if (message.content.startsWith(prefix) && message.channel.id.toString() != "826077527041638400") {
+            message.delete();
+            message.reply(`desculpe! mas você não pode utilizar comandos fora do canal <#${826077527041638400}>, por isso apaguei sua mensagem..`).then(msg => {
+                setTimeout(() => msg.delete(), 10000)
+            });
         }
-        catch (e) {
-            console.log("(NEW ACTIVITY): unknown command!");
-            return message.reply(`desculpe! eu ainda não aprendi esse truque.. `);
+
+        else {
+            //...splits the command from the command prefix, key word and args
+            const args = message.content.slice(prefix.length).split(" ");
+            const command = args.shift();
+
+            try {
+                //executes the command stored in collection
+                bot.commands.get(command).execute(bot, message, args)
+                console.log("(NEW ACTIVITY): command executed!");
+            }
+            catch (e) {
+                console.log("(NEW ACTIVITY): unknown command!");
+                return message.reply(`desculpe! eu ainda não aprendi esse truque.. `);
+            }
         }
+
     }
 });
 /**

@@ -11,7 +11,7 @@ const execute = (bot, msg, args) => {
   const message = new Discord.MessageEmbed()
     .setColor('#ffb361')
     .setAuthor("Música em Pause")
-    .setDescription("A trilha atual foi interrompida")
+    .setDescription("A trilha atual está em pause")
     .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
   console.log(`(NEW ACTIVITY): pause song`);

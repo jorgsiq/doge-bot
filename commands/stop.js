@@ -13,8 +13,8 @@ const execute = (bot, msg, args) => {
   //build embed
   const message = new Discord.MessageEmbed()
     .setColor('#8c8c8c')
-    .setAuthor("Reprodução Interrompida")
-    .setDescription("Todas as trilhas foram encerradas")
+    .setAuthor("Fim da Reprodução")
+    .setDescription("Reprodução foi interrompida")
     .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
   console.log(`(NEW ACTIVITY): stop playing`);

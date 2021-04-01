@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 
 const execute = (bot, msg, args) => {
     //build a string with all the args 
-    const s = args.join(" ");
+    const s = args.join(" "); 
     try {
         search(s, (err, result) => {
             if (err) {
@@ -12,6 +12,8 @@ const execute = (bot, msg, args) => {
             } else if (result && result.videos.length > 0) {
                 //picks the first result in youtube search
                 const song = result.videos[0];
+                console.log(song);
+               
                 const queue = bot.queues.get(msg.guild.id);
 
                 //if already exists a queue than enqueue new song
@@ -94,7 +96,7 @@ const notifyUser = (song, type) => {
         const message = new Discord.MessageEmbed()
             .setColor('#ffb361')
             .setAuthor("Adicionado à Fila")
-            .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
+            .setThumbnail(getThumbnail(song.url))
             .setTitle(`\n ${song.title}`)
             .addFields({ name: `Artista`, value: `${song.author.name}` }, { name: `Tempo de Reprodução`, value: `${song.duration.timestamp}` })
         return message;

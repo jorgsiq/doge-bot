@@ -1473,10 +1473,10 @@ d@1, d@^1.0.1:
     es5-ext "^0.10.50"
     type "^1.0.1"
 
-dasu@~0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/dasu/-/dasu-0.4.1.tgz#6a83f7286540b92d31a4b0c09477ab9120d6d376"
-  integrity sha512-+fDXmFqrsZfuCr3dwSxm0pyK5RTiIBFBJiWTG6HaZQc9FhoqT4o9KQFEfGllic0S2gEpzHYMirzqJ5qSh+mOrQ==
+dasu@~0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/dasu/-/dasu-0.4.2.tgz#2290ebf08d4a70ff2ada924b7a01be24b5215a01"
+  integrity sha512-3iZKDAKqv0APFwpqP40gpro5msM+pwhQN7IhB42mjbL1W4M2V6A+MJy7RhA8y6lUM+1mQoLls3OePidmzVbncQ==
 
 date-fns@^1.29.0:
   version "1.30.1"
@@ -1830,12 +1830,7 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
-ffmpeg-binaries@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/ffmpeg-binaries/-/ffmpeg-binaries-3.2.2.tgz#370f3020ef6b4dba62a551a425c634d6c75a3a21"
-  integrity sha1-Nw8wIO9rTbpipVGkJcY01sdaOiE=
-
-ffmpeg@0.0.4:
+ffmpeg@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/ffmpeg/-/ffmpeg-0.0.4.tgz#1c460df8e7da5127f62ceef4bfa06c59c89630cb"
   integrity sha1-HEYN+OfaUSf2LO70v6BsWciWMMs=
@@ -4215,15 +4210,15 @@ yarn@^1.21.1:
   resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.10.tgz#c99daa06257c80f8fa2c3f1490724e394c26b18c"
   integrity sha512-IanQGI9RRPAN87VGTF7zs2uxkSyQSrSPsju0COgbsKQOOXr5LtcVPeyXWgwVa0ywG3d8dg6kSYKGBuYK021qeA==
 
-yt-search@^2.7.5:
-  version "2.7.5"
-  resolved "https://registry.yarnpkg.com/yt-search/-/yt-search-2.7.5.tgz#0283aa47c75972f38d403b73f136b8a81ab7cd23"
-  integrity sha512-+5rZmv4tSY22C7OzFiX+TrTIMug28OBMFF7l7roB+LDY2bIUS5lizewrsWKVZd2U+aF9ge9sGxgRwmnQmFVEiA==
+yt-search@^2.7.6:
+  version "2.7.6"
+  resolved "https://registry.yarnpkg.com/yt-search/-/yt-search-2.7.6.tgz#dd4b43f1e68007c4a4d2cb11f35204108704f80a"
+  integrity sha512-qFXPoKsfaeoOpyfNQP1DwVxJhoYaawwf2DoVmOODDHy7Q8FKeVxMPfk7Mmbejky8LbAglJGZce3ETALvp2gEPA==
   dependencies:
     async.parallellimit "~0.5.2"
     boolstring "~1.0.2"
     cheerio "~0.22.0"
-    dasu "~0.4.1"
+    dasu "~0.4.2"
     human-time "0.0.2"
     jsonpath-plus "~5.0.2"
     minimist "~1.2.5"

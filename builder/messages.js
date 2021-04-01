@@ -20,7 +20,7 @@ const newUserUpdate = (member) => {
     const welcomeMessage = new Discord.MessageEmbed()
         .setColor('#ffb361')
         .setTitle(`Fala, @${member.user.username}!`)
-        .setDescription("É bom saber que agora você também faz parte da Đoge Style! \n\nAntes de embarcar nessa jornada não esqueça de ler nossas normas de convivência fixadas no canal de texto **#rules** \n\nSe precisar de ajuda ou tiver algum problema é só chamar por um **@staff** em qualquer um dos canais. Espero que se divirta!")
+        .setDescription(`É bom saber que agora você também faz parte da Đoge Style! \n\nAntes de embarcar nessa jornada não esqueça de ler nossas normas de convivência fixadas no canal de texto <#${750567653407457380}>\n\nSe precisar de ajuda ou tiver algum problema é só chamar por um **@staff** em qualquer um dos canais. Espero que se divirta!`)
         .setImage("https://i.imgur.com/aKe6a1F.gif")
     member.send(welcomeMessage);
     console.log(`(NEW ACTIVITY): new member welcome private message has sent to @${member.user.username}`);

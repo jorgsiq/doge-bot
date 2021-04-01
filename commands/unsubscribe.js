@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const execute = (bot, msg, args) => {
-    let role = msg.member.guild.roles.cache.find(role => role.name === "Subscribed");
+    let role = msg.member.guild.roles.cache.find(role => role.name === "Subscriber");
     /*if member does have the role "subscribed members" then unsubscribe*/
-    if (msg.member.roles.cache.some(role => role.name === 'Subscribed')) {
+    if (msg.member.roles.cache.some(role => role.name === 'Subscriber')) {
         msg.member.roles.remove(role);
         console.log(`(NEW ACTIVITY): @${msg.member.user.username} has no more the role ${role.name}`);
 
@@ -11,7 +11,7 @@ const execute = (bot, msg, args) => {
             .setTitle("Inscrição Removida")
             .setColor('#8c8c8c')
             .setAuthor(msg.member.user.tag, msg.member.user.displayAvatarURL())
-            .setDescription("você não irá mais receber alertas de promoções, jogos gratuítos e notícias")
+            .setDescription("você não irá receber alertas de promoções, jogos gratuítos e notícias na sua conta")
             .setTimestamp()
             .setFooter("Inscrição Encerrada ")
         msg.reply(message);

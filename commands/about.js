@@ -11,8 +11,8 @@ const execute = (bot, msg, args) => {
         .setFooter(`ㅤ ㅤ\n\nPrecisa de ajuda? Contate: support@jorgesiqueira.com`)
         .setImage("https://i.imgur.com/qzdBgGD.png")
         .addFields(
-            { name: 'Versão Atual', value: `41#d7c295d8`, inline: true },
-            { name: 'Último Update', value: '2021-03-28 17:16:31 UTC', inline: true },
+            { name: 'Versão Atual', value: `47#73499fd`, inline: true },
+            { name: 'Último Update', value: '2021-04-01 15:14:31 UTC', inline: true },
             { name: 'Status', value: 'Online', inline: true },
             { name: 'ytdl-core', value: 'Working', inline: true },
             { name: 'Tecnologia', value: 'Discord.js', inline: true },

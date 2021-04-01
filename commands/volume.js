@@ -15,8 +15,8 @@ const execute = (bot, msg, args) => {
   const message = new Discord.MessageEmbed()
     .setColor('#ffb361')
     .setAuthor("Volume Ajustado")
-    .setDescription(`Você alterou o volume para (**${volume}**/10)`)
-    .setImage("https://i.imgur.com/EEm4UtH.jpg")
+    .setDescription(`Volume atual em (**${volume}**/10)`)
+    .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
   msg.reply(message);
   console.log(`(NEW ACTIVITY): change volume`);
 

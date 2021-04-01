@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const execute = (bot, msg, args) => {
-    let role = msg.member.guild.roles.cache.find(role => role.name === "Subscribed");
+    let role = msg.member.guild.roles.cache.find(role => role.name === "Subscriber");
     /*if member does not have the role "subscribed members" then subscribe*/
-    if (!msg.member.roles.cache.some(role => role.name === 'Subscribed')) {
+    if (!msg.member.roles.cache.some(role => role.name === 'Subscriber')) {
         msg.member.roles.add(role);
         console.log(`(NEW ACTIVITY): @${msg.member.user.username} has now the role ${role.name}`);
 
