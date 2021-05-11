@@ -5,14 +5,13 @@ const path = require("path");
 const token = "#";
 const prefix = "?";
 
-const bot = new Discord.Client();
+const bot = new Discord.Client({disableEveryone: false});
 bot.commands = new Discord.Collection();
 bot.queues = new Map();
 
 const notify = require("./builder/notify.js");
 const messages = require("./builder/messages.js");
 const clean = require("./builder/clean.js");
-const { clear } = require("console");
 
 const commandFiles = fs.readdirSync(path.join(__dirname, "/commands")).filter(filename => filename.endsWith(".js"));
 
@@ -38,7 +37,7 @@ bot.on("ready", () => {
         }
     });
     console.log(`(NEW ACTIVITY): woof woof, "${bot.user.username}" is now online!`);
-    //call assync dayly operations to clean chats
+
     clean.cleanBulk(bot);
 
 });
@@ -56,7 +55,12 @@ bot.on("message", (message) => {
         notify.messageSubscribers(bot, message);
     }
 
-    //checks if it is a command or wrote by a bot
+    //checks if it was wrote in the channel updates
+    if (message.channel.id.toString() == "839813450473275403") {
+        messages.notify(bot, message);
+    }
+
+    //checks if it is not a command or wrote by a bot
     if (!message.content.startsWith(prefix) || message.author.bot) {
         if (message.channel.id.toString() == "826077527041638400" && !message.author.bot) {
             message.delete();
@@ -89,7 +93,10 @@ bot.on("message", (message) => {
             }
             catch (e) {
                 console.log("(NEW ACTIVITY): unknown command!");
-                return message.reply(`desculpe! eu ainda não aprendi esse truque.. `);
+                message.delete();
+                return message.reply(`desculpe! eu ainda não aprendi esse truque.. `).then(msg => {
+                    setTimeout(() => msg.delete(), 10000)
+                });
             }
         }
 
@@ -139,13 +146,14 @@ bot.on("guildMemberRemove", member => {
  */
 bot.on("guildMemberUpdate", (oldMember, newMember) => {
     //checks if the change is the nickname
-    if (oldMember.displayName.toString() != newMember.displayName.toString()) {
+    if (oldMember.displayName != newMember.displayName) {
         console.log(`(NEW ACTIVITY): @${oldMember.user.username} changed username. @${oldMember.displayName} was the username before update, @${newMember.displayName} is the username after update`);
         //build embed
         messages.usernameUpdate(bot, oldMember, newMember);
     }
+
     //checks if the change is the profile picture
-    if (oldMember.displayAvatarURL != newMember.displayAvatarURL) {
+    if (oldMember.user.displayAvatarURL() != newMember.user.displayAvatarURL()) {
         console.log(`(NEW ACTIVITY): @${newMember.user.username} updated profile picture`);
         //build embed
         messages.photoUpdate(bot, oldMember, newMember);

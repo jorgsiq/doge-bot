@@ -9,16 +9,28 @@ const execute = (bot, msg, args) => {
         //build embed
         const message = new Discord.MessageEmbed()
             .setTitle("Nova Inscrição")
-            .setColor('#ffb361')
+            .setColor('#EFE3CA')
             .setAuthor(msg.member.user.tag, msg.member.user.displayAvatarURL())
-            .setDescription("você irá receber alertas de promoções, jogos gratuítos e notícias direto na sua conta")
+            .setDescription("você irá receber alertas de promoções, jogos gratuitos e notícias direto na sua conta")
             .setTimestamp()
             .setFooter("Inscrição Iniciada ")
-        msg.reply(message);
+
         console.log(`(NEW ACTIVITY): subscription message sent on the server`);
+        setTimeout(function () {
+            msg.delete();
+        }, 300000);
+        return msg.reply(message).then(msg => {
+            setTimeout(() => msg.delete(), 300000)
+        });
     }
     else {
-        msg.reply("opa! parece que você já é um inscrito na nossa newsletter..");
+        console.log(`(NEW ACTIVITY): stop playing`);
+        msg.delete();
+
+        return msg.reply("opa! parece que você já é um inscrito na nossa newsletter..").then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+        });
+
     }
 };
 

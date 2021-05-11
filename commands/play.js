@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 
 const execute = (bot, msg, args) => {
     //build a string with all the args 
-    const s = args.join(" "); 
+    const s = args.join(" ");
     try {
         search(s, (err, result) => {
             if (err) {
@@ -13,13 +13,20 @@ const execute = (bot, msg, args) => {
                 //picks the first result in youtube search
                 const song = result.videos[0];
                 console.log(song);
-               
+
                 const queue = bot.queues.get(msg.guild.id);
 
                 //if already exists a queue than enqueue new song
                 if (queue) {
                     console.log(`(NEW ACTIVITY): ${song.title} - enqeued`);
-                    msg.reply(notifyUser(song, "enqeued"));
+
+                    setTimeout(function () {
+                        msg.delete();
+                    }, 300000);
+                    msg.reply(notifyUser(song, "enqeued")).then(msg => {
+                        setTimeout(() => msg.delete(), 300000)
+                    });;
+
                     queue.songs.push(song);
                     bot.queues.set(msg.guild.id, queue);
 
@@ -29,11 +36,21 @@ const execute = (bot, msg, args) => {
                     playSong(bot, msg, song);
                 }
             } else {
-                return msg.reply(`desculpe! não consegui encontrar a música que você pediu..`);
+
+                msg.delete();
+
+                return msg.reply(`desculpe! não consegui encontrar a música que você pediu..`).then(msg => {
+                    setTimeout(() => msg.delete(), 10000)
+                });
             }
         });
     } catch (e) {
-        msg.reply(`ei! não esqueça de colocar o nome da música após o comando..`);
+
+        msg.delete();
+
+        msg.reply(`ei! não esqueça de colocar o nome da música após o comando..`).then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+        });
         console.error(e);
     }
 };
@@ -42,13 +59,28 @@ const playSong = async (bot, msg, song) => {
     let queue = bot.queues.get(msg.member.guild.id);
     if (!song) {
         if (queue) {
+            const end = new Discord.MessageEmbed()
+                .setColor('#8c8c8c')
+                .setAuthor("Fim da Reprodução")
+                .setDescription("Reprodução foi interrompida")
+                .setThumbnail("https://i.imgur.com/cc0nEXc.png")
+
+            msg.reply(end).then(msg => {
+                setTimeout(() => msg.delete(), 300000)
+            });
             //end of reproduction
             queue.connection.disconnect();
             return bot.queues.delete(msg.member.guild.id);
+
+
         }
     }
     if (!msg.member.voice.channel) {
-        return msg.reply(`**${song.title}**?! bom gosto! mas você precisa estar em um canal de voz para poder reproduzir essa música..`);
+        msg.delete();
+        return msg.reply(`**${song.title}**?! bom gosto! mas você precisa estar em um canal de voz para poder reproduzir essa música..`).then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+        });
+
     }
     //create a new queue if it does not exists
     if (!queue) {
@@ -70,7 +102,13 @@ const playSong = async (bot, msg, song) => {
         }
     );
     console.log(`(NEW ACTIVITY): ${song.title} - now playing`);
-    msg.reply(notifyUser(song, "playing"));
+
+    setTimeout(function () {
+        msg.delete();
+    }, 300000);
+    msg.reply(notifyUser(song, "playing")).then(msg => {
+        setTimeout(() => msg.delete(), 300000)
+    });
 
     //current song finish
     queue.dispatcher.on("finish", () => {
@@ -79,12 +117,13 @@ const playSong = async (bot, msg, song) => {
         playSong(bot, msg, queue.songs[0]);
     });
     bot.queues.set(msg.member.guild.id, queue);
+    queue.dispatcher.setVolumeLogarithmic(queue.volume / 10);
 };
 
 const notifyUser = (song, type) => {
     if (type == "playing") {
         const message = new Discord.MessageEmbed()
-            .setColor('#ffb361')
+            .setColor('#EFE3CA')
             .setAuthor("Tocando Agora")
             .setImage(getThumbnail(song.url))
             .setTitle(`\n ${song.title}`)
@@ -94,7 +133,7 @@ const notifyUser = (song, type) => {
     }
     else {
         const message = new Discord.MessageEmbed()
-            .setColor('#ffb361')
+            .setColor('#EFE3CA')
             .setAuthor("Adicionado à Fila")
             .setThumbnail(getThumbnail(song.url))
             .setTitle(`\n ${song.title}`)

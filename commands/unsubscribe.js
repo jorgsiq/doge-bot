@@ -11,14 +11,26 @@ const execute = (bot, msg, args) => {
             .setTitle("Inscrição Removida")
             .setColor('#8c8c8c')
             .setAuthor(msg.member.user.tag, msg.member.user.displayAvatarURL())
-            .setDescription("você não irá receber alertas de promoções, jogos gratuítos e notícias na sua conta")
+            .setDescription("você não irá receber alertas de promoções, jogos gratuitos e notícias na sua conta")
             .setTimestamp()
             .setFooter("Inscrição Encerrada ")
-        msg.reply(message);
         console.log(`(NEW ACTIVITY): unsubscription message sent on the server`);
+
+        setTimeout(function () {
+            msg.delete();
+        }, 300000);
+        return msg.reply(message).then(msg => {
+            setTimeout(() => msg.delete(), 300000)
+        });
+
     }
     else {
-        msg.reply("opa! parece que você não possui uma inscrição nossa newsletter..");
+        msg.delete();
+
+        return msg.reply("opa! parece que você não possui uma inscrição nossa newsletter..").then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+        });
+
     }
 };
 

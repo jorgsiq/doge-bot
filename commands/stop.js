@@ -2,7 +2,12 @@ const Discord = require('discord.js');
 const execute = (bot, msg, args) => {
   const queue = bot.queues.get(msg.guild.id);
   if (!queue) {
-    return msg.reply("opa! parece que não existe nenhuma música sendo reproduzida..");
+
+    msg.delete();
+
+    return msg.reply("opa! parece que não existe nenhuma música sendo reproduzida..").then(msg => {
+      setTimeout(() => msg.delete(), 10000)
+    });
   }
   //reset queue
   queue.songs = [];
@@ -11,13 +16,13 @@ const execute = (bot, msg, args) => {
   queue.dispatcher.end();
 
   //build embed
-  const message = new Discord.MessageEmbed()
-    .setColor('#8c8c8c')
-    .setAuthor("Fim da Reprodução")
-    .setDescription("Reprodução foi interrompida")
-    .setThumbnail("https://i.imgur.com/EEm4UtH.jpg")
-  msg.reply(message);
+  
   console.log(`(NEW ACTIVITY): stop playing`);
+  setTimeout(function () {
+    msg.delete();
+  }, 300000);
+  
+
 };
 
 module.exports = {

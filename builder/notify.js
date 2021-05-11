@@ -14,6 +14,10 @@ async function messageSubscribers (bot, message) {
     if (messageAttachment){
         news.setImage(messageAttachment);
     }
+    
+    bot.channels.cache.get("750472762367279245").send("@everyone").then(msg => {
+        setTimeout(() => msg.delete(), 1800000)
+      });
     bot.channels.cache.get("750472762367279245").send(news);
     //iterates each member, the member who is a subscriber recieves a direct message with the alert
     const list = bot.guilds.cache.get("457325029433278468");
@@ -23,7 +27,7 @@ async function messageSubscribers (bot, message) {
             setTimeout(function () {
                 member.send(news);
                 console.log(`(NEW ACTIVITY): new alert sent to @${member.user.username} as a direct message`);
-            }, 5000 * i); //5 seconds for each notification
+            }, 60000 * i); //60 seconds for each notification
             i++;
         }
     });
