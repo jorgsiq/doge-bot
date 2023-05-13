@@ -1,4 +1,4 @@
-![](header-anim.gif)
+![]([header-anim.gif](https://cdn.sanity.io/images/mvb9f3jy/production/7a1b05d81eafa830b3855903f735d0989273d240-1906x468.gif))
 
 [LEARN MORE](https://jorgesiqueira.com/post/doge-bot)
 
