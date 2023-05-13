@@ -1,6 +1,6 @@
 ![](header-anim.gif)
 
-[LEANR MORE]([header-anim.gif](https://jorgesiqueira.com/post/doge-bot))
+[LEARN MORE](https://jorgesiqueira.com/post/doge-bot)
 
 ## Built With
 * JavaScript
