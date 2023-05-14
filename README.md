@@ -1,4 +1,4 @@
-[LEARN MORE](https://jorgesiqueira.com/post/doge-bot)
+[LEARN MORE](https://jorgesiqueira.com/post/doge-bot) (About the Project)
 
 ## Built With
 * JavaScript
