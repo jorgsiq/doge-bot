@@ -1,12 +1,17 @@
 const Discord = require('discord.js');
+const values = require('./../values');
 const execute = (bot, msg, args) => {
   const queue = bot.queues.get(msg.guild.id);
   if (!queue) {
 
-    msg.delete();
+    msg.delete().catch((error) => {
+      console.error('Failed task with the following error:', error);
+    });
 
     return msg.reply("opa! parece que não existe nenhuma música sendo reproduzida..").then(msg => {
       setTimeout(() => msg.delete(), 10000)
+    }).catch((error) => {
+      console.error('Failed task with the following error:', error);
     });
   }
   //reset queue
@@ -16,17 +21,19 @@ const execute = (bot, msg, args) => {
   queue.dispatcher.end();
 
   //build embed
-  
-  console.log(`(NEW ACTIVITY): stop playing`);
+
+
   setTimeout(function () {
-    msg.delete();
+    msg.delete().catch((error) => {
+      console.error('Failed task with the following error:', error);
+    });
   }, 300000);
-  
+
 
 };
 
 module.exports = {
   name: "stop",
-  help: "você interrompe a reprodução de músicas",
+  help: "\n (Music Player) você interrompe a reprodução da playlist",
   execute,
 };

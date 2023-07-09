@@ -1,5 +1,5 @@
-
 const Discord = require("discord.js");
+const values = require('./../values');
 
 async function cleanBulk(bot) {
     let now = new Date();
@@ -26,36 +26,42 @@ async function cleanBulk(bot) {
     setInterval(function () {
         time -= 1000;
         if (time == 0) {
-            console.log("(NEW ACTIVITY): cleaning channels!");
-            console.log(`next clean: 24h e 00min`);
-            cleanAll();
-
+            cleanAll().catch(console.error);
             time = day;
         }
     }, (1000));
 
-    const cleanAll = () => {
+    const cleanAll = async () => {
         const updateMessage = new Discord.MessageEmbed()
-            .setColor('#EFE3CA')
+            .setColor(values.colorDoge)
             .setTitle(`Novinho em Folha!`)
-            .setImage("https://i.imgur.com/ht266w1.gif")
-            .setDescription(`Por segurança e privacidade as mensagens deste canal de texto foram apagadas permanentemente, tenha atenção que esta limpeza acontece diariamente às **06:00 (BRA)** em todos os canais de conversa!\nㅤ`)
+            .setImage(values.cleanImageUrl)
+            .setDescription(
+                `Por segurança e privacidade as mensagens deste canal de texto foram apagadas permanentemente, tenha atenção que esta limpeza acontece diariamente às **06:00 (BRA)** em todos os canais de conversa! (exceto **#chat**)\nㅤ`
+            )
             .setFooter(`Limpeza Concluída`)
-            .setTimestamp()
+            .setTimestamp();
 
-        bot.channels.cache.get("826938177267826710").bulkDelete(100).catch(console.error);
-        bot.channels.cache.get("826938177267826710").send(updateMessage);
+        const gamingChannel = bot.channels.cache.get(values.gamingChannelId);
+        const privateChannel = bot.channels.cache.get(values.privateChannelId);
 
-        bot.channels.cache.get("826947909815500850").bulkDelete(100).catch(console.error);
-        bot.channels.cache.get("826947909815500850").send(updateMessage);
+        await deleteAllMessages(gamingChannel).catch(console.error);
+        await gamingChannel.send(updateMessage).catch(console.error);
 
-        bot.channels.cache.get("826168827103674398").bulkDelete(100).catch(console.error);
-        bot.channels.cache.get("826168827103674398").send(updateMessage);
-
+        await deleteAllMessages(privateChannel).catch(console.error);
+        await privateChannel.send(updateMessage).catch(console.error);
     };
 
+    const deleteAllMessages = async (channel) => {
+        let messagesDeleted = 0;
+        let messages = await channel.messages.fetch({ limit: 100 });
 
-
-};
+        while (messages.size > 0) {
+            await channel.bulkDelete(messages).catch(console.error);
+            messagesDeleted += messages.size;
+            messages = await channel.messages.fetch({ limit: 100 });
+        }
+    };
+}
 
 module.exports = { cleanBulk };

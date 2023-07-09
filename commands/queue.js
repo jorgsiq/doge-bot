@@ -1,14 +1,17 @@
 const Discord = require('discord.js');
+const values = require('./../values');
 const execute = (bot, msg, args) => {
     const queue = bot.queues.get(msg.guild.id);
     if (!queue) {
+        msg.delete().catch((error) => {
+            console.error('Failed task with the following error:', error); 
+          });
 
-        msg.delete();
-
-        return msg.reply("opa! parece que não existe nenhuma música sendo reproduzida..").then(msg => {
+        return msg.reply("Opa! parece que não existe nenhuma música sendo reproduzida..").then(msg => {
             setTimeout(() => msg.delete(), 10000)
-        });
-
+        }).catch((error) => {
+            console.error('Failed task with the following error:', error); 
+          });
     }
 
     let playList = "";
@@ -24,25 +27,28 @@ const execute = (bot, msg, args) => {
 
     });
 
-    //build embed
     const queueMessage = new Discord.MessageEmbed()
-        .setColor('#EFE3CA')
+        .setColor(values.colorDoge)
         .setTitle(`Lista de Reprodução`)
-        .setThumbnail("https://i.imgur.com/em4ISnY.png")
+        .setThumbnail(values.queueImageUrl)
         .setDescription(`Para avançar para a próxima música utilize o comando **"?skip"**.\n\nEstas são as faixas que estão na fila atual:\n\n ${playList}`)
 
-    console.log(`(NEW ACTIVITY): queue message sent`);
+    
     setTimeout(function () {
-        msg.delete();
+        msg.delete().catch((error) => {
+            console.error('Failed task with the following error:', error); 
+          });
     }, 300000);
     return msg.reply(queueMessage).then(msg => {
         setTimeout(() => msg.delete(), 300000)
-    });
+    }).catch((error) => {
+        console.error('Failed task with the following error:', error); 
+      });
 
 };
 
 module.exports = {
     name: "queue",
-    help: "você vê a lista de músicas em espera",
+    help: "\n (Music Player) você vê a lista de músicas em espera",
     execute,
 };

@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const values = require('./../values');
 const execute = (bot, msg, args) => {
     /*if member does not have the role "subscribed members" then subscribe*/
     if (msg.member.roles.cache.some(role => role.name === 'Boss')) {
@@ -31,39 +32,50 @@ const execute = (bot, msg, args) => {
                 }
             });
 
-            console.log(`(NEW ACTIVITY): new update sent in channel #updates`);
             //if the message has an attachment, it will be collected by messageAttachment, else it gets a null state
             const update = new Discord.MessageEmbed()
                 .setTitle("Nova Atualização!")
-                .setColor('#5dbea6')
+                .setColor(values.colorGreen)
                 .setDescription(`O status do Đoge Bot foi modificado para:\n **"${newType.toLowerCase()} ${newName}"** disponível em: **${newUrl}**`)
-                .setThumbnail("https://i.imgur.com/Zj1a5l5.png")
+                .setThumbnail(values.dogeIconUrl)
                 .setTimestamp()
                 .setFooter(`Por: Đoge Bot#1161`)
             //if the past message had an attachment, it will set in the embed image content
-         
-            bot.channels.cache.get("750728830355767296").send("@everyone").then(msg => {
+
+            bot.channels.cache.get(values.updatesChannelId).send("@everyone").then(msg => {
                 setTimeout(() => msg.delete(), 1800000)
-              });
-            bot.channels.cache.get("750728830355767296").send(update);
+            }).catch((error) => {
+                console.error('Failed task with the following error:', error);
+            });
+            bot.channels.cache.get(values.updatesChannelId).send(update);
 
             setTimeout(function () {
-                msg.delete();
+                msg.delete().catch((error) => {
+                    console.error('Failed task with the following error:', error);
+                });
             }, 1000);
 
         } catch (e) {
-            msg.delete();
-            msg.reply("formato incorreto! tente novamente com **comando + tipo (playing, watching, streaming) + url + título**").then(msg => {
+            msg.delete().catch((error) => {
+                console.error('Failed task with the following error:', error);
+            });
+            msg.reply("Formato incorreto! tente novamente com **comando + tipo (playing, watching, streaming) + url + título**").then(msg => {
                 setTimeout(() => msg.delete(), 10000)
-            });;
+            }).catch((error) => {
+                console.error('Failed task with the following error:', error);
+            });
         }
 
 
     }
     else {
-        msg.delete();
-        return msg.reply("opa! parece que você não possui permissão para efetuar este comando").then(msg => {
+        msg.delete().catch((error) => {
+            console.error('Failed task with the following error:', error);
+        });
+        return msg.reply("Opa! parece que você não possui permissão para efetuar este comando").then(msg => {
             setTimeout(() => msg.delete(), 10000)
+        }).catch((error) => {
+            console.error('Failed task with the following error:', error);
         });
 
     }
@@ -71,6 +83,6 @@ const execute = (bot, msg, args) => {
 
 module.exports = {
     name: "status",
-    help: "você modifica o status do bot",
+    help: "+ **tipo** (playing, watching, streaming) + **url** + **título** \n (Admin) você modifica o status do bot",
     execute,
 };

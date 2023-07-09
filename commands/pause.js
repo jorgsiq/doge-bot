@@ -1,36 +1,48 @@
-const Discord = require('discord.js');
+const Discord = require("discord.js");
+const values = require('./../values');
+const stop = require("./stop").execute;
 const execute = (bot, msg, args) => {
   const queue = bot.queues.get(msg.guild.id);
   if (!queue) {
-    
-    msg.delete();
-
-    return msg.reply(`opa! parece que não existe nenhuma música sendo reproduzida..`).then(msg => {
-      setTimeout(() => msg.delete(), 10000)
+    msg.delete().catch((error) => {
+      console.error('Failed task with the following error:', error);
     });
 
+    return msg
+      .reply(`Opa! parece que não existe nenhuma música sendo reproduzida..`)
+      .then((msg) => {
+        setTimeout(() => msg.delete(), 10000);
+      }).catch((error) => {
+        console.error('Failed task with the following error:', error);
+      });
   }
+  try {
+    queue.dispatcher.pause(true);
 
-  queue.dispatcher.pause();
+    //build embed
+    const message = new Discord.MessageEmbed()
+      .setColor(values.colorDoge)
+      .setAuthor("Música em Pause")
+      .setDescription("A trilha atual está em pause")
+      .setThumbnail(values.pauseImageUrl);
 
-  //build embed
-  const message = new Discord.MessageEmbed()
-    .setColor('#EFE3CA')
-    .setAuthor("Música em Pause")
-    .setDescription("A trilha atual está em pause")
-    .setThumbnail("https://i.imgur.com/tKDUKm9.png")
-  console.log(`(NEW ACTIVITY): pause song`);
-
-  setTimeout(function () {
-    msg.delete();
-  }, 300000);
-  return msg.reply(message).then(msg => {
-    setTimeout(() => msg.delete(), 300000)
-  });
+    setTimeout(function () {
+      msg.delete().catch((error) => {
+        console.error('Failed task with the following error:', error);
+      });
+    }, 300000);
+    return msg.reply(message).then((msg) => {
+      setTimeout(() => msg.delete(), 300000);
+    }).catch((error) => {
+      console.error('Failed task with the following error:', error);
+    });
+  } catch (err) {
+    stop(bot, msg);
+  }
 };
 
 module.exports = {
   name: "pause",
-  help: "você pausa a música em reprodução",
+  help: "\n (Music Player) você pausa a música em reprodução",
   execute,
 };
