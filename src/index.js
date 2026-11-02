@@ -1,7 +1,11 @@
+import { existsSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import { Client, GatewayIntentBits, Partials } from 'discord.js';
 import { loadCommands } from './lib/commands.js';
 import { DEFAULT_ACTIVITY } from './lib/presence.js';
+
+// the token lives in .env; hosting panels start the bot with a plain `node src/index.js`, so it is loaded here
+if (existsSync('.env')) process.loadEnvFile();
 
 const client = new Client({
   intents: [

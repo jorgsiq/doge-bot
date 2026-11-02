@@ -72,6 +72,7 @@ The bot needs a machine that stays on, with a disk that keeps `data/store.json` 
 
 - **A computer at home** (or a Raspberry Pi): free, and the best place for music, since YouTube blocks many datacenter IPs.
 - **[Oracle Cloud Always Free](https://www.oracle.com/cloud/free/)**: a free virtual machine with a real disk. It needs a card for verification, Oracle may reclaim instances that stay idle for a week, and YouTube playback may be blocked from its IPs (search falls back to Audius, but blocked tracks are skipped).
+- **Discord bot hosting panels** (Pterodactyl-based, such as bot-hosting.net): set the startup file to `src/index.js` and upload `.env` and `data/store.json` next to `package.json`; the bot reads `.env` by itself. They run in datacenters too, so YouTube may block them.
 - Free app platforms (Render, Koyeb, Replit and similar) usually sleep, or wipe the disk on every deploy, which loses each server's configuration.
 
 ### About the music player
