@@ -29,7 +29,7 @@ export async function execute(interaction) {
     embeds: [
       statusEmbed(
         'Lista de Reprodução',
-        `Para avançar para a próxima música utilize o comando **/skip**.\n\n${lines.join('\n\n')}`,
+        `Para avançar para a próxima música utilize o comando **/skip**, e para embaralhar a fila **/shuffle**.\n\n${lines.join('\n\n')}`,
         config.images.music.queue,
       ),
     ],

@@ -10,7 +10,7 @@ Every feature can be switched on and off per server in `/setup`. Music is on by 
 
 The bot never hands out roles: members pick them with Discord's own **Onboarding → Channels & Roles** (or staff give them by hand).
 
-- **Music**: a player with a queue: search the official recordings on YouTube Music with autocomplete and play them in a voice channel ([Audius](https://audius.co) is used as a backup when YouTube fails)
+- **Music**: a player with a queue: search the official recordings on YouTube Music with autocomplete and play them in a voice channel ([Audius](https://audius.co) is used as a backup when YouTube fails). Pasting a Spotify playlist, album or track link plays the same songs from YouTube Music, and the queue can be shuffled
 - **Welcome and logs**: welcome and farewell messages, plus a log of nickname and avatar changes
 - **Temporary rooms**: `/room` creates your own voice channel and moves you into it (or links it, when you are not in a voice channel). Rooms start hidden, seen only by whoever is inside or invited; buttons open them to everyone, close them again, rename, limit, invite and claim them. A room is deleted once empty
 - **Game alerts**, filtered so only relevant games get through, optionally pinging a role:
@@ -31,8 +31,8 @@ The bot never hands out roles: members pick them with Discord's own **Onboarding
 | `/pet` | everyone | Pets the Đoge: Woof Woof! |
 | `/kiss` `/slap` | everyone | Kisses or slaps someone, with an anime GIF ([nekos.best](https://nekos.best), [otakugifs](https://otakugifs.xyz) as a backup) |
 | `/ship` | everyone | How compatible two people are, drawn as both avatars with a beating heart, plus a couple name; the same pair always gets the same score |
-| `/play` | everyone | Searches a song and adds it to the queue |
-| `/pause` `/resume` `/skip` `/stop` `/volume` | listeners | Control the music (you must be in the bot's voice channel) |
+| `/play` | everyone | Searches a song and adds it to the queue, or adds every song of a Spotify playlist or album link |
+| `/pause` `/resume` `/skip` `/shuffle` `/stop` `/volume` | listeners | Control the music (you must be in the bot's voice channel) |
 | `/queue` | everyone | Shows what is playing and what comes next |
 | `/room` | everyone | Creates your temporary room (optionally named) and shows its control panel, or shows the panel of the room you are in |
 | `/setup` | Manage Server | Switches features on and off and picks their channels (see below) |
@@ -84,6 +84,8 @@ YouTube does not offer an official API for streaming audio, so the player uses [
 - This goes against YouTube's Terms of Service. It is meant for a private bot used by a few servers.
 - When YouTube changes something, playback may stop working until the library is fixed. Run `npm update @distube/ytdl-core` and restart the bot.
 - YouTube blocks many datacenter IPs (VPS, cloud hosting). The player works best on a residential connection, such as a home computer. On a server YouTube distrusts ("Sign in to confirm you're not a bot"), set `YOUTUBE_COOKIE` in `.env` to the `Cookie` header of a throwaway Google account signed in to YouTube; never use your own account.
+- Spotify links need no Spotify account or API key: the bot reads the first 100 tracks of a public playlist or album from Spotify's embed player page, and each one looks for its recording on YouTube Music when its turn comes (the first result about as long as the Spotify track). Private playlists can't be read, and if Spotify changes that page, links stop working until the bot is updated.
+- If 3 tracks in a row fail to load, the player stops instead of going through the whole queue, since YouTube itself is then most likely refusing the server.
 - Before playing, the library loads YouTube's player script, which peaks at about 400 MB of memory for the whole bot and has 10 seconds to finish. Hosting plans with a fraction of a CPU or less memory than that can't play from YouTube.
 
 ## Built With

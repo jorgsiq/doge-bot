@@ -47,6 +47,7 @@ export default {
       stop: 'https://i.imgur.com/cc0nEXc.png',
       volume: 'https://i.imgur.com/fOSVbI2.png',
       queue: 'https://i.imgur.com/em4ISnY.png',
+      shuffle: 'https://i.imgur.com/em4ISnY.png',
     },
   },
 

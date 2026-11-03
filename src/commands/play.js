@@ -1,6 +1,8 @@
-import { ChannelType, InteractionContextType, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import { ChannelType, EmbedBuilder, InteractionContextType, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import config from '../config.js';
 import { createQueue, formatDuration, getQueue, trackEmbed } from '../lib/music.js';
-import { resolveTrack, searchTracks } from '../lib/tracks.js';
+import { getSpotifyList, parseSpotifyLink } from '../lib/spotify.js';
+import { getPlaylist, resolveTrack, searchTracks } from '../lib/tracks.js';
 
 export const category = 'Music Player';
 export const feature = 'music';
@@ -12,9 +14,10 @@ export const data = new SlashCommandBuilder()
   .addStringOption((option) =>
     option
       .setName('musica')
-      .setDescription('Nome da música ou do artista')
+      .setDescription('Nome da música ou do artista, ou um link do Spotify')
       .setRequired(true)
-      .setMaxLength(100)
+      // shared Spotify links carry tracking parameters
+      .setMaxLength(200)
       .setAutocomplete(true),
   );
 
@@ -25,8 +28,27 @@ function searchForAutocomplete(query) {
   return Promise.race([search, new Promise((resolve) => setTimeout(resolve, 2_500, []))]).catch(() => []);
 }
 
+const listTypes = {
+  playlist: { name: 'Playlist', added: 'Playlist adicionada à fila' },
+  album: { name: 'Álbum', added: 'Álbum adicionado à fila' },
+};
+
+// a pasted link becomes a single suggestion naming what it plays, as the short spotify:<type>:<id> URI
+async function spotifySuggestion(link) {
+  const list = await getSpotifyList(link, AbortSignal.timeout(2_000)).catch(() => null);
+  const [track] = list?.tracks ?? [];
+  const name = !list
+    ? 'Link do Spotify'
+    : link.type === 'track'
+      ? `${track.title} — ${track.artist} (${formatDuration(track.duration)})`
+      : `${listTypes[link.type].name}: ${list.name} (${list.tracks.length} músicas)`;
+  return [{ name: name.slice(0, 100), value: `spotify:${link.type}:${link.id}` }];
+}
+
 export async function autocomplete(interaction) {
   const query = interaction.options.getFocused().trim();
+  const link = parseSpotifyLink(query);
+  if (link) return interaction.respond(await spotifySuggestion(link));
   const tracks = query ? await searchForAutocomplete(query) : [];
 
   await interaction.respond(
@@ -58,13 +80,21 @@ export async function execute(interaction) {
 
   await interaction.deferReply();
 
+  const input = interaction.options.getString('musica', true);
+  const link = parseSpotifyLink(input);
+  // a Spotify track link plays like a search; playlists and albums come with all their tracks
+  const isList = link && link.type !== 'track';
+
   let found;
   try {
-    found = await resolveTrack(interaction.options.getString('musica', true));
+    found = isList ? await getPlaylist(link) : await resolveTrack(input);
   } catch (error) {
     // the lookup itself failed (say, YouTube refusing the server), not a search that came up empty
     console.error('Failed to find a track:', error);
     return interaction.editReply('Desculpe! o serviço de música está temporariamente indisponível..');
+  }
+  if (isList && !found?.tracks.length) {
+    return interaction.editReply('Desculpe! não encontrei músicas nesse link do Spotify, confira se a playlist é pública..');
   }
   if (!found) {
     return interaction.editReply('Desculpe! não consegui encontrar a música que você pediu..');
@@ -87,6 +117,12 @@ export async function execute(interaction) {
     }
   }
 
+  if (isList) {
+    const tracks = found.tracks.map((track) => ({ ...track, requestedBy: interaction.user }));
+    const startedNow = queue.add(...tracks);
+    return interaction.editReply({ embeds: [listEmbed(found, listTypes[link.type], startedNow, interaction.user)] });
+  }
+
   const track = { ...found, requestedBy: interaction.user };
   const startedNow = queue.add(track);
 
@@ -94,7 +130,24 @@ export async function execute(interaction) {
     embeds: [
       startedNow
         ? trackEmbed(track, 'Tocando Agora', { largeCover: true })
-        : trackEmbed(track, `Adicionado à Fila (#${queue.tracks.length})`),
+        : trackEmbed(track, `Adicionado à fila (#${queue.tracks.length})`),
     ],
   });
+}
+
+function listEmbed(list, type, startedNow, user) {
+  const duration = list.tracks.reduce((total, track) => total + track.duration, 0);
+  const embed = new EmbedBuilder()
+    .setColor(config.colors.doge)
+    .setAuthor({ name: startedNow ? 'Tocando Agora' : type.added })
+    .setTitle(list.name.slice(0, 256))
+    .setURL(list.url)
+    .setDescription('Para embaralhar a ordem utilize o comando **/shuffle**.')
+    .addFields(
+      { name: 'Músicas', value: String(list.tracks.length), inline: true },
+      { name: 'Duração', value: formatDuration(duration), inline: true },
+    )
+    .setFooter({ text: `Pedido por @${user.username} · Spotify` });
+  if (list.artwork) embed.setThumbnail(list.artwork);
+  return embed;
 }

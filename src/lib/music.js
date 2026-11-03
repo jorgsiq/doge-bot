@@ -10,6 +10,8 @@ import { EmbedBuilder, MessageFlags } from 'discord.js';
 import config from '../config.js';
 
 const queues = new Map();
+// tracks in a row that fail to load before the queue gives up
+const MAX_FAILURES = 3;
 
 export function getQueue(guildId) {
   return queues.get(guildId);
@@ -67,6 +69,8 @@ class GuildQueue {
   destroyed = false;
   // bumped on every track change, so a stream that finishes loading after a skip is thrown away
   #loads = 0;
+  // tracks in a row that failed to load
+  #failures = 0;
   #stop = new AbortController();
 
   constructor(voiceChannel, textChannel) {
@@ -116,12 +120,20 @@ class GuildQueue {
     return this.player.state.status === AudioPlayerStatus.Paused;
   }
 
-  // Returns true when the track starts right away, false when it waits in the queue
-  add(track) {
-    this.tracks.push(track);
+  // Returns true when the first track starts right away, false when they wait in the queue
+  add(...tracks) {
+    this.tracks.push(...tracks);
     if (this.current) return false;
     this.#playNext(false);
     return true;
+  }
+
+  // the waiting tracks only (Fisher–Yates); what is playing stays
+  shuffle() {
+    for (let i = this.tracks.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.tracks[i], this.tracks[j]] = [this.tracks[j], this.tracks[i]];
+    }
   }
 
   async #playNext(announce) {
@@ -135,6 +147,8 @@ class GuildQueue {
     }
 
     try {
+      // a Spotify track becomes its YouTube Music recording, so the announcement shows what really plays
+      if (track.resolve) Object.assign(track, await track.resolve());
       const input = await track.createStream();
       // stopped or skipped while the stream was being prepared
       if (this.destroyed || load !== this.#loads) {
@@ -144,10 +158,20 @@ class GuildQueue {
       this.resource = createAudioResource(input, { inlineVolume: true, metadata: track });
     } catch (error) {
       console.error(`Failed to load ${track.title}:`, error);
+      // the next track is already loading, or the queue is gone
+      if (this.destroyed || load !== this.#loads) return;
+      // the music service itself is failing (say, YouTube refusing the server): no point in going through a playlist
+      if (++this.#failures >= MAX_FAILURES) {
+        this.notify({
+          embeds: [statusEmbed('Fim da Reprodução', `Não consegui tocar as últimas ${MAX_FAILURES} músicas, então parei a reprodução`, config.images.music.stop)],
+        });
+        return this.destroy();
+      }
       this.notify({ content: `Desculpe! não consegui tocar **${track.title}**, pulando para a próxima..` });
       return this.#playNext(true);
     }
 
+    this.#failures = 0;
     this.resource.volume.setVolumeLogarithmic(this.volume / 10);
     this.player.play(this.resource);
     if (announce) this.notify({ embeds: [trackEmbed(track, 'Tocando Agora', { largeCover: true })] });

@@ -7,6 +7,8 @@ import { features, isEnabled, missingSettings } from '../src/lib/settings.js';
 import { everyDayAt, msUntilHourUtc } from '../src/lib/schedule.js';
 import { coupleName, firstName, shipScore } from '../src/lib/reactions.js';
 import { unseenPhotos } from '../src/lib/shiba.js';
+import { parseSpotifyLink } from '../src/lib/spotify.js';
+import { pickRecording } from '../src/lib/tracks.js';
 
 test('every command is valid for the Discord API', async () => {
   const commands = await loadCommands();
@@ -120,4 +122,27 @@ test('track durations are formatted like a player', () => {
   assert.equal(formatDuration(196), '3:16');
   assert.equal(formatDuration(2330), '38:50');
   assert.equal(formatDuration(3725), '1:02:05');
+});
+
+test('spotify links are recognized however they were shared', () => {
+  const playlist = { type: 'playlist', id: '37i9dQZF1DXcBWIGoYBM5M' };
+  assert.deepEqual(parseSpotifyLink('https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=0a1b2c3d4e5f6a7b'), playlist);
+  assert.deepEqual(parseSpotifyLink(' https://open.spotify.com/intl-pt/playlist/37i9dQZF1DXcBWIGoYBM5M '), playlist);
+  assert.deepEqual(parseSpotifyLink('spotify:playlist:37i9dQZF1DXcBWIGoYBM5M'), playlist, 'the URI the desktop app copies');
+  assert.deepEqual(parseSpotifyLink('https://open.spotify.com/album/4LH4d3cOWNNsVw41Gqt2kv'), { type: 'album', id: '4LH4d3cOWNNsVw41Gqt2kv' });
+  assert.deepEqual(parseSpotifyLink('https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC'), { type: 'track', id: '4uLU6hMCjMI75M1A2tKUQC' });
+  assert.equal(parseSpotifyLink('https://open.spotify.com/artist/0gxyHStUsqpMadRV0Di1Qt'), null, 'artists are not lists');
+  assert.equal(parseSpotifyLink('yt:qu1_lRJ-hPA'), null);
+  assert.equal(parseSpotifyLink('never gonna give you up'), null);
+});
+
+// YouTube Music results seen in November 2026
+test('the recording played is the first one about as long as the spotify track', () => {
+  const song = (artist, duration) => ({ artist, duration });
+  const springsteen = [song('Bruce Springsteen', 279), song('David Clooney', 280)];
+  assert.equal(pickRecording(springsteen, 280), springsteen[0], 'a cover of the same length comes later');
+  const tyler = [song('Bonnie Tyler, album version', 418), song('Bonnie Tyler, single edit', 275)];
+  assert.equal(pickRecording(tyler, 267), tyler[1]);
+  assert.equal(pickRecording(tyler, 600), tyler[0], 'none as long: the first one');
+  assert.equal(pickRecording([], 200), null);
 });
