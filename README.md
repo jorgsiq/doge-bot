@@ -81,7 +81,8 @@ YouTube does not offer an official API for streaming audio, so the player uses [
 
 - This goes against YouTube's Terms of Service. It is meant for a private bot used by a few servers.
 - When YouTube changes something, playback may stop working until the library is fixed. Run `npm update @distube/ytdl-core` and restart the bot.
-- YouTube blocks many datacenter IPs (VPS, cloud hosting). The player works best on a residential connection, such as a home computer.
+- YouTube blocks many datacenter IPs (VPS, cloud hosting). The player works best on a residential connection, such as a home computer. On a server YouTube distrusts ("Sign in to confirm you're not a bot"), set `YOUTUBE_COOKIE` in `.env` to the `Cookie` header of a throwaway Google account signed in to YouTube; never use your own account.
+- Before playing, the library loads YouTube's player script, which takes a few seconds of CPU. Hosting plans with a fraction of a CPU need more than the library's 10-second limit, so `npm install` raises it to 60 seconds ([`scripts/patch-ytdl.js`](scripts/patch-ytdl.js)).
 
 ## Built With
 

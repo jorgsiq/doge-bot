@@ -1,7 +1,8 @@
 import { Quality, SearchType, Ytdl } from '@distube/ytdl-core';
 
-// one session for the whole bot: it keeps YouTube's visitor data and PO tokens
-const yt = new Ytdl();
+// One session for the whole bot: it keeps YouTube's visitor data and PO tokens. The optional cookie of a signed-in
+// account (YOUTUBE_COOKIE in .env) gets past "confirm you're not a bot" on servers YouTube distrusts, like datacenters.
+const yt = new Ytdl({ cookie: process.env.YOUTUBE_COOKIE || undefined });
 
 const AUDIO_ONLY = { quality: Quality.HighestAudio, filter: { hasAudio: true, hasVideo: false } };
 
