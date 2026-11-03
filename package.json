@@ -8,8 +8,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "test": "node --test",
-    "postinstall": "node scripts/patch-ytdl.js"
+    "test": "node --test"
   },
   "engines": {
     "node": "^22.22.2 || ^24.15.0 || >=26"
