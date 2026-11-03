@@ -72,27 +72,26 @@ export async function execute(interaction) {
     });
   }
 
-  const { type, label } =
-    activityTypes[interaction.options.getString("tipo", true)];
+  const activity = interaction.options.getString("tipo", true);
+  const { type, label } = activityTypes[activity];
   const name = interaction.options.getString("texto", true);
   const url = interaction.options.getString("url") ?? undefined;
 
   await setStatus(interaction.client, { name, type, url });
 
-  const description = `O status do Đoge Bot foi modificado para:\n**"${`${label} ${name}`.trim()}"**${url ? ` disponível em: **${url}**` : ""}`;
+  const status = `**${`${label} ${name}`.trim()}**${url ? `\n${url}` : ""}`;
   postUpdate(
     interaction.guild,
     new EmbedBuilder()
-      .setTitle("Nova Atualização!")
+      .setTitle("Novo Status")
       .setColor(config.colors.doge)
-      .setDescription(description)
-      .setThumbnail(config.images.dogeIcon)
+      .setDescription(status)
+      .setImage(config.images.status[activity])
       .setTimestamp()
-      .setFooter({ text: `Por: @${interaction.user.tag}` })
   );
 
   await interaction.reply({
-    content: description,
+    content: `Status modificado para ${status}`,
     flags: MessageFlags.Ephemeral,
   });
 }

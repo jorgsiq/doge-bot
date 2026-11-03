@@ -49,6 +49,15 @@ export default {
       queue: 'https://i.imgur.com/em4ISnY.png',
       shuffle: 'https://i.imgur.com/em4ISnY.png',
     },
+    // shown big in the /status announcement, one per activity type
+    status: {
+      playing: 'https://i.imgur.com/oELNH2p.gif',
+      watching: 'https://i.imgur.com/F3WjZB5.png',
+      listening: 'https://i.imgur.com/em4ISnY.png',
+      competing: 'https://i.imgur.com/nU0Liaq.gif',
+      streaming: 'https://i.imgur.com/fOSVbI2.png',
+      custom: 'https://i.imgur.com/e0VcfdL.gif',
+    },
   },
 
   repositoryUrl: 'https://github.com/jorgsiq/doge-bot',
