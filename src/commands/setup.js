@@ -51,7 +51,7 @@ function currentItems(guild, key) {
 
 function describe(guild, key) {
   const items = currentItems(guild, key);
-  if (!items.length) return '**nenhum**';
+  if (!items.length) return `**${settingDefinitions[key].empty ?? 'nenhum'}**`;
   // embed fields are capped at 1024 characters
   return items.join(', ').slice(0, 1024);
 }

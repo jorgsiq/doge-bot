@@ -18,7 +18,7 @@ export async function sendSetupInvite(guild) {
     .setThumbnail(config.images.dogeIcon)
     .setDescription(
       'Eu sou o **Đoge Bot**: música, salas de voz temporárias, alertas de jogos grátis, boas-vindas e mais.\n\n' +
-        'Cada função pode ser ativada ou desativada. Fora a música, todas começam desligadas até um admin configurá-las.\n\n' +
+        'Cada função pode ser ativada ou desativada. Fora a música e as interações, todas começam desligadas até um admin configurá-las.\n\n' +
         'Clique em **Configurar** ou use **/setup** a qualquer momento.',
     )
     .setFooter({ text: 'Só quem pode gerenciar o servidor consegue configurar' });

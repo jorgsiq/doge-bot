@@ -1,6 +1,7 @@
 import { InteractionContextType, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
 import { controllableQueue, statusEmbed } from '../lib/music.js';
+import { replyResult } from '../lib/results.js';
 
 export const category = 'Music Player';
 export const feature = 'music';
@@ -22,7 +23,7 @@ export async function execute(interaction) {
     return interaction.reply({ content: 'Opa! a música ainda está carregando, tente de novo em instantes..', flags: MessageFlags.Ephemeral });
   }
 
-  await interaction.reply({
+  await replyResult(interaction, 'musicChannel', {
     embeds: [statusEmbed('Música em Pause', `A trilha atual foi pausada por ${interaction.user}`, config.images.music.pause)],
   });
 }

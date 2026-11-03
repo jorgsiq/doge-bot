@@ -6,13 +6,14 @@ Discord bot made for the **Đoge Style** server, ready to serve several servers 
 
 ## Features
 
-Every feature can be switched on and off per server in `/setup`. Music is on by default; the others start off until an admin picks their channels.
+Every feature can be switched on and off per server in `/setup`. Music and interactions are on by default; the others start off until an admin picks their channels.
 
 The bot never hands out roles: members pick them with Discord's own **Onboarding → Channels & Roles** (or staff give them by hand).
 
-- **Music**: a player with a queue: search the official recordings on YouTube Music with autocomplete and play them in a voice channel ([Audius](https://audius.co) is used as a backup when YouTube fails). Pasting a Spotify playlist, album or track link plays the same songs from YouTube Music, and the queue can be shuffled
+- **Music**: a player with a queue: search the official recordings on YouTube Music with autocomplete and play them in a voice channel ([Audius](https://audius.co) is used as a backup when YouTube fails). Pasting a Spotify playlist, album or track link plays the same songs from YouTube Music, and the queue can be shuffled. Its messages show up where each command was used, or in a music channel picked in `/setup`
+- **Interactions**: `/pet`, `/kiss`, `/slap` and `/ship`, shown where the command was used or in a channel picked in `/setup`. Whoever gets kissed, slapped or shipped is mentioned outside the embed, so Discord notifies them
 - **Welcome and logs**: welcome and farewell messages, plus a log of nickname and avatar changes
-- **Temporary rooms**: `/room` creates your own voice channel and moves you into it (or links it, when you are not in a voice channel). Rooms start hidden, seen only by whoever is inside or invited; buttons open them to everyone, close them again, rename, limit, invite and claim them. A room is deleted once empty
+- **Temporary rooms**: `/room` creates your own voice channel and moves you into it (or links it, when you are not in a voice channel). Rooms start hidden, seen only by whoever is inside or invited; buttons open them to everyone, close them again, rename, limit, invite and claim them. Invited members get a DM from the bot with a button that opens the room (bots can't send Discord's own voice invite). A room is deleted once empty
 - **Game alerts**, filtered so only relevant games get through, optionally pinging a role:
   - free games as soon as they appear: Epic's weekly giveaways, plus games free on Steam, GOG and other stores that have good reviews and a real price (no free-to-play or shovelware)
   - one daily digest at 18:00 (Brasília) with up to 5 big discounts (50%+) on popular, well-reviewed Steam games (85%+ positive, 5,000+ reviews), with prices in reais confirmed on the Brazilian Steam store

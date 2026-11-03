@@ -1,6 +1,7 @@
 import { InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
 import { controllableQueue, statusEmbed } from '../lib/music.js';
+import { replyResult } from '../lib/results.js';
 
 export const category = 'Music Player';
 export const feature = 'music';
@@ -15,7 +16,7 @@ export async function execute(interaction) {
   if (!queue) return;
 
   queue.destroy();
-  await interaction.reply({
+  await replyResult(interaction, 'musicChannel', {
     embeds: [statusEmbed('Fim da Reprodução', `A reprodução foi interrompida por ${interaction.user}`, config.images.music.stop)],
   });
 }

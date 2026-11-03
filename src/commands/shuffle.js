@@ -1,6 +1,7 @@
 import { InteractionContextType, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
 import { controllableQueue, statusEmbed } from '../lib/music.js';
+import { replyResult } from '../lib/results.js';
 
 export const category = 'Music Player';
 export const feature = 'music';
@@ -18,7 +19,7 @@ export async function execute(interaction) {
     return interaction.reply({ content: 'Opa! a fila precisa de pelo menos 2 músicas para embaralhar..', flags: MessageFlags.Ephemeral });
   }
   queue.shuffle();
-  await interaction.reply({
+  await replyResult(interaction, 'musicChannel', {
     embeds: [
       statusEmbed('Fila Embaralhada', `${interaction.user} embaralhou as **${queue.tracks.length}** músicas da fila`, config.images.music.shuffle),
     ],

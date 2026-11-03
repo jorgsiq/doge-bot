@@ -1,6 +1,6 @@
 import { reactionCommand } from '../lib/reactions.js';
 
-export const { category, data, execute } = reactionCommand({
+export const { category, feature, data, execute } = reactionCommand({
   name: 'kiss',
   description: 'Você dá um beijo em alguém',
   reaction: 'kiss',

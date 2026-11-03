@@ -1,9 +1,11 @@
 import { AttachmentBuilder, EmbedBuilder, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
 import { coupleName, firstName, pick, shipScore } from '../lib/reactions.js';
+import { deferResult, finishResult } from '../lib/results.js';
 import { shipImage } from '../lib/shipImage.js';
 
 export const category = 'Fun';
+export const feature = 'fun';
 
 export const data = new SlashCommandBuilder()
   .setName('ship')
@@ -48,15 +50,20 @@ export async function execute(interaction) {
     text = `${pick(TITLES)(a, b)}\n\n${bar(score)} **${score}%**\nNome do casal: **${coupleName(name(a), name(b))}**\n\n${verdict}`;
   }
   const embed = new EmbedBuilder().setColor(config.colors.doge).setDescription(text);
+  // whoever was shipped, except the member who did it; mentions only notify outside the embed
+  const notified = [...new Set([a, b])].filter((user) => user.id !== interaction.user.id && !user.bot);
+  const content = notified.join(' ') || undefined;
 
   // drawing the picture takes a moment, past the 3 seconds an interaction has to be answered
-  await interaction.deferReply();
+  const result = await deferResult(interaction, 'funChannel');
+  let payload;
   try {
     const picture = new AttachmentBuilder(await shipImage(avatar(a), avatar(b)), { name: 'ship.gif' });
-    await interaction.editReply({ embeds: [embed.setImage('attachment://ship.gif')], files: [picture] });
+    payload = { content, embeds: [embed.setImage('attachment://ship.gif')], files: [picture] };
   } catch (error) {
     // the result still goes out, just without the picture
     console.error('Failed to draw the /ship picture:', error);
-    await interaction.editReply({ embeds: [embed] });
+    payload = { content, embeds: [embed] };
   }
+  await finishResult(interaction, result, payload, { notify: Boolean(content) });
 }

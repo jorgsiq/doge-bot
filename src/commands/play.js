@@ -1,6 +1,7 @@
 import { ChannelType, EmbedBuilder, InteractionContextType, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
 import { createQueue, formatDuration, getQueue, trackEmbed } from '../lib/music.js';
+import { deferResult, finishResult } from '../lib/results.js';
 import { getSpotifyList, parseSpotifyLink } from '../lib/spotify.js';
 import { getPlaylist, resolveTrack, searchTracks } from '../lib/tracks.js';
 
@@ -79,7 +80,8 @@ export async function execute(interaction) {
     return interaction.reply({ content: `Opa! já estou tocando em <#${current.channelId}>..`, flags: MessageFlags.Ephemeral });
   }
 
-  await interaction.deferReply();
+  // the answer, and every announcement of the queue it starts, go to the music channel picked in /setup, if any
+  const result = await deferResult(interaction, 'musicChannel');
 
   const input = interaction.options.getString('música-ou-playlist', true);
   const link = parseSpotifyLink(input);
@@ -110,7 +112,7 @@ export async function execute(interaction) {
   let queue = existing;
   if (!queue) {
     try {
-      queue = await createQueue(voiceChannel, interaction.channel);
+      queue = await createQueue(voiceChannel, result.channel);
     } catch (error) {
       // timed out, or stopped (by /stop or everyone leaving) while connecting
       console.error('Failed to join the voice channel:', error);
@@ -121,13 +123,13 @@ export async function execute(interaction) {
   if (isList) {
     const tracks = found.tracks.map((track) => ({ ...track, requestedBy: interaction.user }));
     const startedNow = queue.add(...tracks);
-    return interaction.editReply({ embeds: [listEmbed(found, listTypes[link.type], startedNow, interaction.user)] });
+    return finishResult(interaction, result, { embeds: [listEmbed(found, listTypes[link.type], startedNow, interaction.user)] });
   }
 
   const track = { ...found, requestedBy: interaction.user };
   const startedNow = queue.add(track);
 
-  await interaction.editReply({
+  await finishResult(interaction, result, {
     embeds: [
       startedNow
         ? trackEmbed(track, 'Tocando Agora', { largeCover: true })

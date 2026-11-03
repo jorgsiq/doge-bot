@@ -1,5 +1,6 @@
 import { EmbedBuilder, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
+import { deferResult, finishResult } from './results.js';
 
 const HEADERS = { 'user-agent': `doge-bot (+${config.repositoryUrl})` };
 
@@ -46,19 +47,23 @@ export function reactionCommand({ name, description, reaction, texts, self, bot 
   async function execute(interaction) {
     const { user } = interaction;
     const target = interaction.options.getUser('pessoa', true);
-    const [text, gifReaction] =
-      target.id === user.id
-        ? [self.text(user), self.reaction]
-        : target.id === interaction.client.user.id
-          ? [bot.text(user), bot.reaction]
-          : [pick(texts)(user, target), reaction];
+    const isSelf = target.id === user.id;
+    const isBot = target.id === interaction.client.user.id;
+    const [text, gifReaction] = isSelf
+      ? [self.text(user), self.reaction]
+      : isBot
+        ? [bot.text(user), bot.reaction]
+        : [pick(texts)(user, target), reaction];
 
     // the GIF APIs can take a moment, past the 3 seconds an interaction has to be answered
-    await interaction.deferReply();
-    await interaction.editReply({ embeds: [reactionEmbed(text, await reactionGif(gifReaction))] });
+    const result = await deferResult(interaction, 'funChannel');
+    const embeds = [reactionEmbed(text, await reactionGif(gifReaction))];
+    // mentions only notify outside the embed
+    const notify = !isSelf && !isBot;
+    await finishResult(interaction, result, { content: notify ? `${target}` : undefined, embeds }, { notify });
   }
 
-  return { category: 'Fun', data, execute };
+  return { category: 'Fun', feature: 'fun', data, execute };
 }
 
 // The same pair always gets the same score, whoever comes first, so the result is worth arguing about

@@ -1,7 +1,9 @@
 import { EmbedBuilder, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
+import { replyResult } from '../lib/results.js';
 
 export const category = 'Fun';
+export const feature = 'fun';
 
 export const data = new SlashCommandBuilder()
   .setName('pet')
@@ -11,7 +13,7 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction) {
   const embed = new EmbedBuilder()
     .setColor(config.colors.doge)
-    .setDescription(`${interaction.user} fez carinho no Đoge! Woof woof,\nabana o rabinho!`)
+    .setDescription(`${interaction.user} fez carinho no Đoge!\nWoof woof. Abana o rabinho!`)
     .setImage(config.images.pet);
-  await interaction.reply({ embeds: [embed] });
+  await replyResult(interaction, 'funChannel', { embeds: [embed] });
 }

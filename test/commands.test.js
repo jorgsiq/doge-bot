@@ -55,6 +55,7 @@ test('deals need a big discount on a popular, well reviewed game', () => {
 test('a new server only has the features that need no setup', () => {
   const guildId = 'a server the bot has never seen';
   assert.ok(isEnabled(guildId, 'music'));
+  assert.ok(isEnabled(guildId, 'fun'), 'its channel is optional');
   assert.ok(!isEnabled(guildId, 'welcome'));
   assert.deepEqual(missingSettings(guildId, 'gameAlerts'), ['alertsChannel'], 'the subscriber role is optional');
 });

@@ -16,11 +16,15 @@ export const settingDefinitions = {
   cleanupChannels: { kind: 'channel', types: TEXT, multiple: true, label: 'Canais com limpeza diária' },
   roomCategory: { kind: 'channel', types: [ChannelType.GuildCategory], label: 'Categoria onde as salas são criadas' },
   commandsChannel: { kind: 'channel', types: TEXT, label: 'Canal de comandos' },
+  // left empty, each message shows up where its command was used
+  musicChannel: { kind: 'channel', types: TEXT, label: 'Canal dos avisos de música (opcional)', optional: true, empty: 'o canal onde o comando é usado' },
+  funChannel: { kind: 'channel', types: TEXT, label: 'Canal das interações (opcional)', optional: true, empty: 'o canal onde o comando é usado' },
 };
 
 // Each feature can be switched on and off per server; it only runs once its settings are filled in
 export const features = {
-  music: { emoji: '🎵', name: 'Música', description: 'Player com fila no canal de voz: /play, /queue, /skip e companhia.', settings: [], onByDefault: true },
+  music: { emoji: '🎵', name: 'Música', description: 'Player com fila no canal de voz: /play, /queue, /skip e companhia. Os avisos aparecem onde o comando foi usado, ou no canal escolhido.', settings: ['musicChannel'], onByDefault: true },
+  fun: { emoji: '💬', name: 'Interações', description: '/pet, /kiss, /slap e /ship. As respostas aparecem onde o comando foi usado, ou no canal escolhido, e quem recebe o beijo, o tapa ou o ship é notificado.', settings: ['funChannel'], onByDefault: true },
   welcome: { emoji: '👋', name: 'Boas-vindas e registros', description: 'Anuncia quem entra e sai e registra mudanças de apelido e foto.', settings: ['updatesChannel'] },
   rooms: { emoji: '👽', name: 'Salas temporárias', description: 'Com /room cada membro cria uma sala de voz privada, que some quando esvazia.', settings: ['roomCategory'] },
   gameAlerts: { emoji: '🎁', name: 'Alertas de jogos', description: 'Jogos grátis e promoções relevantes (Epic, Steam...), filtrados para não virar spam. Os membros pegam o cargo mencionado em Canais e Cargos, no próprio Discord.', settings: ['alertsChannel', 'subscriberRole'] },

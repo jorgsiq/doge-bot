@@ -1,6 +1,7 @@
 import { InteractionContextType, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
 import { controllableQueue, statusEmbed } from '../lib/music.js';
+import { replyResult } from '../lib/results.js';
 
 export const category = 'Music Player';
 export const feature = 'music';
@@ -19,7 +20,7 @@ export async function execute(interaction) {
   }
 
   queue.resume();
-  await interaction.reply({
+  await replyResult(interaction, 'musicChannel', {
     embeds: [statusEmbed('Reproduzindo Música', `A trilha atual foi retomada por ${interaction.user}`, config.images.music.resume)],
   });
 }

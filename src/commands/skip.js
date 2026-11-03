@@ -1,6 +1,7 @@
 import { InteractionContextType, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
 import { controllableQueue, statusEmbed } from '../lib/music.js';
+import { replyResult } from '../lib/results.js';
 
 export const category = 'Music Player';
 export const feature = 'music';
@@ -20,7 +21,7 @@ export async function execute(interaction) {
     return interaction.reply({ content: 'Opa! ainda não comecei a tocar, espere um instante..', flags: MessageFlags.Ephemeral });
   }
   queue.skip();
-  await interaction.reply({
+  await replyResult(interaction, 'musicChannel', {
     embeds: [statusEmbed('Próxima Música', `${interaction.user} pulou **${skipped.title}**`, config.images.music.skip)],
   });
 }
