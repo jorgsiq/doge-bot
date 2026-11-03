@@ -5,7 +5,7 @@ import { isRelevantDeal, isReputableFreeGame } from '../src/lib/games.js';
 import { formatDuration } from '../src/lib/music.js';
 import { features, isEnabled, missingSettings } from '../src/lib/settings.js';
 import { everyDayAt, msUntilHourUtc } from '../src/lib/schedule.js';
-import { coupleName, shipScore } from '../src/lib/reactions.js';
+import { coupleName, firstName, shipScore } from '../src/lib/reactions.js';
 import { unseenPhotos } from '../src/lib/shiba.js';
 
 test('every command is valid for the Discord API', async () => {
@@ -101,10 +101,18 @@ test('a ship score is a stable percentage, whoever comes first', () => {
   assert.equal(shipScore('408450693524094977', '287806756917084161'), score, 'same pair, same score');
 });
 
-test('couple names join the first half of one name to the second half of the other', () => {
-  assert.equal(coupleName('Jorge', 'Ana'), 'Jorna');
-  assert.equal(coupleName('Tonynho', 'Bia'), 'Tonyia');
-  assert.equal(coupleName(' Lu ', 'Gabi'), 'Lbi');
+test('couple names join two first names between syllables', () => {
+  assert.equal(coupleName('Ricardo (Rei do Pagode)', 'Valentina'), 'Ricatina');
+  assert.equal(coupleName('Jorge', 'Ana'), 'Joana', 'short names go in whole');
+  assert.equal(coupleName('🔥 Mari 🔥', 'Lúcia'), 'Macia');
+  assert.equal(coupleName('xX_Pedro_Xx', 'Fernanda'), 'Penanda');
+});
+
+test('first names leave out nicknames in brackets, emoji and gamer tags', () => {
+  assert.equal(firstName('Ricardo (Rei do Pagode)'), 'Ricardo');
+  assert.equal(firstName('xX_Pedro_Xx'), 'Pedro');
+  assert.equal(firstName(' Lu '), 'Lu');
+  assert.equal(firstName('🎮🎮'), '');
 });
 
 test('track durations are formatted like a player', () => {

@@ -27,7 +27,7 @@ export async function reactionGif(reaction) {
   return null;
 }
 
-const pick = (list) => list[Math.floor(Math.random() * list.length)];
+export const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
 export function reactionEmbed(text, gif) {
   const embed = new EmbedBuilder().setColor(config.colors.doge).setDescription(text);
@@ -70,9 +70,39 @@ export function shipScore(idA, idB) {
   return (hash >>> 0) % 101;
 }
 
-// The first half of one name and the second half of the other, e.g. Jorge + Ana = Jorna
+// The first name alone, without a nickname in brackets, emoji or symbols: "Ricardo (Rei do Pagode)" → "Ricardo".
+// Bits shorter than 3 letters are skipped when there is a real word: "xX_Pedro_Xx" → "Pedro"
+export function firstName(displayName) {
+  const words = displayName
+    .replace(/[([{].*?[)\]}]/gu, ' ')
+    .replace(/[^\p{L}\s]/gu, ' ')
+    .trim()
+    .split(/\s+/u);
+  return words.find((word) => word.length >= 3) ?? words[0];
+}
+
+const isVowel = (char = '') => /[aeiouáàâãéêíóôõú]/iu.test(char);
+
+// Of the cuts `allowed` lets through, the one closest to the middle of the name (the middle itself when none is)
+function cutNearMiddle(length, allowed) {
+  let best = Math.round(length / 2);
+  let bestDistance = Infinity;
+  for (let i = 1; i < length; i++) {
+    const distance = Math.abs(i - length / 2);
+    if (allowed(i) && distance < bestDistance) [best, bestDistance] = [i, distance];
+  }
+  return best;
+}
+
+// The start of one first name and the end of the other, cut between syllables: Ricardo + Valentina = Ricatina.
+// Names of up to 3 letters go in whole: Jorge + Ana = Joana
 export function coupleName(nameA, nameB) {
-  const a = Array.from(nameA.trim());
-  const b = Array.from(nameB.trim());
-  return a.slice(0, Math.ceil(a.length / 2)).join('') + b.slice(Math.floor(b.length / 2)).join('');
+  const letters = (name) => Array.from((firstName(name) || name.trim()).toLowerCase());
+  const a = letters(nameA);
+  const b = letters(nameB);
+  // a syllable ends on a vowel followed by a consonant, and the next one starts on a consonant followed by a vowel
+  const start = a.length <= 3 ? a : a.slice(0, cutNearMiddle(a.length, (i) => isVowel(a[i - 1]) && !isVowel(a[i])));
+  const end = b.length <= 3 ? b : b.slice(cutNearMiddle(b.length, (i) => !isVowel(b[i]) && isVowel(b[i + 1])));
+  const name = [...start, ...end].join('');
+  return name.charAt(0).toUpperCase() + name.slice(1);
 }
