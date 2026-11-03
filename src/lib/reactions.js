@@ -30,9 +30,13 @@ export async function reactionGif(reaction) {
 
 export const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
-export function reactionEmbed(text, gif) {
-  const embed = new EmbedBuilder().setColor(config.colors.doge).setDescription(text);
-  return gif ? embed.setImage(gif) : embed;
+// The text goes above the embed, where its mentions notify, so the embed only carries the GIF
+export function reactionMessage(text, gif, notified) {
+  return {
+    content: text,
+    embeds: gif ? [new EmbedBuilder().setColor(config.colors.doge).setImage(gif)] : [],
+    allowedMentions: { users: notified ? [notified.id] : [] },
+  };
 }
 
 // A command where a member does something to someone: /kiss, /slap...
@@ -57,10 +61,9 @@ export function reactionCommand({ name, description, reaction, texts, self, bot 
 
     // the GIF APIs can take a moment, past the 3 seconds an interaction has to be answered
     const result = await deferResult(interaction, 'funChannel');
-    const embeds = [reactionEmbed(text, await reactionGif(gifReaction))];
-    // mentions only notify outside the embed
+    // only whoever got kissed or slapped is notified, not the member who did it
     const notify = !isSelf && !isBot;
-    await finishResult(interaction, result, { content: notify ? `${target}` : undefined, embeds }, { notify });
+    await finishResult(interaction, result, reactionMessage(text, await reactionGif(gifReaction), notify && target), { notify });
   }
 
   return { category: 'Fun', feature: 'fun', data, execute };

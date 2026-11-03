@@ -11,9 +11,10 @@ export const data = new SlashCommandBuilder()
   .setContexts(InteractionContextType.Guild);
 
 export async function execute(interaction) {
-  const embed = new EmbedBuilder()
-    .setColor(config.colors.doge)
-    .setDescription(`${interaction.user} fez carinho no Đoge!\nWoof woof. Abana o rabinho!`)
-    .setImage(config.images.pet);
-  await replyResult(interaction, 'funChannel', { embeds: [embed] });
+  // the text goes above the embed, like the other interactions; the member who did it needs no notification
+  await replyResult(interaction, 'funChannel', {
+    content: `${interaction.user} fez carinho no Đoge!\nWoof woof. Abana o rabinho!`,
+    embeds: [new EmbedBuilder().setColor(config.colors.doge).setImage(config.images.pet)],
+    allowedMentions: { users: [] },
+  });
 }

@@ -49,21 +49,21 @@ export async function execute(interaction) {
     const verdict = TIERS.find(({ min }) => score >= min).text;
     text = `${pick(TITLES)(a, b)}\n\n${bar(score)} **${score}%**\nNome do casal: **${coupleName(name(a), name(b))}**\n\n${verdict}`;
   }
-  const embed = new EmbedBuilder().setColor(config.colors.doge).setDescription(text);
-  // whoever was shipped, except the member who did it; mentions only notify outside the embed
+  // the text goes above the embed, where its mentions notify: whoever was shipped, except the member who did it
   const notified = [...new Set([a, b])].filter((user) => user.id !== interaction.user.id && !user.bot);
-  const content = notified.join(' ') || undefined;
+  const message = { content: text, allowedMentions: { users: notified.map((user) => user.id) } };
 
   // drawing the picture takes a moment, past the 3 seconds an interaction has to be answered
   const result = await deferResult(interaction, 'funChannel');
   let payload;
   try {
     const picture = new AttachmentBuilder(await shipImage(avatar(a), avatar(b)), { name: 'ship.gif' });
-    payload = { content, embeds: [embed.setImage('attachment://ship.gif')], files: [picture] };
+    const embed = new EmbedBuilder().setColor(config.colors.doge).setImage('attachment://ship.gif');
+    payload = { ...message, embeds: [embed], files: [picture] };
   } catch (error) {
     // the result still goes out, just without the picture
     console.error('Failed to draw the /ship picture:', error);
-    payload = { content, embeds: [embed] };
+    payload = message;
   }
-  await finishResult(interaction, result, payload, { notify: Boolean(content) });
+  await finishResult(interaction, result, payload, { notify: notified.length > 0 });
 }
