@@ -34,7 +34,7 @@ The bot never hands out roles: members pick them with Discord's own **Onboarding
 | `/play` | everyone | Searches a song and adds it to the queue |
 | `/pause` `/resume` `/skip` `/stop` `/volume` | listeners | Control the music (you must be in the bot's voice channel) |
 | `/queue` | everyone | Shows what is playing and what comes next |
-| `/room` | everyone | Creates your temporary room (optionally named), or shows the control panel of the one you are in |
+| `/room` | everyone | Creates your temporary room (optionally named) and shows its control panel, or shows the panel of the room you are in |
 | `/setup` | Manage Server | Switches features on and off and picks their channels (see below) |
 | `/announce` | Manage Server | Posts an announcement (optional image, @everyone or game alerts role ping) |
 | `/delete` | Manage Messages | Bulk deletes up to 100 messages |

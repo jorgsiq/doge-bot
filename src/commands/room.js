@@ -53,19 +53,21 @@ export async function execute(interaction) {
     interaction.options.getString("nome")?.trim()
   );
 
+  let content;
   if (moved) {
-    await interaction.editReply(
-      created
-        ? `👽 Criei sua sala ${channel} e te levei para lá!`
-        : `👽 Te levei de volta para a sua sala ${channel}!`
-    );
+    content = created
+      ? `👽 Criei sua sala ${channel} e te levei para lá!`
+      : `👽 Te levei de volta para a sua sala ${channel}!`;
   } else if (created) {
-    await interaction.editReply(
-      `👽 Criei sua sala: ${channel}. Entre nela em até ${UNCLAIMED_ROOM_MINUTES} minutos, senão ela é apagada!`
-    );
+    content = `👽 Criei sua sala: ${channel}. Entre nela em até ${UNCLAIMED_ROOM_MINUTES} minutos, senão ela é apagada!`;
   } else {
-    await interaction.editReply(`👽 Você já tem uma sala: ${channel}`);
+    content = `👽 Você já tem uma sala: ${channel}`;
   }
+  // the panel comes along, so the room can be set up without running /room again
+  await interaction.editReply({
+    content,
+    ...roomPanel(interaction.member.id),
+  });
 }
 
 // Acknowledges right away (Discord can hold a channel edit back for minutes), then runs the change
