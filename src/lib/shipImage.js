@@ -1,15 +1,37 @@
-import { createCanvas, loadImage } from '@napi-rs/canvas';
+import { Path2D, createCanvas, loadImage } from '@napi-rs/canvas';
 import gifenc from 'gifenc';
 import config from '../config.js';
 
 const { GIFEncoder, applyPalette, quantize } = gifenc;
 
-const WIDTH = 480;
+// the Đoge illustrations' colors: dark outline, cream fur, red collar
+const COLORS = {
+  background: '#352e2b',
+  ring: config.colors.doge,
+  halo: 'rgba(239, 227, 202, 0.14)',
+  badge: '#cc6054',
+  heart: '#ffffff',
+};
+
+const WIDTH = 420;
 const HEIGHT = 200;
-const RADIUS = 72;
-const CENTERS = [105, WIDTH - 105];
-const FRAMES = 12;
-const FRAME_MS = 70;
+const CY = HEIGHT / 2;
+const RADIUS = 74;
+const RING = 7;
+const HALO = 9;
+// close enough for the badge between them to cut into both rings
+const CENTERS = [WIDTH / 2 - 95, WIDTH / 2 + 95];
+const BADGE = 34;
+// the gap around the badge, in the background color
+const BADGE_BORDER = 6;
+
+// a rounded heart in a 24×24 box (Material Design's "favorite" icon)
+const HEART = new Path2D(
+  'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
+);
+// a heartbeat: a strong beat, a softer one, then a rest
+const BEAT = [1, 1.14, 1.26, 1.14, 1.04, 1.12, 1.18, 1.08, 1.02, 1, 1, 1, 1, 1, 1, 1];
+const FRAME_MS = 65;
 
 async function loadAvatar(url) {
   try {
@@ -22,67 +44,66 @@ async function loadAvatar(url) {
   }
 }
 
+function circle(ctx, cx, cy, radius, color) {
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
 function drawAvatar(ctx, image, cx) {
-  const cy = HEIGHT / 2;
+  circle(ctx, cx, CY, RADIUS + RING + HALO, COLORS.halo);
+  circle(ctx, cx, CY, RADIUS + RING, COLORS.ring);
+
   ctx.save();
   ctx.beginPath();
-  ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2);
+  ctx.arc(cx, CY, RADIUS, 0, Math.PI * 2);
   ctx.clip();
-  if (image) ctx.drawImage(image, cx - RADIUS, cy - RADIUS, RADIUS * 2, RADIUS * 2);
+  if (image) ctx.drawImage(image, cx - RADIUS, CY - RADIUS, RADIUS * 2, RADIUS * 2);
   else {
     // an avatar that could not be loaded still leaves its seat
     ctx.fillStyle = config.colors.grey;
     ctx.fill();
   }
   ctx.restore();
-
-  ctx.beginPath();
-  ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2);
-  ctx.lineWidth = 6;
-  ctx.strokeStyle = '#ffffff';
-  ctx.stroke();
 }
 
-function drawHeart(ctx, size) {
-  const cx = WIDTH / 2;
-  const cy = HEIGHT / 2 + size * 0.05;
-  const s = size / 2;
-  ctx.beginPath();
-  ctx.moveTo(cx, cy + s * 0.9);
-  ctx.bezierCurveTo(cx - s * 1.35, cy + s * 0.05, cx - s * 0.95, cy - s * 1.05, cx, cy - s * 0.4);
-  ctx.bezierCurveTo(cx + s * 0.95, cy - s * 1.05, cx + s * 1.35, cy + s * 0.05, cx, cy + s * 0.9);
-  ctx.closePath();
-  ctx.fillStyle = '#e8344e';
-  ctx.fill();
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = '#ffffff';
-  ctx.stroke();
+function drawHeart(ctx, scale) {
+  const size = BADGE * 1.15 * scale;
+  ctx.save();
+  // the icon's heart sits a little above the middle of its box
+  ctx.translate(WIDTH / 2 - size / 2, CY - size / 2 - size * 0.02);
+  ctx.scale(size / 24, size / 24);
+  ctx.fillStyle = COLORS.heart;
+  ctx.fill(HEART);
+  ctx.restore();
 }
 
-// Both avatars in circles with a heart beating between them, as a looping GIF
+// Both avatars in rings with a heart beating in a badge between them, as a looping GIF
 export async function shipImage(avatarUrlA, avatarUrlB) {
   const avatars = await Promise.all([avatarUrlA, avatarUrlB].map(loadAvatar));
 
   const base = createCanvas(WIDTH, HEIGHT);
   const baseCtx = base.getContext('2d');
-  baseCtx.fillStyle = config.colors.doge;
+  baseCtx.fillStyle = COLORS.background;
   baseCtx.fillRect(0, 0, WIDTH, HEIGHT);
   avatars.forEach((image, i) => drawAvatar(baseCtx, image, CENTERS[i]));
+  circle(baseCtx, WIDTH / 2, CY, BADGE + BADGE_BORDER, COLORS.background);
+  circle(baseCtx, WIDTH / 2, CY, BADGE, COLORS.badge);
 
   const frame = createCanvas(WIDTH, HEIGHT);
   const ctx = frame.getContext('2d');
-  const render = (i) => {
+  const render = (scale) => {
     ctx.drawImage(base, 0, 0);
-    // one beat per loop: grows and shrinks around its resting size
-    drawHeart(ctx, 84 * (1 + 0.18 * Math.sin((i / FRAMES) * Math.PI * 2)));
+    drawHeart(ctx, scale);
     return ctx.getImageData(0, 0, WIDTH, HEIGHT).data;
   };
 
   // a single palette, taken from the frame with the biggest heart, keeps the avatars from flickering
-  const palette = quantize(render(FRAMES / 4), 256);
+  const palette = quantize(render(Math.max(...BEAT)), 256);
   const gif = GIFEncoder();
-  for (let i = 0; i < FRAMES; i++) {
-    gif.writeFrame(applyPalette(render(i), palette), WIDTH, HEIGHT, { palette, delay: FRAME_MS, repeat: 0 });
+  for (const scale of BEAT) {
+    gif.writeFrame(applyPalette(render(scale), palette), WIDTH, HEIGHT, { palette, delay: FRAME_MS, repeat: 0 });
   }
   gif.finish();
   return Buffer.from(gif.bytes());
