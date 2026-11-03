@@ -199,8 +199,11 @@ export async function handleComponent(interaction, action) {
           ),
         async (fields) => {
           const users = fields.getSelectedUsers("users", true);
-          await invite(channel, users.values());
-          return `➕ Convidei ${users.map((user) => `${user}`).join(", ")}!`;
+          const unreachable = await invite(channel, users.values(), interaction.member);
+          const invited = `➕ Convidei ${users.map((user) => `${user}`).join(", ")}!`;
+          return unreachable.length
+            ? `${invited}\n\nNão consegui mandar o convite por mensagem direta para ${unreachable.join(", ")}, mas a sala já está liberada. Avise por aqui!`
+            : `${invited} Quem não está na sala recebeu o convite por mensagem direta.`;
         }
       );
   }

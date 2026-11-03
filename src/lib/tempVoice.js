@@ -140,8 +140,34 @@ export async function setHidden(channel, hidden) {
   await store.save();
 }
 
-export async function invite(channel, users) {
-  for (const user of users) await channel.permissionOverwrites.edit(user.id, { ViewChannel: true, Connect: true });
+// Lets the users in, and since a bot can't send Discord's own voice invite, sends each a DM with a button to the room.
+// Returns the users the DM couldn't reach (DMs from server members turned off).
+export async function invite(channel, users, inviter) {
+  const unreachable = [];
+  for (const user of users) {
+    await channel.permissionOverwrites.edit(user.id, { ViewChannel: true, Connect: true });
+    if (user.bot || user.id === inviter.id || channel.members.has(user.id)) continue;
+    await user.send(inviteMessage(channel, inviter)).catch(() => unreachable.push(user));
+  }
+  return unreachable;
+}
+
+function inviteMessage(channel, inviter) {
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setColor(config.colors.doge)
+        .setAuthor({ name: 'Convite para Sala' })
+        .setDescription(`**${inviter.displayName}** te convidou para a sala **${channel.name}** no servidor **${channel.guild.name}**`)
+        .setThumbnail(channel.guild.iconURL()),
+    ],
+    // a link to the channel opens it inside Discord
+    components: [
+      new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('Entrar na Sala').setURL(channel.url),
+      ),
+    ],
+  };
 }
 
 // Returns false while Discord's rename limit is in effect
