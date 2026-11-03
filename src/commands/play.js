@@ -58,10 +58,14 @@ export async function execute(interaction) {
 
   await interaction.deferReply();
 
-  const found = await resolveTrack(interaction.options.getString('musica', true)).catch((error) => {
+  let found;
+  try {
+    found = await resolveTrack(interaction.options.getString('musica', true));
+  } catch (error) {
+    // the lookup itself failed (say, YouTube refusing the server), not a search that came up empty
     console.error('Failed to find a track:', error);
-    return null;
-  });
+    return interaction.editReply('Desculpe! o serviço de música está temporariamente indisponível..');
+  }
   if (!found) {
     return interaction.editReply('Desculpe! não consegui encontrar a música que você pediu..');
   }
