@@ -13,8 +13,9 @@ export const data = new SlashCommandBuilder()
   .setContexts(InteractionContextType.Guild)
   .addStringOption((option) =>
     option
-      .setName('musica')
-      .setDescription('Nome da música ou do artista, ou um link do Spotify')
+      // option names can't have slashes or spaces
+      .setName('música-ou-playlist')
+      .setDescription('Nome da música ou do artista, ou o link de uma playlist, álbum ou música do Spotify')
       .setRequired(true)
       // shared Spotify links carry tracking parameters
       .setMaxLength(200)
@@ -80,7 +81,7 @@ export async function execute(interaction) {
 
   await interaction.deferReply();
 
-  const input = interaction.options.getString('musica', true);
+  const input = interaction.options.getString('música-ou-playlist', true);
   const link = parseSpotifyLink(input);
   // a Spotify track link plays like a search; playlists and albums come with all their tracks
   const isList = link && link.type !== 'track';
