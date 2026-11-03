@@ -23,7 +23,7 @@ export async function execute(interaction) {
     .setColor(config.colors.doge)
     .setTitle('Đoge Bot')
     .setDescription(
-      `Eu sou o **Đoge Bot**: música, salas de voz temporárias, alertas de jogos grátis, boas-vindas e mais, cada função ativada pelos admins com **/setup**.\n\nSe você deseja conhecer ou colaborar com meu código fonte, ele está disponível neste repositório no [GitHub](${config.repositoryUrl})\n\nUtilize **/help** e descubra o que posso fazer!`,
+      `Música, salas de voz temporárias, alertas de jogos grátis, boas-vindas e mais, cada função ativada pelos admins com **/setup**.\n\nSe você deseja conhecer ou colaborar com meu código fonte, ele está disponível neste repositório no [GitHub](${config.repositoryUrl})\n\nUtilize **/help** e descubra o que posso fazer!`,
     )
     .setImage(config.images.version)
     .addFields(
@@ -33,7 +33,7 @@ export async function execute(interaction) {
       { name: 'Online desde', value: time(client.readyAt, TimestampStyles.RelativeTime), inline: true },
       // -1 until the first heartbeat comes back
       { name: 'Latência', value: client.ws.ping >= 0 ? `${client.ws.ping} ms` : 'medindo...', inline: true },
-      { name: 'Autor', value: '@jorgsiq', inline: true },
+      { name: 'Autor', value: 'Jorge Siqueira', inline: true },
     )
     .setFooter({ text: `Precisa de ajuda? Contate: ${config.supportEmail}` });
 
