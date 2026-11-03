@@ -29,6 +29,8 @@ The bot never hands out roles: members pick them with Discord's own **Onboarding
 | `/help` | everyone | Lists the commands available to you (only features switched on in the server) |
 | `/about` | everyone | Technical information about the bot |
 | `/pet` | everyone | Pets the Đoge: Woof Woof! |
+| `/kiss` `/slap` | everyone | Kisses or slaps someone, with an anime GIF ([nekos.best](https://nekos.best), [otakugifs](https://otakugifs.xyz) as a backup) |
+| `/ship` | everyone | How compatible two people are, with a couple name; the same pair always gets the same score |
 | `/play` | everyone | Searches a song and adds it to the queue |
 | `/pause` `/resume` `/skip` `/stop` `/volume` | listeners | Control the music (you must be in the bot's voice channel) |
 | `/queue` | everyone | Shows what is playing and what comes next |
