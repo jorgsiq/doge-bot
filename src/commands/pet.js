@@ -1,6 +1,6 @@
 import { EmbedBuilder, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
-import { bold, interactionMessage } from '../lib/reactions.js';
+import { interactionMessage } from '../lib/reactions.js';
 import { replyResult } from '../lib/results.js';
 
 export const category = 'Fun';
@@ -12,10 +12,9 @@ export const data = new SlashCommandBuilder()
   .setContexts(InteractionContextType.Guild);
 
 export async function execute(interaction) {
-  const name = bold(interaction.member?.displayName ?? interaction.user.displayName);
   const embed = new EmbedBuilder()
     .setColor(config.colors.doge)
-    .setDescription(`${name} fez carinho no Đoge!\nWoof woof. Abana o rabinho!`)
+    .setDescription(`${interaction.user} fez carinho no Đoge!\nWoof woof. Abana o rabinho!`)
     .setImage(config.images.pet);
   // mentioned like in the other interactions, but the member who did it needs no notification
   await replyResult(interaction, 'funChannel', interactionMessage(embed, [interaction.user], []));

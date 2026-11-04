@@ -1,6 +1,6 @@
 import { AttachmentBuilder, EmbedBuilder, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
-import { bold, coupleName, firstName, interactionMessage, pick, shipScore } from '../lib/reactions.js';
+import { coupleName, firstName, interactionMessage, pick, shipScore } from '../lib/reactions.js';
 import { deferResult, finishResult } from '../lib/results.js';
 import { shipImage } from '../lib/shipImage.js';
 
@@ -40,15 +40,14 @@ export async function execute(interaction) {
   // a nickname made only of emoji gives way to the global name, then the username
   const name = (user) => [member(user)?.displayName, user.displayName, user.username].find((n) => n && firstName(n)) ?? user.username;
   const avatar = (user) => (member(user) ?? user).displayAvatarURL({ extension: 'png', size: 256 });
-  const shown = (user) => bold(member(user)?.displayName ?? user.displayName);
 
   let text;
   if (a.id === b.id) {
-    text = `💘 ${shown(a)} resolveu medir a química consigo mesmo...\n\n${bar(100)} **100%**\n\nAmor próprio em primeiro lugar 💅`;
+    text = `💘 ${a} resolveu medir a química consigo mesmo...\n\n${bar(100)} **100%**\n\nAmor próprio em primeiro lugar 💅`;
   } else {
     const score = shipScore(a.id, b.id);
     const verdict = TIERS.find(({ min }) => score >= min).text;
-    text = `${pick(TITLES)(shown(a), shown(b))}\n\n${bar(score)} **${score}%**\nNome do casal: **${coupleName(name(a), name(b))}**\n\n${verdict}`;
+    text = `${pick(TITLES)(a, b)}\n\n${bar(score)} **${score}%**\nNome do casal: **${coupleName(name(a), name(b))}**\n\n${verdict}`;
   }
   const embed = new EmbedBuilder().setColor(config.colors.doge).setDescription(text);
   // whoever was shipped is notified, except the member who did it

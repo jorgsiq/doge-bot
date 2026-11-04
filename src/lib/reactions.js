@@ -1,4 +1,4 @@
-import { EmbedBuilder, InteractionContextType, SlashCommandBuilder, escapeMarkdown } from 'discord.js';
+import { EmbedBuilder, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import config from '../config.js';
 import { deferResult, finishResult } from './results.js';
 
@@ -35,9 +35,7 @@ export function reactionEmbed(text, gif) {
   return gif ? embed.setImage(gif) : embed;
 }
 
-// Inside an embed people are bold names; their mentions go in the message, the only place where mentions notify
-export const bold = (name) => `**${escapeMarkdown(name)}**`;
-
+// Mentions inside an embed never notify, so the people in it are mentioned again in the message
 export function interactionMessage(embed, mentioned, notified) {
   return {
     // once each, by id: /ship can name the same person twice
@@ -48,7 +46,7 @@ export function interactionMessage(embed, mentioned, notified) {
 }
 
 // A command where a member does something to someone: /kiss, /slap...
-// `texts` are (author, target) => string, given bold names; doing it to yourself or to the bot gets a reply of its own
+// `texts` are (author, target) => string; doing it to yourself or to the bot gets a reply of its own
 export function reactionCommand({ name, description, reaction, texts, self, bot }) {
   const data = new SlashCommandBuilder()
     .setName(name)
@@ -61,12 +59,11 @@ export function reactionCommand({ name, description, reaction, texts, self, bot 
     const target = interaction.options.getUser('pessoa', true);
     const isSelf = target.id === user.id;
     const isBot = target.id === interaction.client.user.id;
-    const author = bold(interaction.member?.displayName ?? user.displayName);
     const [text, gifReaction] = isSelf
-      ? [self.text(author), self.reaction]
+      ? [self.text(user), self.reaction]
       : isBot
-        ? [bot.text(author), bot.reaction]
-        : [pick(texts)(author, bold(interaction.options.getMember('pessoa')?.displayName ?? target.displayName)), reaction];
+        ? [bot.text(user), bot.reaction]
+        : [pick(texts)(user, target), reaction];
 
     // the GIF APIs can take a moment, past the 3 seconds an interaction has to be answered
     const result = await deferResult(interaction, 'funChannel');
