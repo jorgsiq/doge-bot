@@ -1,4 +1,4 @@
-import { EmbedBuilder, InteractionContextType, SlashCommandBuilder } from 'discord.js';
+import { EmbedBuilder, InteractionContextType, SlashCommandBuilder, escapeMarkdown } from 'discord.js';
 import config from '../config.js';
 import { deferResult, finishResult } from './results.js';
 
@@ -30,17 +30,25 @@ export async function reactionGif(reaction) {
 
 export const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
-// The text goes above the embed, where its mentions notify, so the embed only carries the GIF
-export function reactionMessage(text, gif, notified) {
+export function reactionEmbed(text, gif) {
+  const embed = new EmbedBuilder().setColor(config.colors.doge).setDescription(text);
+  return gif ? embed.setImage(gif) : embed;
+}
+
+// Inside an embed people are bold names; their mentions go in the message, the only place where mentions notify
+export const bold = (name) => `**${escapeMarkdown(name)}**`;
+
+export function interactionMessage(embed, mentioned, notified) {
   return {
-    content: text,
-    embeds: gif ? [new EmbedBuilder().setColor(config.colors.doge).setImage(gif)] : [],
-    allowedMentions: { users: notified ? [notified.id] : [] },
+    // once each, by id: /ship can name the same person twice
+    content: [...new Map(mentioned.map((user) => [user.id, user])).values()].join(' '),
+    embeds: [embed],
+    allowedMentions: { users: notified.map((user) => user.id) },
   };
 }
 
 // A command where a member does something to someone: /kiss, /slap...
-// `texts` are (author, target) => string; doing it to yourself or to the bot gets a reply of its own
+// `texts` are (author, target) => string, given bold names; doing it to yourself or to the bot gets a reply of its own
 export function reactionCommand({ name, description, reaction, texts, self, bot }) {
   const data = new SlashCommandBuilder()
     .setName(name)
@@ -53,17 +61,20 @@ export function reactionCommand({ name, description, reaction, texts, self, bot 
     const target = interaction.options.getUser('pessoa', true);
     const isSelf = target.id === user.id;
     const isBot = target.id === interaction.client.user.id;
+    const author = bold(interaction.member?.displayName ?? user.displayName);
     const [text, gifReaction] = isSelf
-      ? [self.text(user), self.reaction]
+      ? [self.text(author), self.reaction]
       : isBot
-        ? [bot.text(user), bot.reaction]
-        : [pick(texts)(user, target), reaction];
+        ? [bot.text(author), bot.reaction]
+        : [pick(texts)(author, bold(interaction.options.getMember('pessoa')?.displayName ?? target.displayName)), reaction];
 
     // the GIF APIs can take a moment, past the 3 seconds an interaction has to be answered
     const result = await deferResult(interaction, 'funChannel');
+    const embed = reactionEmbed(text, await reactionGif(gifReaction));
     // only whoever got kissed or slapped is notified, not the member who did it
     const notify = !isSelf && !isBot;
-    await finishResult(interaction, result, reactionMessage(text, await reactionGif(gifReaction), notify && target), { notify });
+    const message = notify ? interactionMessage(embed, [user, target], [target]) : interactionMessage(embed, [user], []);
+    await finishResult(interaction, result, message, { notify });
   }
 
   return { category: 'Fun', feature: 'fun', data, execute };

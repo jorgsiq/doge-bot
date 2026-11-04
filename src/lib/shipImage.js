@@ -4,9 +4,9 @@ import config from '../config.js';
 
 const { GIFEncoder, applyPalette, quantize } = gifenc;
 
-// the Đoge illustrations' colors: dark outline, cream fur, red collar
+// the bot's cream and the red of the Đoge's collar, on black
 const COLORS = {
-  background: '#352e2b',
+  background: '#000000',
   ring: config.colors.doge,
   halo: 'rgba(239, 227, 202, 0.14)',
   badge: '#cc6054',
