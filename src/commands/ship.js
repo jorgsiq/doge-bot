@@ -2,7 +2,7 @@ import { AttachmentBuilder, EmbedBuilder, InteractionContextType, SlashCommandBu
 import config from '../config.js';
 import { coupleName, firstName, interactionMessage, pick, shipScore } from '../lib/reactions.js';
 import { deferResult, finishResult } from '../lib/results.js';
-import { shipImage } from '../lib/shipImage.js';
+import { shipImage } from '../lib/avatarImages.js';
 
 export const category = 'Fun';
 export const feature = 'fun';
