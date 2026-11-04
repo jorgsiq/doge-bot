@@ -17,5 +17,5 @@ export async function execute(interaction) {
     .setDescription(`${interaction.user} fez carinho no Đoge!\nWoof woof. Abana o rabinho!`)
     .setImage(config.images.pet);
   // mentioned like in the other interactions, but the member who did it needs no notification
-  await replyResult(interaction, 'funChannel', interactionMessage(embed, { mentioned: [interaction.user], notified: [] }), { done: 'Você fez carinho no Đoge!' });
+  await replyResult(interaction, 'funChannel', interactionMessage(embed, { emoji: '🐶', mentioned: [interaction.user], notified: [] }), { done: 'Você fez carinho no Đoge!' });
 }

@@ -49,7 +49,11 @@ export async function execute(interaction) {
     const verdict = TIERS.find(({ min }) => score >= min).text;
     text = `${pick(TITLES)(a, b)}\n\n${bar(score)} **${score}%**\nNome do casal: **${coupleName(name(a), name(b))}**\n\n${verdict}`;
   }
-  const embed = new EmbedBuilder().setColor(config.colors.doge).setDescription(text);
+  const embed = new EmbedBuilder()
+    .setColor(config.colors.doge)
+    .setDescription(text)
+    // like the music player's
+    .setFooter({ text: `Pedido por @${interaction.user.username}` });
   // whoever was shipped is notified, except the member who did it
   const notified = [a, b].filter((user) => user.id !== interaction.user.id && !user.bot);
 
