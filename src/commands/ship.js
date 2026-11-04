@@ -12,7 +12,7 @@ export const data = new SlashCommandBuilder()
   .setDescription('Mostra a compatibilidade entre duas pessoas')
   .setContexts(InteractionContextType.Guild)
   .addUserOption((option) => option.setName('pessoa').setDescription('Uma pessoa do casal').setRequired(true))
-  .addUserOption((option) => option.setName('outra').setDescription('A outra pessoa (se ficar vazio, é você)'));
+  .addUserOption((option) => option.setName('outra-pessoa').setDescription('A outra pessoa (se ficar vazio, é você)'));
 
 const TITLES = [
   (a, b) => `💘 Será que ${a} e ${b} combinam?`,
@@ -34,7 +34,7 @@ const bar = (score) => '█'.repeat(Math.round(score / 10)).padEnd(10, '░');
 
 export async function execute(interaction) {
   const a = interaction.options.getUser('pessoa', true);
-  const b = interaction.options.getUser('outra') ?? interaction.user;
+  const b = interaction.options.getUser('outra-pessoa') ?? interaction.user;
   // server nicknames and avatars, when they have them
   const member = (user) => interaction.guild.members.cache.get(user.id);
   // a nickname made only of emoji gives way to the global name, then the username
