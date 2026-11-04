@@ -23,5 +23,5 @@ export async function execute(interaction) {
   queue.skip();
   await replyResult(interaction, 'musicChannel', {
     embeds: [statusEmbed('Próxima Música', `${interaction.user} pulou **${skipped.title}**`, config.images.music.skip)],
-  });
+  }, { done: `Você pulou **${skipped.title}**!` });
 }

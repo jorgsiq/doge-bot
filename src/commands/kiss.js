@@ -3,6 +3,7 @@ import { reactionCommand } from '../lib/reactions.js';
 export const { category, feature, data, execute } = reactionCommand({
   name: 'kiss',
   description: 'Você dá um beijo em alguém',
+  done: 'Seu beijo foi enviado!',
   reaction: 'kiss',
   texts: [
     (author, target) => `💋 ${author} acabou de beijar ${target} com entusiasmo!`,

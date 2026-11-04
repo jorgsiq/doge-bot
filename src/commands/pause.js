@@ -25,5 +25,5 @@ export async function execute(interaction) {
 
   await replyResult(interaction, 'musicChannel', {
     embeds: [statusEmbed('Música em Pause', `A trilha atual foi pausada por ${interaction.user}`, config.images.music.pause)],
-  });
+  }, { done: 'A música foi pausada!' });
 }

@@ -23,5 +23,5 @@ export async function execute(interaction) {
     embeds: [
       statusEmbed('Fila Embaralhada', `${interaction.user} embaralhou as **${queue.tracks.length}** músicas da fila`, config.images.music.shuffle),
     ],
-  });
+  }, { done: `As ${queue.tracks.length} músicas da fila foram embaralhadas!` });
 }

@@ -22,5 +22,5 @@ export async function execute(interaction) {
   queue.setVolume(volume);
   await replyResult(interaction, 'musicChannel', {
     embeds: [statusEmbed('Volume Ajustado', `${interaction.user} ajustou o volume para (**${volume}**/10)`, config.images.music.volume)],
-  });
+  }, { done: `O volume foi ajustado para ${volume}/10!` });
 }

@@ -18,5 +18,5 @@ export async function execute(interaction) {
   queue.destroy();
   await replyResult(interaction, 'musicChannel', {
     embeds: [statusEmbed('Fim da Reprodução', `A reprodução foi interrompida por ${interaction.user}`, config.images.music.stop)],
-  });
+  }, { done: 'A reprodução foi interrompida e a fila foi limpa!' });
 }

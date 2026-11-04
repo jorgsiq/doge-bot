@@ -123,7 +123,8 @@ export async function execute(interaction) {
   if (isList) {
     const tracks = found.tracks.map((track) => ({ ...track, requestedBy: interaction.user }));
     const startedNow = queue.add(...tracks);
-    return finishResult(interaction, result, { embeds: [listEmbed(found, listTypes[link.type], startedNow, interaction.user)] });
+    const done = `**${found.name}** ${startedNow ? 'começou a tocar' : 'entrou na fila'}, com ${tracks.length} músicas!`;
+    return finishResult(interaction, result, { embeds: [listEmbed(found, listTypes[link.type], startedNow, interaction.user)] }, { done });
   }
 
   const track = { ...found, requestedBy: interaction.user };
@@ -135,7 +136,7 @@ export async function execute(interaction) {
         ? trackEmbed(track, 'Tocando Agora', { largeCover: true })
         : trackEmbed(track, `Adicionado à fila (#${queue.tracks.length})`),
     ],
-  });
+  }, { done: `**${track.title}** ${startedNow ? 'começou a tocar' : `entrou na fila (#${queue.tracks.length})`}!` });
 }
 
 function listEmbed(list, type, startedNow, user) {

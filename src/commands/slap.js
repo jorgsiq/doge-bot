@@ -3,6 +3,7 @@ import { reactionCommand } from '../lib/reactions.js';
 export const { category, feature, data, execute } = reactionCommand({
   name: 'slap',
   description: 'Você dá um tapa em alguém',
+  done: 'Seu tapa foi dado!',
   reaction: 'slap',
   texts: [
     (author, target) => `👋 ${author} deu um tapa em ${target}! Essa doeu...`,

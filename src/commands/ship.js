@@ -64,5 +64,5 @@ export async function execute(interaction) {
     console.error('Failed to draw the /ship picture:', error);
   }
   const message = { ...interactionMessage(embed, [a, b], notified), files };
-  await finishResult(interaction, result, message, { notify: notified.length > 0 });
+  await finishResult(interaction, result, message, { done: 'O resultado do ship saiu!', notify: notified.length > 0 });
 }

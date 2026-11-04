@@ -46,8 +46,9 @@ export function interactionMessage(embed, mentioned, notified) {
 }
 
 // A command where a member does something to someone: /kiss, /slap...
-// `texts` are (author, target) => string; doing it to yourself or to the bot gets a reply of its own
-export function reactionCommand({ name, description, reaction, texts, self, bot }) {
+// `texts` are (author, target) => string; doing it to yourself or to the bot gets a reply of its own.
+// `done` tells the member it happened, when the message goes to the channel picked for interactions.
+export function reactionCommand({ name, description, reaction, texts, self, bot, done }) {
   const data = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
@@ -71,7 +72,7 @@ export function reactionCommand({ name, description, reaction, texts, self, bot 
     // only whoever got kissed or slapped is notified, not the member who did it
     const notify = !isSelf && !isBot;
     const message = notify ? interactionMessage(embed, [user, target], [target]) : interactionMessage(embed, [user], []);
-    await finishResult(interaction, result, message, { notify });
+    await finishResult(interaction, result, message, { done, notify });
   }
 
   return { category: 'Fun', feature: 'fun', data, execute };

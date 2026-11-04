@@ -22,5 +22,5 @@ export async function execute(interaction) {
   queue.resume();
   await replyResult(interaction, 'musicChannel', {
     embeds: [statusEmbed('Reproduzindo Música', `A trilha atual foi retomada por ${interaction.user}`, config.images.music.resume)],
-  });
+  }, { done: 'A música voltou a tocar!' });
 }
