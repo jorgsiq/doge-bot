@@ -15,10 +15,10 @@ export const data = new SlashCommandBuilder()
   .addUserOption((option) => option.setName('outra-pessoa').setDescription('A outra pessoa (se ficar vazio, é você)'));
 
 const TITLES = [
-  (a, b) => `💘 Será que ${a} e ${b} combinam?`,
-  (a, b) => `💘 O cupido analisou ${a} e ${b}...`,
-  (a, b) => `💘 Medindo a química entre ${a} e ${b}...`,
-  (a, b) => `💘 ${a} + ${b}: vai ou não vai?`,
+  (a, b) => `Será que ${a} e ${b} combinam?`,
+  (a, b) => `O cupido analisou ${a} e ${b}...`,
+  (a, b) => `Medindo a química entre ${a} e ${b}...`,
+  (a, b) => `${a} + ${b}: vai ou não vai?`,
 ];
 
 // the highest tier the score reaches
@@ -43,7 +43,7 @@ export async function execute(interaction) {
 
   let text;
   if (a.id === b.id) {
-    text = `💘 ${a} resolveu medir a química consigo mesmo...\n\n${bar(100)} **100%**\n\nAmor próprio em primeiro lugar 💅`;
+    text = `${a} resolveu medir a química consigo mesmo...\n\n${bar(100)} **100%**\n\nAmor próprio em primeiro lugar 💅`;
   } else {
     const score = shipScore(a.id, b.id);
     const verdict = TIERS.find(({ min }) => score >= min).text;
@@ -63,6 +63,6 @@ export async function execute(interaction) {
     // the result still goes out, just without the picture
     console.error('Failed to draw the /ship picture:', error);
   }
-  const message = { ...interactionMessage(embed, [a, b], notified), files };
+  const message = { ...interactionMessage(embed, { emoji: '💘', mentioned: [a, b], notified }), files };
   await finishResult(interaction, result, message, { done: 'O resultado do ship saiu!', notify: notified.length > 0 });
 }

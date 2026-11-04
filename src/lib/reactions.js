@@ -35,20 +35,21 @@ export function reactionEmbed(text, gif) {
   return gif ? embed.setImage(gif) : embed;
 }
 
-// Mentions inside an embed never notify, so the people in it are mentioned again in the message
-export function interactionMessage(embed, mentioned, notified) {
+// Mentions inside an embed never notify, so the people in it are mentioned again in the message, after the emoji
+export function interactionMessage(embed, { emoji, mentioned, notified }) {
+  // once each, by id: /ship can name the same person twice
+  const people = [...new Map(mentioned.map((user) => [user.id, user])).values()];
   return {
-    // once each, by id: /ship can name the same person twice
-    content: [...new Map(mentioned.map((user) => [user.id, user])).values()].join(' '),
+    content: [emoji, ...people].filter(Boolean).join(' '),
     embeds: [embed],
     allowedMentions: { users: notified.map((user) => user.id) },
   };
 }
 
 // A command where a member does something to someone: /kiss, /slap...
-// `texts` are (author, target) => string; doing it to yourself or to the bot gets a reply of its own.
+// `texts` are (author, target) => string; doing it to yourself or to the bot gets a reply (and emoji) of its own.
 // `done` tells the member it happened, when the message goes to the channel picked for interactions.
-export function reactionCommand({ name, description, reaction, texts, self, bot, done }) {
+export function reactionCommand({ name, description, emoji, reaction, texts, self, bot, done }) {
   const data = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
@@ -60,18 +61,22 @@ export function reactionCommand({ name, description, reaction, texts, self, bot,
     const target = interaction.options.getUser('pessoa', true);
     const isSelf = target.id === user.id;
     const isBot = target.id === interaction.client.user.id;
-    const [text, gifReaction] = isSelf
-      ? [self.text(user), self.reaction]
+    const [text, gifReaction, textEmoji] = isSelf
+      ? [self.text(user), self.reaction, self.emoji]
       : isBot
-        ? [bot.text(user), bot.reaction]
-        : [pick(texts)(user, target), reaction];
+        ? [bot.text(user), bot.reaction, bot.emoji]
+        : [pick(texts)(user, target), reaction, emoji];
 
     // the GIF APIs can take a moment, past the 3 seconds an interaction has to be answered
     const result = await deferResult(interaction, 'funChannel');
     const embed = reactionEmbed(text, await reactionGif(gifReaction));
     // only whoever got kissed or slapped is notified, not the member who did it
     const notify = !isSelf && !isBot;
-    const message = notify ? interactionMessage(embed, [user, target], [target]) : interactionMessage(embed, [user], []);
+    const message = interactionMessage(embed, {
+      emoji: textEmoji,
+      mentioned: notify ? [user, target] : [user],
+      notified: notify ? [target] : [],
+    });
     await finishResult(interaction, result, message, { done, notify });
   }
 
