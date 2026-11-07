@@ -7,7 +7,8 @@ import { getSetting, isEnabled } from './settings.js';
 const CLEANUP_HOUR_UTC = 9;
 
 export function scheduleDailyCleanup(client) {
-  everyDayAt(CLEANUP_HOUR_UTC, () => runCleanup(client));
+  // at most an hour late: a bot back later must not wipe the day's conversation
+  everyDayAt('cleanup', CLEANUP_HOUR_UTC, 1, () => runCleanup(client));
 }
 
 async function runCleanup(client) {

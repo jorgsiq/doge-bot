@@ -104,5 +104,6 @@ export async function postShibaOfTheDay(client) {
 }
 
 export function startShibaOfTheDay(client) {
-  everyDayAt(config.shibaOfTheDay.hourUtc, () => postShibaOfTheDay(client));
+  // a bot back after 09:00 still posts until midnight in Brasília, so the photo carries that day's date
+  everyDayAt('shiba', config.shibaOfTheDay.hourUtc, 15, () => postShibaOfTheDay(client));
 }

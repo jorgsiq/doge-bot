@@ -4,7 +4,7 @@ import { loadCommands } from '../src/lib/commands.js';
 import { isRelevantDeal, isReputableFreeGame } from '../src/lib/games.js';
 import { formatDuration } from '../src/lib/music.js';
 import { features, isEnabled, missingSettings } from '../src/lib/settings.js';
-import { everyDayAt, msUntilHourUtc } from '../src/lib/schedule.js';
+import { isDue, withRetries } from '../src/lib/schedule.js';
 import { coupleName, firstName, shipScore } from '../src/lib/reactions.js';
 import { unseenPhotos } from '../src/lib/shiba.js';
 import { parseSpotifyLink } from '../src/lib/spotify.js';
@@ -22,11 +22,18 @@ test('every command is valid for the Discord API', async () => {
   }
 });
 
-test('daily tasks wait until the next occurrence of their UTC hour', () => {
-  const hour = 60 * 60_000;
-  assert.equal(msUntilHourUtc(9, new Date('2026-01-01T08:00:00Z')), hour);
-  assert.equal(msUntilHourUtc(9, new Date('2026-01-01T09:00:00Z')), 24 * hour);
-  assert.equal(msUntilHourUtc(9, new Date('2026-01-01T10:00:00Z')), 23 * hour);
+// the shiba of the day: 12:00 UTC, up to 15 hours late
+test('a daily task runs once from its UTC hour on, even if the bot was offline then', () => {
+  const ranYesterday = Date.parse('2026-11-05T12:00:00Z');
+  const ranToday = Date.parse('2026-11-06T12:00:00Z');
+  const at = (iso) => new Date(iso);
+  assert.ok(!isDue(12, 15, ranYesterday, at('2026-11-06T11:59:00Z')), 'not before its hour');
+  assert.ok(isDue(12, 15, ranYesterday, at('2026-11-06T12:00:00Z')));
+  assert.ok(isDue(12, 15, ranYesterday, at('2026-11-06T18:30:00Z')), 'the bot came back late');
+  assert.ok(!isDue(12, 15, ranToday, at('2026-11-06T18:30:00Z')), 'it already ran today');
+  assert.ok(isDue(12, 15, ranYesterday, at('2026-11-07T02:59:00Z')), 'still the same day in Brasília');
+  assert.ok(!isDue(12, 15, ranYesterday, at('2026-11-07T03:00:00Z')), 'too late: the day is skipped');
+  assert.ok(isDue(12, 15, undefined, at('2026-11-06T12:00:00Z')), 'a task that never ran');
 });
 
 // CheapShark entries seen in November 2026
@@ -66,8 +73,8 @@ test('every command feature exists', async () => {
   }
 });
 
-test('a failing daily task is tried 3 times, 10 minutes apart, then waits for the next day', async (t) => {
-  t.mock.timers.enable({ apis: ['setTimeout', 'Date'], now: new Date('2026-11-01T20:59:00Z') });
+test('a failing daily task is tried 3 times, 10 minutes apart, then gives up for the day', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
   t.mock.method(console, 'error', () => {});
   const minutes = async (n) => {
     t.mock.timers.tick(n * 60_000);
@@ -76,19 +83,18 @@ test('a failing daily task is tried 3 times, 10 minutes apart, then waits for th
   };
 
   let calls = 0;
-  everyDayAt(21, async () => {
+  let gaveUp = false;
+  withRetries(async () => {
     calls++;
     throw new Error('the API timed out');
-  });
-  await minutes(1);
+  }).then(() => (gaveUp = true));
+  await minutes(0);
   assert.equal(calls, 1);
   await minutes(10);
+  assert.equal(calls, 2);
   await minutes(10);
   assert.equal(calls, 3);
-  await minutes(60);
-  assert.equal(calls, 3, 'the day is skipped after 3 attempts');
-  await minutes(24 * 60);
-  assert.equal(calls, 4, 'and the next day runs as usual');
+  assert.ok(gaveUp, 'no fourth attempt');
 });
 
 test('the shiba of the day only repeats once every photo was posted', () => {

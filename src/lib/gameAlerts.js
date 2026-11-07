@@ -103,5 +103,6 @@ export function startGameAlerts(client) {
   const checkFreeGames = () => postFreeGames(client).catch((error) => console.error('Free games check failed:', error));
   setTimeout(checkFreeGames, 30_000);
   setInterval(checkFreeGames, config.gameAlerts.freeCheckMinutes * 60_000);
-  everyDayAt(config.gameAlerts.digestHourUtc, () => postDealsDigest(client));
+  // a bot back after 18:00 still posts the day's deals until midnight in Brasília
+  everyDayAt('deals', config.gameAlerts.digestHourUtc, 6, () => postDealsDigest(client));
 }
