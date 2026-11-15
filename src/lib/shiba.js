@@ -21,16 +21,27 @@ async function query(params) {
   return response.json();
 }
 
-// Page ids of every photo in the configured categories, read on each run so new uploads join in
+export const isLandscape = (size) => Boolean(size) && size.width >= size.height * config.shibaOfTheDay.minAspectRatio;
+
+// Page ids of every landscape photo in the configured categories, read on each run so new uploads join in
 export async function listPhotos() {
   const ids = new Set();
   for (const category of config.shibaOfTheDay.categories) {
-    // a category is listed 500 files at a time
+    // a category is listed 500 files at a time, each with its size
     let next = {};
     do {
-      const data = await query({ list: 'categorymembers', cmtitle: `Category:${category}`, cmtype: 'file', cmlimit: '500', ...next });
-      for (const file of data.query.categorymembers) {
-        if (PHOTO.test(file.title)) ids.add(file.pageid);
+      const data = await query({
+        generator: 'categorymembers',
+        gcmtitle: `Category:${category}`,
+        gcmtype: 'file',
+        gcmlimit: '500',
+        prop: 'imageinfo',
+        iiprop: 'size',
+        ...next,
+      });
+      // an empty category comes without query
+      for (const file of data.query?.pages ?? []) {
+        if (PHOTO.test(file.title) && isLandscape(file.imageinfo?.[0])) ids.add(file.pageid);
       }
       next = data.continue;
     } while (next);

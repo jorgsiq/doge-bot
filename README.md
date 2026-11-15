@@ -18,7 +18,7 @@ The bot never hands out roles: members pick them with Discord's own **Onboarding
   - free games as soon as they appear: Epic's weekly giveaways, plus games free on Steam, GOG and other stores that have good reviews and a real price (no free-to-play or shovelware)
   - one weekly digest on Fridays at 18:00 (Brasília) with up to 5 big discounts (50%+) on popular, well-reviewed Steam games (85%+ positive, 5,000+ reviews), with prices in reais and the sale's end date confirmed on the Brazilian Steam store
   - a game is posted again in the same server only once the sale or giveaway it was posted in has ended and a new one started (30 days for free games whose end is unknown); every threshold lives in `gameAlerts` in [`src/config.js`](src/config.js)
-- **Shiba of the day**: every day at 09:00 (Brasília) a different, freely licensed shiba photo from [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:Shiba_Inu), credited to its author; none repeats until all were posted
+- **Shiba of the day**: every day at 09:00 (Brasília) a different, freely licensed landscape shiba photo from [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:Shiba_Inu), credited to its author; none repeats until all were posted
 - **Daily cleanup** of chosen channels at 06:00 (Brasília)
 - **Commands channel**: anything a person types in the chosen channel, staff included, is deleted at once, since slash commands leave no message of their own; only bots' messages stay
 - Staff tools: announcements and bulk delete

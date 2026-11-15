@@ -20,6 +20,8 @@ export default {
   shibaOfTheDay: {
     // 09:00 in Brasília
     hourUtc: 12,
+    // only landscape photos, at least this much wider than tall, so near-square ones are left out too
+    minAspectRatio: 1.2,
     // drawings ("Shiba Inu in art") and memes ("Cheems the Dog") are left out
     categories: ['Shiba Inu', 'Shiba Inu puppies', 'Kabosu (dog)', 'Taro the Shiba Inu', 'Mino Shiba Inu', 'Jomon Shiba Inu'],
   },

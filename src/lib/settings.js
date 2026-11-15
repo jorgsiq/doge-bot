@@ -28,7 +28,7 @@ export const features = {
   welcome: { emoji: '👋', name: 'Boas-vindas e registros', description: 'Anuncia quem entra e sai e registra mudanças de apelido e foto.', settings: ['updatesChannel'] },
   rooms: { emoji: '👽', name: 'Salas temporárias', description: 'Com /room cada membro cria uma sala de voz privada, que some quando esvazia.', settings: ['roomCategory'] },
   gameAlerts: { emoji: '🎁', name: 'Alertas de jogos', description: 'Jogos grátis (Epic, Steam...) assim que aparecem e, toda sexta às 18:00 (Brasília), as promoções da semana na Steam, filtrados para não virar spam. Os membros pegam o cargo mencionado em Canais e Cargos, no próprio Discord.', settings: ['alertsChannel', 'subscriberRole'] },
-  shiba: { emoji: '🐕', name: 'Shiba do dia', description: 'Todo dia às 09:00 (Brasília) posta a foto de um shiba diferente no canal escolhido.', settings: ['shibaChannel'] },
+  shiba: { emoji: '🐕', name: 'Shiba do dia', description: 'Todo dia às 09:00 (Brasília) posta a foto de um shiba diferente, sempre na horizontal, no canal escolhido.', settings: ['shibaChannel'] },
   cleanup: { emoji: '🧹', name: 'Limpeza diária', description: 'Apaga todas as mensagens dos canais escolhidos todo dia às 06:00 (Brasília).', settings: ['cleanupChannels'] },
   commandsOnly: { emoji: '⌨️', name: 'Canal de comandos', description: 'No canal escolhido, apaga na hora toda mensagem que não seja comando, inclusive da staff.', settings: ['commandsChannel'] },
 };

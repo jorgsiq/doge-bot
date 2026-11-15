@@ -7,7 +7,7 @@ import { formatDuration } from '../src/lib/music.js';
 import { features, isEnabled, missingSettings } from '../src/lib/settings.js';
 import { isDue, withRetries } from '../src/lib/schedule.js';
 import { coupleName, firstName, shipScore } from '../src/lib/reactions.js';
-import { unseenPhotos } from '../src/lib/shiba.js';
+import { isLandscape, unseenPhotos } from '../src/lib/shiba.js';
 import { parseSpotifyLink } from '../src/lib/spotify.js';
 import { pickRecording } from '../src/lib/tracks.js';
 
@@ -125,6 +125,14 @@ test('the shiba of the day only repeats once every photo was posted', () => {
   assert.deepEqual(unseenPhotos([1, 2, 3], [1, 3]), { unseen: [2], seen: [1, 3] });
   assert.deepEqual(unseenPhotos([1, 2, 3], [3, 1, 2]), { unseen: [1, 2, 3], seen: [] }, 'a new round starts');
   assert.deepEqual(unseenPhotos([1, 2], [5]), { unseen: [1, 2], seen: [5] }, 'photos removed from Commons are ignored');
+});
+
+test('the shiba of the day is always a landscape photo', () => {
+  assert.ok(isLandscape({ width: 4000, height: 3000 }));
+  assert.ok(isLandscape({ width: 1920, height: 1080 }));
+  assert.ok(!isLandscape({ width: 3000, height: 4000 }), 'portrait');
+  assert.ok(!isLandscape({ width: 1100, height: 1000 }), 'nearly square');
+  assert.ok(!isLandscape(undefined), 'size unknown');
 });
 
 test('a ship score is a stable percentage, whoever comes first', () => {
