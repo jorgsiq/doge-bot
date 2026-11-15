@@ -104,4 +104,4 @@ See also the list of [contributors](https://github.com/jorgsiq/doge-bot/graphs/c
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. Using the hosted Đoge Bot is subject to its [Terms of Service](TERMS.en.md) ([em português](TERMS.md)) and [Privacy Policy](PRIVACY.en.md) ([em português](PRIVACY.md)).
