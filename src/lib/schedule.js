@@ -1,6 +1,6 @@
 import * as store from './store.js';
 
-// task name -> when it last ran, kept across restarts so a task never runs twice on the same day
+// task name -> when it last ran, kept across restarts so a task never runs twice for the same day or week
 const lastRuns = store.section('dailyTasks');
 
 // The clock is checked every minute instead of waiting on one long timer: a host that stops or pauses the bot loses
@@ -13,17 +13,18 @@ const HOUR = 60 * 60_000;
 const ATTEMPTS = 3;
 const RETRY_DELAY = 10 * 60_000;
 
-// The last time the clock struck the given UTC hour, today or yesterday
-export function lastOccurrence(hourUtc, now = new Date()) {
+// The last time the clock struck the given UTC hour, today or yesterday; given a weekday (0 is Sunday), on the last such day
+export function lastOccurrence(hourUtc, now = new Date(), weekdayUtc) {
   const at = new Date(now);
   at.setUTCHours(hourUtc, 0, 0, 0);
   if (at > now) at.setUTCDate(at.getUTCDate() - 1);
+  if (weekdayUtc !== undefined) at.setUTCDate(at.getUTCDate() - ((at.getUTCDay() - weekdayUtc + 7) % 7));
   return at.getTime();
 }
 
 // Due from its hour on, unless it already ran since then or it is more than maxDelayHours late
-export function isDue(hourUtc, maxDelayHours, lastRun = 0, now = new Date()) {
-  const at = lastOccurrence(hourUtc, now);
+export function isDue(hourUtc, maxDelayHours, lastRun = 0, now = new Date(), weekdayUtc) {
+  const at = lastOccurrence(hourUtc, now, weekdayUtc);
   return lastRun < at && now - at < maxDelayHours * HOUR;
 }
 
@@ -38,14 +39,14 @@ export async function withRetries(task) {
   }
 }
 
-// Runs the task every day from the given UTC hour on. A bot that was offline at that hour runs it once it is back,
-// up to maxDelayHours late; failures are logged and don't stop the schedule
-export function everyDayAt(name, hourUtc, maxDelayHours, task) {
+// Runs the task from the given UTC hour on, every day or only on the given weekday. A bot that was offline at that hour
+// runs it once it is back, up to maxDelayHours late; failures are logged and don't stop the schedule
+function runAt(name, hourUtc, weekdayUtc, maxDelayHours, task) {
   let running = false;
   const check = async () => {
-    if (running || !isDue(hourUtc, maxDelayHours, lastRuns[name])) return;
+    if (running || !isDue(hourUtc, maxDelayHours, lastRuns[name], new Date(), weekdayUtc)) return;
     running = true;
-    // marked before it runs: a bot stopped halfway skips the rest of that day rather than posting twice
+    // marked before it runs: a bot stopped halfway skips that run rather than posting twice
     lastRuns[name] = Date.now();
     await store.save();
     await withRetries(task);
@@ -54,3 +55,8 @@ export function everyDayAt(name, hourUtc, maxDelayHours, task) {
   check();
   setInterval(check, CHECK_EVERY);
 }
+
+export const everyDayAt = (name, hourUtc, maxDelayHours, task) => runAt(name, hourUtc, undefined, maxDelayHours, task);
+
+export const everyWeekAt = (name, weekdayUtc, hourUtc, maxDelayHours, task) =>
+  runAt(name, hourUtc, weekdayUtc, maxDelayHours, task);

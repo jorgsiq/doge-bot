@@ -1,24 +1,28 @@
 import { EmbedBuilder, TimestampStyles, time } from 'discord.js';
 import config from '../config.js';
 import { fetchEpicFreeGames, fetchOtherFreeGames, fetchSteamDeals, withBrazilianPrices } from './games.js';
-import { everyDayAt } from './schedule.js';
+import { everyWeekAt } from './schedule.js';
 import { getRole, getSetting, isEnabled } from './settings.js';
 import * as store from './store.js';
 
-// guild id -> key -> { price, at }: what each server already got, so nothing repeats there
+// guild id -> key -> { at, endsAt }: what each server already got, so nothing repeats there
 const posted = store.section('postedGameAlerts');
 const DAY = 24 * 60 * 60_000;
 const compact = new Intl.NumberFormat('pt-BR', { notation: 'compact' });
 
-function isNew(guildId, item) {
-  const last = posted[guildId]?.[item.key];
-  if (!last) return true;
-  return Date.now() - last.at > config.gameAlerts.repostAfterDays * DAY || item.price < last.price;
+// A game can be posted again once the sale or giveaway it was posted in ended, so it comes back on its next sale.
+// Without a known end, it comes back after repostAfterDays.
+export function canRepost(last, now = Date.now()) {
+  return now >= (last.endsAt ?? last.at + config.gameAlerts.repostAfterDays * DAY);
 }
+
+const isNew = (guildId, item) => !posted[guildId]?.[item.key] || canRepost(posted[guildId][item.key]);
 
 async function markPosted(guildId, items) {
   const guildPosted = (posted[guildId] ??= {});
-  for (const item of items) guildPosted[item.key] = { price: item.price ?? 0, at: Date.now() };
+  // what can be posted again doesn't need to be remembered
+  for (const [key, last] of Object.entries(guildPosted)) if (canRepost(last)) delete guildPosted[key];
+  for (const item of items) guildPosted[item.key] = { at: Date.now(), endsAt: item.endsAt?.getTime() };
   await store.save();
 }
 
@@ -64,7 +68,7 @@ function freeGameEmbed(game) {
 }
 
 function dealEmbed(deal) {
-  return new EmbedBuilder()
+  const embed = new EmbedBuilder()
     .setColor(config.colors.doge)
     .setAuthor({ name: `-${deal.discount}% na Steam` })
     .setTitle(deal.title)
@@ -74,6 +78,9 @@ function dealEmbed(deal) {
       { name: 'Preço', value: `~~${deal.normalPrice}~~ **${deal.finalPrice}**`, inline: true },
       { name: 'Análises', value: `${deal.rating}% positivas de ${compact.format(deal.reviews)}`, inline: true },
     );
+
+  if (deal.endsAt) embed.addFields({ name: 'Promoção até', value: time(deal.endsAt, TimestampStyles.LongDateShortTime), inline: true });
+  return embed;
 }
 
 export async function postFreeGames(client) {
@@ -93,16 +100,17 @@ export async function postDealsDigest(client) {
   const guilds = alertGuilds(client);
   if (!guilds.length) return {};
 
-  // prices in reais come first, so a game posted recently can come back once it gets cheaper
+  // prices in reais and sale ends come first, so a game whose sale ended and started again can come back
   const candidates = (await fetchSteamDeals()).slice(0, 40);
   const deals = await withBrazilianPrices(candidates);
-  return postToEachServer(guilds, deals, config.gameAlerts.deals.maxPerDigest, '💸 **Promoções do dia**', dealEmbed);
+  return postToEachServer(guilds, deals, config.gameAlerts.deals.maxPerDigest, '💸 **Promoções da semana**', dealEmbed);
 }
 
 export function startGameAlerts(client) {
   const checkFreeGames = () => postFreeGames(client).catch((error) => console.error('Free games check failed:', error));
   setTimeout(checkFreeGames, 30_000);
   setInterval(checkFreeGames, config.gameAlerts.freeCheckMinutes * 60_000);
-  // a bot back after 18:00 still posts the day's deals until midnight in Brasília
-  everyDayAt('deals', config.gameAlerts.digestHourUtc, 6, () => postDealsDigest(client));
+  // a bot back after Friday 18:00 still posts the week's deals until Saturday midnight in Brasília
+  const { weekdayUtc, hourUtc } = config.gameAlerts.digest;
+  everyWeekAt('deals', weekdayUtc, hourUtc, 30, () => postDealsDigest(client));
 }

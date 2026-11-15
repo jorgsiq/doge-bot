@@ -5,9 +5,10 @@ export default {
   gameAlerts: {
     // free games are posted as soon as they show up
     freeCheckMinutes: 60,
-    // deals go out once a day as a single digest, at 18:00 in Brasília
-    digestHourUtc: 21,
-    // the same game is not posted again within this period, unless it gets cheaper
+    // deals go out once a week as a single digest, on Fridays at 18:00 in Brasília
+    digest: { weekdayUtc: 5, hourUtc: 21 },
+    // a game comes back only after the sale or giveaway it was posted in ended; when that end is unknown (free games
+    // outside Epic), after this many days
     repostAfterDays: 30,
     // a deal needs all of these: a big discount on a well-known, well-reviewed game
     deals: { minDiscount: 50, minRating: 85, minReviews: 5000, maxPerDigest: 5 },

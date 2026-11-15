@@ -16,8 +16,8 @@ The bot never hands out roles: members pick them with Discord's own **Onboarding
 - **Temporary rooms**: `/room` creates your own voice channel and moves you into it (or links it, when you are not in a voice channel). Rooms start hidden, seen only by whoever is inside or invited; buttons open them to everyone, close them again, rename, limit, invite and claim them. Invited members get a DM from the bot with a button that opens the room (bots can't send Discord's own voice invite). A room is deleted once empty
 - **Game alerts**, filtered so only relevant games get through, optionally pinging a role:
   - free games as soon as they appear: Epic's weekly giveaways, plus games free on Steam, GOG and other stores that have good reviews and a real price (no free-to-play or shovelware)
-  - one daily digest at 18:00 (Brasília) with up to 5 big discounts (50%+) on popular, well-reviewed Steam games (85%+ positive, 5,000+ reviews), with prices in reais confirmed on the Brazilian Steam store
-  - nothing is posted twice in the same server within 30 days, unless it gets cheaper; every threshold lives in `gameAlerts` in [`src/config.js`](src/config.js)
+  - one weekly digest on Fridays at 18:00 (Brasília) with up to 5 big discounts (50%+) on popular, well-reviewed Steam games (85%+ positive, 5,000+ reviews), with prices in reais and the sale's end date confirmed on the Brazilian Steam store
+  - a game is posted again in the same server only once the sale or giveaway it was posted in has ended and a new one started (30 days for free games whose end is unknown); every threshold lives in `gameAlerts` in [`src/config.js`](src/config.js)
 - **Shiba of the day**: every day at 09:00 (Brasília) a different, freely licensed shiba photo from [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:Shiba_Inu), credited to its author; none repeats until all were posted
 - **Daily cleanup** of chosen channels at 06:00 (Brasília)
 - **Commands channel**: anything a person types in the chosen channel, staff included, is deleted at once, since slash commands leave no message of their own; only bots' messages stay

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { loadCommands } from '../src/lib/commands.js';
+import { canRepost } from '../src/lib/gameAlerts.js';
 import { isRelevantDeal, isReputableFreeGame } from '../src/lib/games.js';
 import { formatDuration } from '../src/lib/music.js';
 import { features, isEnabled, missingSettings } from '../src/lib/settings.js';
@@ -34,6 +35,29 @@ test('a daily task runs once from its UTC hour on, even if the bot was offline t
   assert.ok(isDue(12, 15, ranYesterday, at('2026-11-07T02:59:00Z')), 'still the same day in Brasília');
   assert.ok(!isDue(12, 15, ranYesterday, at('2026-11-07T03:00:00Z')), 'too late: the day is skipped');
   assert.ok(isDue(12, 15, undefined, at('2026-11-06T12:00:00Z')), 'a task that never ran');
+});
+
+// the deals digest: Fridays at 21:00 UTC, up to 30 hours late
+test('a weekly task runs once from its weekday and UTC hour on', () => {
+  const ranLastWeek = Date.parse('2026-11-13T21:00:00Z');
+  const ranThisWeek = Date.parse('2026-11-20T21:00:00Z');
+  const at = (iso) => new Date(iso);
+  assert.ok(!isDue(21, 30, ranLastWeek, at('2026-11-19T21:00:00Z'), 5), 'not on Thursday');
+  assert.ok(!isDue(21, 30, ranLastWeek, at('2026-11-20T20:59:00Z'), 5), 'not before its hour');
+  assert.ok(isDue(21, 30, ranLastWeek, at('2026-11-20T21:00:00Z'), 5));
+  assert.ok(isDue(21, 30, ranLastWeek, at('2026-11-22T02:59:00Z'), 5), 'still Saturday in Brasília');
+  assert.ok(!isDue(21, 30, ranLastWeek, at('2026-11-22T03:00:00Z'), 5), 'too late: the week is skipped');
+  assert.ok(!isDue(21, 30, ranThisWeek, at('2026-11-21T12:00:00Z'), 5), 'it already ran this week');
+});
+
+test('a game comes back only once the sale it was posted in has ended', () => {
+  const postedAt = Date.parse('2026-11-20T21:00:00Z');
+  const endsAt = Date.parse('2026-11-24T17:00:00Z');
+  assert.ok(!canRepost({ at: postedAt, endsAt }, Date.parse('2026-11-24T16:59:00Z')), 'the same sale');
+  assert.ok(canRepost({ at: postedAt, endsAt }, Date.parse('2026-11-27T21:00:00Z')), 'a new sale');
+  assert.ok(canRepost({ at: postedAt, endsAt }, Date.parse('2027-11-26T21:00:00Z')), 'a sale a year later');
+  assert.ok(!canRepost({ at: postedAt }, Date.parse('2026-12-19T21:00:00Z')), 'unknown end: not within 30 days');
+  assert.ok(canRepost({ at: postedAt }, Date.parse('2026-12-20T21:00:00Z')), 'unknown end: after 30 days');
 });
 
 // CheapShark entries seen in November 2026

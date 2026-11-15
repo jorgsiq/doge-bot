@@ -14,6 +14,7 @@ async function getJson(url) {
 const steamUrl = (appId) => `https://store.steampowered.com/app/${appId}`;
 const steamImage = (appId) => `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${appId}/header.jpg`;
 const usd = (value) => Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'USD' });
+const brl = (cents) => (Number(cents) / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 // Free games outside Epic: must not be free-to-play or shovelware, so they need a price and a reputation
 export function isReputableFreeGame(deal) {
@@ -113,22 +114,27 @@ export async function fetchSteamDeals() {
     }));
 }
 
-// Regional prices differ, so only deals that are also discounted in Brazil are kept, with their prices in reais
+// Regional prices differ, so only deals that are also discounted in Brazil are kept, with their prices in reais and
+// when the sale ends there
 export async function withBrazilianPrices(deals) {
   if (!deals.length) return [];
-  const appIds = deals.map((deal) => deal.appId).join(',');
-  const prices = await getJson(`https://store.steampowered.com/api/appdetails?appids=${appIds}&cc=br&filters=price_overview`);
+  const input = { ids: deals.map((deal) => ({ appid: Number(deal.appId) })), context: { country_code: 'BR' } };
+  const { response } = await getJson(
+    `https://api.steampowered.com/IStoreBrowseService/GetItems/v1?input_json=${encodeURIComponent(JSON.stringify(input))}`,
+  );
+  const options = new Map(response.store_items.map((item) => [String(item.id), item.best_purchase_option]));
 
   return deals.flatMap((deal) => {
-    const price = prices[deal.appId]?.data?.price_overview;
-    if (!price?.discount_percent) return [];
+    const option = options.get(deal.appId);
+    if (!option?.discount_pct) return [];
+    const ends = (option.active_discounts ?? []).map((discount) => discount.discount_end_date).filter(Boolean);
     return [
       {
         ...deal,
-        price: price.final,
-        discount: price.discount_percent,
-        normalPrice: price.initial_formatted,
-        finalPrice: price.final_formatted,
+        discount: option.discount_pct,
+        normalPrice: brl(option.original_price_in_cents),
+        finalPrice: brl(option.final_price_in_cents),
+        endsAt: ends.length ? new Date(Math.max(...ends) * 1000) : undefined,
       },
     ];
   });
