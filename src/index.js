@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
-import { Client, GatewayIntentBits, Partials } from 'discord.js';
+import { Client, GatewayIntentBits, Options, Partials } from 'discord.js';
 import { loadCommands } from './lib/commands.js';
 import { DEFAULT_ACTIVITY } from './lib/presence.js';
 
@@ -18,6 +18,9 @@ const client = new Client({
   // lets guildMemberRemove fire even for members missing from the cache
   partials: [Partials.GuildMember],
   presence: { activities: [DEFAULT_ACTIVITY] },
+  // small hosting plans have as little as 256 MB: nothing reads past messages or reactions back from the cache,
+  // which would otherwise keep up to 200 messages of every channel
+  makeCache: Options.cacheWithLimits({ ...Options.DefaultMakeCacheSettings, MessageManager: 0, ReactionManager: 0 }),
   // only user mentions ping by default; @everyone and roles must be allowed per message
   allowedMentions: { parse: ['users'] },
 });
