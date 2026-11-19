@@ -11,6 +11,8 @@ const AUDIO_ONLY = { quality: Quality.HighestAudio, filter: { hasAudio: true, ha
 const COVER_SIZE = /=w\d+-h\d+/;
 const covers = new Map();
 const MAX_COVERS = 1000;
+// what each searched song looked like, for when YouTube answers its video info without the details
+const details = new Map();
 
 function cover(thumbnails) {
   const url = thumbnails?.at(-1)?.url;
@@ -44,12 +46,27 @@ function toTrack({ id, title, author, lengthSeconds, thumbnails }, source = id) 
 export async function searchSongs(query, limit = 10, signal) {
   const results = await yt.search(query, { type: SearchType.Song, limit, signal });
   const songs = results.filter((result) => !result.isLive && result.lengthSeconds);
-  for (const song of songs) rememberCover(song.id, cover(song.thumbnails));
+  for (const song of songs) {
+    rememberCover(song.id, cover(song.thumbnails));
+    details.set(song.id, { title: song.title, artist: song.author?.name, duration: song.lengthSeconds });
+    if (details.size > MAX_COVERS) details.delete(details.keys().next().value);
+  }
   return songs.map((song) => toTrack(song));
 }
 
 export async function getSong(id) {
   const info = await yt.getInfo(id);
+  // YouTube sometimes answers without the video details (say, to a cookie it only half trusts). The audio still plays,
+  // so what the search showed is used instead, and a placeholder when the song was never searched (a restart in between)
+  const { title, author, lengthSeconds } = info.videoDetails;
+  const known = details.get(id);
+  if (!title) console.warn(`YouTube answered ${id} through the ${info.client} client without the video details`);
   // reusing the info saves a second lookup when the track starts soon
-  return toTrack({ id, ...info.videoDetails }, info);
+  return toTrack({
+    id,
+    ...info.videoDetails,
+    title: title || known?.title || 'Música do YouTube',
+    author: author?.name ? author : { name: known?.artist },
+    lengthSeconds: Number(lengthSeconds) ? lengthSeconds : known?.duration ?? 0,
+  }, info);
 }
