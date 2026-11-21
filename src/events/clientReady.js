@@ -6,6 +6,7 @@ import { keepStatus } from '../lib/presence.js';
 import { wasWelcomed } from '../lib/settings.js';
 import { startShibaOfTheDay } from '../lib/shiba.js';
 import { cleanupRooms } from '../lib/tempVoice.js';
+import { keepYoutubeSignedIn } from '../lib/youtube.js';
 
 export const name = Events.ClientReady;
 export const once = true;
@@ -21,6 +22,7 @@ export async function execute(client) {
   scheduleDailyCleanup(client);
   startGameAlerts(client);
   startShibaOfTheDay(client);
+  keepYoutubeSignedIn();
 
   await step('register slash commands', () => client.application.commands.set(client.commands.map((command) => command.data)));
   await step('clean up temporary rooms', () => cleanupRooms(client));

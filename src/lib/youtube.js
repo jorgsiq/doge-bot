@@ -1,8 +1,22 @@
-import { Quality, SearchType, Ytdl } from '@distube/ytdl-core';
+import { createPoTokenProvider, Quality, SearchType, Ytdl } from '@distube/ytdl-core';
+import { getCookie, keepCookieAlive } from './youtubeCookie.js';
 
-// One session for the bot, created on first use so .env is loaded; YOUTUBE_COOKIE gets past "not a bot" checks on datacenters
+// One session at a time, created on first use so .env is loaded; YOUTUBE_COOKIE gets past "not a bot" checks on datacenters
 let session;
-const yt = () => (session ??= new Ytdl({ cookie: process.env.YOUTUBE_COOKIE || undefined }));
+let poTokens;
+
+// every session mints through this one worker: a worker per session would pile up memory when the cookie is renewed
+const getPoToken = async (request) => {
+  poTokens ??= createPoTokenProvider().catch((error) => {
+    poTokens = undefined;
+    throw error;
+  });
+  return (await poTokens)(request);
+};
+
+const yt = () => (session ??= new Ytdl({ cookie: getCookie(), getPoToken }));
+
+export const keepYoutubeSignedIn = () => keepCookieAlive(() => (session = undefined));
 
 const AUDIO_ONLY = { quality: Quality.HighestAudio, filter: { hasAudio: true, hasVideo: false } };
 
