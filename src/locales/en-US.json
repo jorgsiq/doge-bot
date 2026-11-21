@@ -1,0 +1,597 @@
+{
+  "meta": {
+    "name": "English"
+  },
+  "common": {
+    "unknownCommand": "Sorry! I haven't learned that trick yet..",
+    "error": "Sorry! Something went wrong..",
+    "featureDisabled": "Oops! the **{feature}** feature is turned off in this server.."
+  },
+  "results": {
+    "musicChannel": {
+      "sent": "The player status was updated in {channel}.",
+      "failed": "I couldn't update the player status in {channel}... Please tell a server administrator."
+    },
+    "funChannel": {
+      "sent": "Check it out in {channel}.",
+      "failed": "I couldn't send the interaction in {channel}... Please tell a server administrator."
+    }
+  },
+  "reactions": {
+    "person": {
+      "name": "person",
+      "description": "Who gets it"
+    }
+  },
+  "about": {
+    "description": "Shows technical information about the bot",
+    "embed": {
+      "description": "Music, temporary voice rooms, free game alerts, welcome messages and more, each feature turned on by the admins with **/setup**.\n\nIf you want to read or contribute to my source code, it is available in this [GitHub]({repository}) repository\n\nUse **/help** to find out what I can do!",
+      "version": "Version",
+      "onlineSince": "Online since",
+      "latency": "Latency",
+      "measuring": "measuring...",
+      "author": "Author",
+      "footer": "Need help? Contact: {email}"
+    }
+  },
+  "help": {
+    "description": "Lists the bot's commands",
+    "categories": {
+      "info": "Info",
+      "fun": "Fun",
+      "music": "Music Player",
+      "rooms": "Voice Rooms",
+      "admin": "Admin"
+    },
+    "title": "Hello, @{user}!",
+    "intro": "Here are the commands you can use in **{server}**. Click one or type **/** to start.",
+    "footer": "Spotted a problem? Contact {email}"
+  },
+  "setup": {
+    "description": "Turns the bot's features on and off and configures them in this server",
+    "noPermission": "Oops! you need the **Manage Server** permission for that..",
+    "none": "none",
+    "hub": {
+      "title": "⚙️ Đoge Bot setup",
+      "description": "Pick a feature in the menu to turn it on, off or configure it.",
+      "feature": "Feature",
+      "status": "Status",
+      "placeholder": "Pick a feature...",
+      "languagePlaceholder": "Language...",
+      "stepName": "Features",
+      "introDescription": "Music and interactions already work. Pick any other feature in the menu to choose its channels and turn it on.\n\nYou can come back to this panel at any time with **/setup**."
+    },
+    "wizard": {
+      "step": "Step {step} of {total} · {name}"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Let's get **{server}** ready, one step at a time. First, pick the language I speak in this server: it applies to everything I post and to my replies."
+    },
+    "permissions": {
+      "title": "Permissions",
+      "intro": "Without the right permissions I can't post, clean channels or create rooms, so let's check what my role can do here.",
+      "serverMissing": "**Missing in my role:**\n{list}",
+      "channelsMissing": "**Blocked in the channels you picked:**\n{list}",
+      "ok": "✅ I have every permission I need.",
+      "fix": "To fix it, open **Server Settings → Roles → Đoge Bot** and turn those permissions on, or give me **Administrator**. If a channel still blocks me, add my role in its **Edit Channel → Permissions**. Then click **Check again**.",
+      "field": "Missing permissions",
+      "channelHint": "Add my role in the channel's **Edit Channel → Permissions**."
+    },
+    "permissionNames": {
+      "ViewChannel": "View Channels",
+      "SendMessages": "Send Messages",
+      "EmbedLinks": "Embed Links",
+      "AttachFiles": "Attach Files",
+      "ReadMessageHistory": "Read Message History",
+      "ManageMessages": "Manage Messages",
+      "ManageChannels": "Manage Channels",
+      "ManageRoles": "Manage Roles",
+      "MentionEveryone": "Mention @everyone, @here and All Roles",
+      "Connect": "Connect",
+      "Speak": "Speak",
+      "MoveMembers": "Move Members"
+    },
+    "status": {
+      "inactive": "Inactive",
+      "incomplete": "Incomplete",
+      "active": "Active",
+      "blocked": "Needs permissions",
+      "missing": "still to pick: {settings}",
+      "label": "**Status:** {status}"
+    },
+    "notices": {
+      "off": "Turned off",
+      "onIncomplete": "Turned on: pick what is missing for it to start working",
+      "on": "✅ Turned on",
+      "saved": "✅ Saved",
+      "language": "✅ Language changed"
+    },
+    "buttons": {
+      "enable": "Turn on",
+      "disable": "Turn off",
+      "back": "Back",
+      "next": "Next",
+      "check": "Check again",
+      "permissions": "Check permissions"
+    },
+    "features": {
+      "music": {
+        "name": "Music",
+        "description": "A player with a queue in the voice channel: /play, /queue, /skip and friends. Messages show up where the command was used, or in the chosen channel."
+      },
+      "fun": {
+        "name": "Interactions",
+        "description": "/pet, /kiss, /slap and /ship. Replies show up where the command was used, or in the chosen channel, and whoever gets the kiss, the slap or the ship is notified."
+      },
+      "welcome": {
+        "name": "Welcome and logs",
+        "description": "Announces who joins and leaves and logs nickname and avatar changes."
+      },
+      "rooms": {
+        "name": "Temporary rooms",
+        "description": "With /room each member creates a private voice room, which disappears when it empties."
+      },
+      "gameAlerts": {
+        "name": "Game alerts",
+        "description": "Free games (Epic, Steam...) as soon as they show up and, every Friday at 18:00 (Brasília), the week's Steam deals, filtered so they don't turn into spam. Prices and offers follow the region picked. Members pick the mentioned role in Channels & Roles, in Discord itself."
+      },
+      "shiba": {
+        "name": "Shiba of the day",
+        "description": "Every day at 09:00 (Brasília) posts a different shiba photo, always landscape, in the chosen channel."
+      },
+      "cleanup": {
+        "name": "Daily cleanup",
+        "description": "Deletes every message in the chosen channels every day at 06:00 (Brasília)."
+      },
+      "commandsOnly": {
+        "name": "Commands channel",
+        "description": "In the chosen channel, instantly deletes every message that is not a command, staff included."
+      }
+    },
+    "settings": {
+      "updatesChannel": {
+        "label": "Logs channel",
+        "name": "logs channel"
+      },
+      "alertsChannel": {
+        "label": "Alerts channel",
+        "name": "alerts channel"
+      },
+      "subscriberRole": {
+        "label": "Role mentioned in alerts (optional)"
+      },
+      "region": {
+        "label": "Region of the prices and offers"
+      },
+      "shibaChannel": {
+        "label": "Shiba of the day channel",
+        "name": "shiba channel"
+      },
+      "cleanupChannels": {
+        "label": "Channels with daily cleanup",
+        "name": "cleanup channels"
+      },
+      "roomCategory": {
+        "label": "Category where rooms are created",
+        "name": "rooms category"
+      },
+      "commandsChannel": {
+        "label": "Commands channel",
+        "name": "commands channel"
+      },
+      "musicChannel": {
+        "label": "Music announcements channel (optional)",
+        "empty": "the channel where the command is used"
+      },
+      "funChannel": {
+        "label": "Interactions channel (optional)",
+        "empty": "the channel where the command is used"
+      }
+    }
+  },
+  "music": {
+    "nowPlaying": "Now playing",
+    "playbackEnded": "Playback ended",
+    "queueOver": "The queue is over",
+    "everyoneLeft": "Everyone left the voice channel, so I stopped the music",
+    "tooManyFailures": "I couldn't play the last {count} songs, so I stopped playback",
+    "trackFailed": "Sorry! I couldn't play **{title}**, skipping to the next one..",
+    "noQueue": "Oops! looks like nothing is playing..",
+    "notInChannel": "Oops! you need to be in <#{channel}> to control the music..",
+    "artist": "Artist",
+    "duration": "Duration",
+    "unknownArtist": "Unknown",
+    "requestedBy": "Requested by @{user} · {source}"
+  },
+  "play": {
+    "description": "Adds a song to the queue",
+    "options": {
+      "song": {
+        "name": "song-or-playlist",
+        "description": "Song or artist name, or the link of a Spotify playlist, album or song"
+      }
+    },
+    "types": {
+      "playlist": {
+        "name": "Playlist",
+        "added": "Playlist added to the queue"
+      },
+      "album": {
+        "name": "Album",
+        "added": "Album added to the queue"
+      }
+    },
+    "songs_one": "{count} song",
+    "songs_other": "{count} songs",
+    "suggestions": {
+      "link": "Spotify link",
+      "track": "{title} — {artist} ({duration})",
+      "list": "{type}: {name} ({songs})"
+    },
+    "errors": {
+      "noVoice": "Hey! you need to be in a voice channel to play music..",
+      "stage": "Sorry! I can only play in regular voice channels, not stages..",
+      "noPermission": "Sorry! I don't have permission to play in {channel}..",
+      "elsewhere": "Oops! I'm already playing in <#{channel}>..",
+      "unavailable": "Sorry! the music service is temporarily unavailable..",
+      "emptyList": "Sorry! I found no songs in that Spotify link, check that the playlist is public..",
+      "notFound": "Sorry! I couldn't find the song you asked for..",
+      "cannotJoin": "Sorry! I couldn't join the voice channel.."
+    },
+    "list": {
+      "description": "To shuffle the order use the **/shuffle** command.",
+      "songs": "Songs",
+      "duration": "Duration",
+      "started": "**{name}** started playing, with {songs}!",
+      "queued": "**{name}** joined the queue, with {songs}!"
+    },
+    "track": {
+      "queuedTitle": "Added to the queue (#{position})",
+      "started": "**{title}** started playing!",
+      "queued": "**{title}** joined the queue (#{position})!"
+    }
+  },
+  "queue": {
+    "description": "Shows the songs waiting in the queue",
+    "title": "Queue",
+    "hint": "To skip to the next song use the **/skip** command, and to shuffle the queue **/shuffle**.",
+    "paused": "Paused",
+    "playing": "Playing",
+    "line": "**{title}**, {artist} ({duration}) — @{user}",
+    "more_one": "…and {count} more song",
+    "more_other": "…and {count} more songs"
+  },
+  "skip": {
+    "description": "Skips to the next song in the queue",
+    "notStarted": "Oops! I haven't started playing yet, wait a moment..",
+    "title": "Next Song",
+    "message": "{user} skipped **{title}**",
+    "done": "You skipped **{title}**!"
+  },
+  "pause": {
+    "description": "Pauses the current song",
+    "alreadyPaused": "Oops! the music is already paused, use **/resume** to continue..",
+    "loading": "Oops! the song is still loading, try again in a moment..",
+    "title": "Music Paused",
+    "message": "The current track was paused by {user}",
+    "done": "The music was paused!"
+  },
+  "resume": {
+    "description": "Resumes the current song",
+    "notPaused": "Oops! the music is not paused..",
+    "title": "Playing Music",
+    "message": "The current track was resumed by {user}",
+    "done": "The music is playing again!"
+  },
+  "stop": {
+    "description": "Stops playback and clears the queue",
+    "message": "Playback was stopped by {user}",
+    "done": "Playback was stopped and the queue was cleared!"
+  },
+  "shuffle": {
+    "description": "Shuffles the order of the songs in the queue",
+    "tooShort": "Oops! the queue needs at least 2 songs to shuffle..",
+    "title": "Queue Shuffled",
+    "message": "{user} shuffled the **{count}** songs in the queue",
+    "done": "The {count} songs in the queue were shuffled!"
+  },
+  "volume": {
+    "description": "Adjusts the playback volume",
+    "options": {
+      "level": {
+        "name": "level",
+        "description": "Volume from 0 to 10"
+      }
+    },
+    "title": "Volume Adjusted",
+    "message": "{user} set the volume to (**{volume}**/10)",
+    "done": "The volume was set to {volume}/10!"
+  },
+  "pet": {
+    "description": "Pet the Đoge",
+    "text": "{user} petted the Đoge!\nWoof woof. Wags its tail!",
+    "done": "You petted the Đoge!"
+  },
+  "kiss": {
+    "description": "Kisses someone",
+    "done": "Your kiss was sent!",
+    "texts": [
+      "{author} just kissed {target} enthusiastically!",
+      "{author} stole a kiss from {target}!",
+      "{author} gave {target} a big smooch!",
+      "{author} planted a kiss on {target} without warning!"
+    ],
+    "self": "{author} tried to kiss themselves... and ended up kissing the mirror!",
+    "bot": "The Đoge got all shy at the kiss from {author}!"
+  },
+  "slap": {
+    "description": "Slaps someone",
+    "done": "Your slap was delivered!",
+    "texts": [
+      "{author} slapped {target}! That one hurt...",
+      "{author} gave {target} a resounding slap!",
+      "{author} smacked {target} in the face!",
+      "{author} landed a huge slap on {target}! Was it deserved?"
+    ],
+    "self": "{author} slapped themselves. Is everything okay there?",
+    "bot": "{author} tried to slap the Đoge, but it dodged!"
+  },
+  "ship": {
+    "description": "Shows how compatible two people are",
+    "options": {
+      "person": {
+        "name": "person",
+        "description": "One person of the couple"
+      },
+      "otherPerson": {
+        "name": "other-person",
+        "description": "The other person (if empty, it is you)"
+      }
+    },
+    "titles": [
+      "Will {a} and {b} click?",
+      "Cupid analyzed {a} and {b}...",
+      "Measuring the chemistry between {a} and {b}...",
+      "{a} + {b}: will it work or not?"
+    ],
+    "tiers": {
+      "0": "Not even with a miracle 💀",
+      "30": "Better to stay just friends 🤝",
+      "50": "It could work, with a little effort 😅",
+      "70": "There's chemistry there... 👀",
+      "90": "Soulmates! You can book the wedding 💍"
+    },
+    "self": "{user} decided to measure the chemistry with themselves...\n\n{bar} **100%**\n\nSelf-love comes first 💅",
+    "result": "{title}\n\n{bar} **{score}%**\nCouple name: **{couple}**\n\n{verdict}",
+    "footer": "Requested by @{user}",
+    "done": "The ship result is out!"
+  },
+  "announce": {
+    "description": "Posts an announcement in a channel",
+    "options": {
+      "mention": {
+        "name": "mention",
+        "description": "Who gets notified (default: nobody)"
+      },
+      "channel": {
+        "name": "channel",
+        "description": "Where to post (default: alerts channel)"
+      },
+      "image": {
+        "name": "image",
+        "description": "Image shown in the announcement"
+      }
+    },
+    "choices": {
+      "none": "Nobody",
+      "everyone": "@everyone",
+      "subscribers": "Alerts subscribers"
+    },
+    "errors": {
+      "noChannel": "Oops! there is no alerts channel configured, pick a channel in the **channel** option..",
+      "noRole": "Oops! no subscribers role was picked in game alerts in **/setup**..",
+      "cannotSend": "Oops! looks like you can't send messages in {channel}..",
+      "cannotEveryone": "Oops! looks like you can't mention @everyone..",
+      "notImage": "Oops! the attachment must be an image.."
+    },
+    "modal": {
+      "title": "New Announcement",
+      "announcementTitle": "Title",
+      "message": "Message"
+    },
+    "footer": "By: @{user}",
+    "sent": "I forwarded the announcement to {channel}!",
+    "failed": "Sorry! I couldn't publish the announcement in {channel}.."
+  },
+  "delete": {
+    "description": "Deletes the latest messages in a channel",
+    "options": {
+      "amount": {
+        "name": "amount",
+        "description": "How many messages to delete"
+      },
+      "channel": {
+        "name": "channel",
+        "description": "Channel to clean (default: this channel)"
+      }
+    },
+    "cannot": "Oops! looks like you can't delete messages in {channel}..",
+    "title": "Good as New!",
+    "none": "There were no messages to delete in {channel}",
+    "done_one": "I deleted the last message in {channel}",
+    "done_other": "I deleted the last {count} messages in {channel}",
+    "old": "Messages older than 14 days can't be bulk deleted.",
+    "footer": "Cleanup Complete"
+  },
+  "status": {
+    "description": "Changes the bot's status in every server",
+    "options": {
+      "type": {
+        "name": "type",
+        "description": "Activity type"
+      },
+      "text": {
+        "name": "text",
+        "description": "Text shown in the status"
+      },
+      "url": {
+        "name": "url",
+        "description": "Stream link (Twitch or YouTube), only for \"Streaming\""
+      }
+    },
+    "choices": {
+      "playing": "Playing",
+      "watching": "Watching",
+      "listening": "Listening",
+      "competing": "Competing",
+      "streaming": "Streaming",
+      "custom": "Custom"
+    },
+    "labels": {
+      "playing": "Playing",
+      "watching": "Watching",
+      "listening": "Listening to",
+      "competing": "Competing in",
+      "streaming": "Streaming",
+      "custom": ""
+    },
+    "notOwner": "Oops! only the bot owner can change the status, because it shows in every server..",
+    "title": "New Status",
+    "changed": "Status changed to {status}"
+  },
+  "room": {
+    "description": "Creates an anonymous temporary voice room / configures the current one",
+    "options": {
+      "name": {
+        "name": "name",
+        "description": "The new room's name"
+      }
+    },
+    "defaultName": "👽 {name}'s room",
+    "created": {
+      "moved": "👽 I created your room {channel} and took you there!",
+      "notMoved": "👽 I created your room: {channel}. Join it within {minutes} minutes, or it gets deleted!"
+    },
+    "existing": {
+      "moved": "👽 I took you back to your room {channel}!",
+      "notMoved": "👽 You already have a room: {channel}"
+    },
+    "errors": {
+      "notInRoom": "Oops! you need to be in a temporary room..",
+      "alreadyOwner": "You are already the owner of this room!",
+      "ownerPresent": "Oops! the owner is still in the room..",
+      "onlyOwner": "Oops! only the room owner can do that.."
+    },
+    "claimed": "👑 {user} is now the owner of this room!",
+    "locked": "🔒 Room closed! Now only those inside or invited can see and join.",
+    "unlocked": "🔓 Room opened! Now everyone can see and join.",
+    "rename": {
+      "title": "Rename room",
+      "label": "Name",
+      "empty": "Oops! the name can't be empty..",
+      "done": "✏️ Room renamed!",
+      "limited": "Oops! Discord only allows renaming a room 2 times every 10 minutes.."
+    },
+    "limit": {
+      "title": "People limit",
+      "label": "How many people (0 = no limit)",
+      "invalid": "Oops! the limit must be a number from 0 to 99..",
+      "set_one": "👥 Limit set to {count} person!",
+      "set_other": "👥 Limit set to {count} people!",
+      "removed": "👥 Limit removed!"
+    },
+    "invite": {
+      "title": "Invite to the room",
+      "label": "Who can see and join with the room closed",
+      "done": "➕ I invited {users}!",
+      "dmSent": "Those not in the room got the invite by direct message.",
+      "dmFailed": "I couldn't send the invite by direct message to {users}, but the room is already open to them. Let them know here!"
+    }
+  },
+  "tempVoice": {
+    "reason": {
+      "empty": "Empty temporary room",
+      "created": "{user}'s temporary room"
+    },
+    "panel": {
+      "title": "Temporary Room",
+      "description": "<@{owner}> owns this room.\n\nThe room starts closed: it only shows up for those inside it or invited. Use **Open** so everyone can see and join.\n\nUse the buttons below to control the room you are in. It is deleted automatically when everyone leaves.",
+      "rename": "Rename",
+      "limit": "Limit",
+      "invite": "Invite",
+      "unlock": "Open",
+      "lock": "Close",
+      "claim": "Claim"
+    },
+    "inviteMessage": {
+      "title": "Room Invite",
+      "description": "**{inviter}** invited you to the room **{room}** in the server **{server}**",
+      "button": "Join Room"
+    }
+  },
+  "guildMemberAdd": {
+    "title": "Welcome!",
+    "description": "@**{user}** just joined {server}!",
+    "dm": {
+      "title": "Hey, @{user}!",
+      "description": "It's good to know you are now part of **{server}** too!\n\n{rules}If you need help or run into a problem just call someone from the staff. Hope you have fun!",
+      "rules": "Before embarking on this journey don't forget to read the rules in <#{channel}>\n\n"
+    }
+  },
+  "guildMemberRemove": {
+    "title": "Oh No!",
+    "description": "@**{user}** abandoned us!"
+  },
+  "messageCreate": {
+    "warning": "{user}, this channel is only for commands: type **/** to see what you can do.."
+  },
+  "updates": {
+    "userId": "User ID: {id}",
+    "nameChange": {
+      "description": "Had their **nickname** changed",
+      "before": "Before",
+      "after": "Now"
+    },
+    "avatarChange": {
+      "description": "Had their profile **picture** changed\n\n(Before and after)"
+    }
+  },
+  "onboarding": {
+    "title": "👋 Hello, {server}!",
+    "description": "I'm **Đoge Bot**: music, temporary voice rooms, free game alerts, welcome messages and more.\n\nClick **Configure** (or use **/setup**) and I'll guide you: first the language, then my permissions, then the features. Except for music and interactions, all start off until an admin configures them.\n\nBy using me you agree to the Terms of Service and the Privacy Policy below.",
+    "noChannel": "I joined **{server}** but I can't write in any of its channels, so I'm reaching out here.\n\nGive my role **View Channels**, **Send Messages** and **Embed Links** (or **Administrator**) in **Server Settings → Roles → Đoge Bot**, then use **/setup** in the server: I'll guide you through the language, my permissions and the features.\n\nBy using me you agree to the Terms of Service and the Privacy Policy below.",
+    "footer": "Only those who can manage the server can configure it",
+    "button": "Configure"
+  },
+  "legal": {
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "termsUrl": "{repository}/blob/master/TERMS.md",
+    "privacyUrl": "{repository}/blob/master/PRIVACY.md"
+  },
+  "cleanup": {
+    "title": "Good as New!",
+    "description": "For safety and privacy the messages in this text channel were permanently deleted, note that this cleanup happens daily at **06:00 (BRA)** in this channel!",
+    "footer": "Cleanup Complete"
+  },
+  "shiba": {
+    "photoBy": "Photo: {author}"
+  },
+  "gameAlerts": {
+    "freeTitle": "🎁 **Free games to claim!**",
+    "dealsTitle": "💸 **Deals of the week**",
+    "freeAuthor": "Free on {store}",
+    "partnerStore": "a partner store",
+    "dealAuthor": "-{discount}% on Steam",
+    "price": "Price",
+    "priceFree": "~~{price}~~ **Free**",
+    "priceDeal": "~~{price}~~ **{final}**",
+    "free": "**Free**",
+    "claimBy": "Claim until",
+    "saleUntil": "Sale until",
+    "reviews": "Reviews",
+    "reviewsValue": "{rating}% positive of {reviews}"
+  }
+}

@@ -1,0 +1,597 @@
+{
+  "meta": {
+    "name": "Português (Brasil)"
+  },
+  "common": {
+    "unknownCommand": "Desculpe! eu ainda não aprendi esse truque..",
+    "error": "Desculpe! Ocorreu um erro..",
+    "featureDisabled": "Opa! a função **{feature}** está desativada neste servidor.."
+  },
+  "results": {
+    "musicChannel": {
+      "sent": "O status foi atualizado em {channel}.",
+      "failed": "Não consegui atualizar o status do player em {channel}... Por favor, comunique um administrador do servidor."
+    },
+    "funChannel": {
+      "sent": "Confira em {channel}.",
+      "failed": "Não consegui enviar a interação em {channel}... Por favor, comunique um administrador do servidor."
+    }
+  },
+  "reactions": {
+    "person": {
+      "name": "pessoa",
+      "description": "Quem vai receber"
+    }
+  },
+  "about": {
+    "description": "Mostra informações técnicas do bot",
+    "embed": {
+      "description": "Música, salas de voz temporárias, alertas de jogos grátis, boas-vindas e mais, cada função ativada pelos admins com **/setup**.\n\nSe você deseja conhecer ou colaborar com meu código fonte, ele está disponível neste repositório no [GitHub]({repository})\n\nUtilize **/help** e descubra o que posso fazer!",
+      "version": "Versão",
+      "onlineSince": "Online desde",
+      "latency": "Latência",
+      "measuring": "medindo...",
+      "author": "Autor",
+      "footer": "Precisa de ajuda? Contate: {email}"
+    }
+  },
+  "help": {
+    "description": "Mostra a lista de comandos do bot",
+    "categories": {
+      "info": "Informações",
+      "fun": "Diversão",
+      "music": "Player de Música",
+      "rooms": "Salas de Voz",
+      "admin": "Administração"
+    },
+    "title": "Olá, @{user}!",
+    "intro": "Aqui estão os comandos que você pode utilizar no **{server}**. Clique em um deles ou digite **/** para começar.",
+    "footer": "Viu algum problema? Contate {email}"
+  },
+  "setup": {
+    "description": "Ativa, desativa e configura as funções do bot neste servidor",
+    "noPermission": "Opa! você precisa da permissão **Gerenciar Servidor** para isso..",
+    "none": "nenhum",
+    "hub": {
+      "title": "⚙️ Configuração do Đoge Bot",
+      "description": "Escolha uma função no menu para ativar, desativar ou configurar.",
+      "feature": "Função",
+      "status": "Status",
+      "placeholder": "Escolha uma função...",
+      "languagePlaceholder": "Idioma...",
+      "stepName": "Funções",
+      "introDescription": "Música e interações já funcionam. Escolha qualquer outra função no menu para definir os canais dela e ativá-la.\n\nVocê pode voltar a este painel a qualquer momento com **/setup**."
+    },
+    "wizard": {
+      "step": "Passo {step} de {total} · {name}"
+    },
+    "language": {
+      "title": "Idioma",
+      "description": "Vamos deixar o **{server}** pronto, um passo de cada vez. Primeiro, escolha o idioma que eu falo neste servidor: vale para tudo o que eu publico e para as minhas respostas."
+    },
+    "permissions": {
+      "title": "Permissões",
+      "intro": "Sem as permissões certas eu não consigo publicar, limpar canais nem criar salas, então vamos ver o que o meu cargo pode fazer aqui.",
+      "serverMissing": "**Faltam no meu cargo:**\n{list}",
+      "channelsMissing": "**Bloqueado nos canais que você escolheu:**\n{list}",
+      "ok": "✅ Tenho todas as permissões de que preciso.",
+      "fix": "Para resolver, abra **Configurações do Servidor → Cargos → Đoge Bot** e ative essas permissões, ou me dê **Administrador**. Se algum canal ainda me bloquear, adicione o meu cargo em **Editar Canal → Permissões**. Depois clique em **Verificar de novo**.",
+      "field": "Permissões que faltam",
+      "channelHint": "Adicione o meu cargo em **Editar Canal → Permissões** do canal."
+    },
+    "permissionNames": {
+      "ViewChannel": "Ver canais",
+      "SendMessages": "Enviar mensagens",
+      "EmbedLinks": "Inserir links",
+      "AttachFiles": "Anexar arquivos",
+      "ReadMessageHistory": "Ver histórico de mensagens",
+      "ManageMessages": "Gerenciar mensagens",
+      "ManageChannels": "Gerenciar canais",
+      "ManageRoles": "Gerenciar cargos",
+      "MentionEveryone": "Mencionar @everyone, @here e todos os cargos",
+      "Connect": "Conectar",
+      "Speak": "Falar",
+      "MoveMembers": "Mover membros"
+    },
+    "status": {
+      "inactive": "Inativo",
+      "incomplete": "Incompleto",
+      "active": "Ativo",
+      "blocked": "Falta permissão",
+      "missing": "falta escolher: {settings}",
+      "label": "**Status:** {status}"
+    },
+    "notices": {
+      "off": "Desativada",
+      "onIncomplete": "Ligada: escolha o que falta para ela começar a funcionar",
+      "on": "✅ Ativada",
+      "saved": "✅ Salvo",
+      "language": "✅ Idioma alterado"
+    },
+    "buttons": {
+      "enable": "Ativar",
+      "disable": "Desativar",
+      "back": "Voltar",
+      "next": "Próximo",
+      "check": "Verificar de novo",
+      "permissions": "Verificar permissões"
+    },
+    "features": {
+      "music": {
+        "name": "Música",
+        "description": "Player com fila no canal de voz: /play, /queue, /skip e companhia. Os avisos aparecem onde o comando foi usado, ou no canal escolhido."
+      },
+      "fun": {
+        "name": "Interações",
+        "description": "/pet, /kiss, /slap e /ship. As respostas aparecem onde o comando foi usado, ou no canal escolhido, e quem recebe o beijo, o tapa ou o ship é notificado."
+      },
+      "welcome": {
+        "name": "Boas-vindas e registros",
+        "description": "Anuncia quem entra e sai e registra mudanças de apelido e foto."
+      },
+      "rooms": {
+        "name": "Salas temporárias",
+        "description": "Com /room cada membro cria uma sala de voz privada, que some quando esvazia."
+      },
+      "gameAlerts": {
+        "name": "Alertas de jogos",
+        "description": "Jogos grátis (Epic, Steam...) assim que aparecem e, toda sexta às 18:00 (Brasília), as promoções da semana na Steam, filtrados para não virar spam. Os preços e as ofertas seguem a região escolhida. Os membros pegam o cargo mencionado em Canais e Cargos, no próprio Discord."
+      },
+      "shiba": {
+        "name": "Shiba do dia",
+        "description": "Todo dia às 09:00 (Brasília) posta a foto de um shiba diferente, sempre na horizontal, no canal escolhido."
+      },
+      "cleanup": {
+        "name": "Limpeza diária",
+        "description": "Apaga todas as mensagens dos canais escolhidos todo dia às 06:00 (Brasília)."
+      },
+      "commandsOnly": {
+        "name": "Canal de comandos",
+        "description": "No canal escolhido, apaga na hora toda mensagem que não seja comando, inclusive da staff."
+      }
+    },
+    "settings": {
+      "updatesChannel": {
+        "label": "Canal dos registros",
+        "name": "canal dos registros"
+      },
+      "alertsChannel": {
+        "label": "Canal dos alertas",
+        "name": "canal dos alertas"
+      },
+      "subscriberRole": {
+        "label": "Cargo mencionado nos alertas (opcional)"
+      },
+      "region": {
+        "label": "Região dos preços e das ofertas"
+      },
+      "shibaChannel": {
+        "label": "Canal do shiba do dia",
+        "name": "canal do shiba do dia"
+      },
+      "cleanupChannels": {
+        "label": "Canais com limpeza diária",
+        "name": "canais com limpeza diária"
+      },
+      "roomCategory": {
+        "label": "Categoria onde as salas são criadas",
+        "name": "categoria das salas"
+      },
+      "commandsChannel": {
+        "label": "Canal de comandos",
+        "name": "canal de comandos"
+      },
+      "musicChannel": {
+        "label": "Canal dos avisos de música (opcional)",
+        "empty": "o canal onde o comando é usado"
+      },
+      "funChannel": {
+        "label": "Canal das interações (opcional)",
+        "empty": "o canal onde o comando é usado"
+      }
+    }
+  },
+  "music": {
+    "nowPlaying": "Tocando Agora",
+    "playbackEnded": "Fim da Reprodução",
+    "queueOver": "A fila acabou",
+    "everyoneLeft": "Todo mundo saiu do canal de voz, então parei a música",
+    "tooManyFailures": "Não consegui tocar as últimas {count} músicas, então parei a reprodução",
+    "trackFailed": "Desculpe! não consegui tocar **{title}**, pulando para a próxima..",
+    "noQueue": "Opa! parece que não existe nenhuma música sendo reproduzida..",
+    "notInChannel": "Opa! você precisa estar em <#{channel}> para controlar a música..",
+    "artist": "Artista",
+    "duration": "Duração",
+    "unknownArtist": "Desconhecido",
+    "requestedBy": "Pedido por @{user} · {source}"
+  },
+  "play": {
+    "description": "Você coloca uma música na fila",
+    "options": {
+      "song": {
+        "name": "música-ou-playlist",
+        "description": "Nome da música ou do artista, ou o link de uma playlist, álbum ou música do Spotify"
+      }
+    },
+    "types": {
+      "playlist": {
+        "name": "Playlist",
+        "added": "Playlist adicionada à fila"
+      },
+      "album": {
+        "name": "Álbum",
+        "added": "Álbum adicionado à fila"
+      }
+    },
+    "songs_one": "{count} música",
+    "songs_other": "{count} músicas",
+    "suggestions": {
+      "link": "Link do Spotify",
+      "track": "{title} — {artist} ({duration})",
+      "list": "{type}: {name} ({songs})"
+    },
+    "errors": {
+      "noVoice": "Ei! você precisa estar em um canal de voz para tocar música..",
+      "stage": "Desculpe! só consigo tocar em canais de voz comuns, não em palcos..",
+      "noPermission": "Desculpe! não tenho permissão para tocar em {channel}..",
+      "elsewhere": "Opa! já estou tocando em <#{channel}>..",
+      "unavailable": "Desculpe! o serviço de música está temporariamente indisponível..",
+      "emptyList": "Desculpe! não encontrei músicas nesse link do Spotify, confira se a playlist é pública..",
+      "notFound": "Desculpe! não consegui encontrar a música que você pediu..",
+      "cannotJoin": "Desculpe! não consegui entrar no canal de voz.."
+    },
+    "list": {
+      "description": "Para embaralhar a ordem utilize o comando **/shuffle**.",
+      "songs": "Músicas",
+      "duration": "Duração",
+      "started": "**{name}** começou a tocar, com {songs}!",
+      "queued": "**{name}** entrou na fila, com {songs}!"
+    },
+    "track": {
+      "queuedTitle": "Adicionado à fila (#{position})",
+      "started": "**{title}** começou a tocar!",
+      "queued": "**{title}** entrou na fila (#{position})!"
+    }
+  },
+  "queue": {
+    "description": "Você vê a lista de músicas em espera",
+    "title": "Lista de Reprodução",
+    "hint": "Para avançar para a próxima música utilize o comando **/skip**, e para embaralhar a fila **/shuffle**.",
+    "paused": "Pausada",
+    "playing": "Reproduzindo",
+    "line": "**{title}**, {artist} ({duration}) — @{user}",
+    "more_one": "…e mais {count} música",
+    "more_other": "…e mais {count} músicas"
+  },
+  "skip": {
+    "description": "Você avança para a próxima música da fila",
+    "notStarted": "Opa! ainda não comecei a tocar, espere um instante..",
+    "title": "Próxima Música",
+    "message": "{user} pulou **{title}**",
+    "done": "Você pulou **{title}**!"
+  },
+  "pause": {
+    "description": "Você pausa a música em reprodução",
+    "alreadyPaused": "Opa! a música já está pausada, use **/resume** para continuar..",
+    "loading": "Opa! a música ainda está carregando, tente de novo em instantes..",
+    "title": "Música em Pause",
+    "message": "A trilha atual foi pausada por {user}",
+    "done": "A música foi pausada!"
+  },
+  "resume": {
+    "description": "Você retoma a reprodução da música atual",
+    "notPaused": "Opa! a música não está pausada..",
+    "title": "Reproduzindo Música",
+    "message": "A trilha atual foi retomada por {user}",
+    "done": "A música voltou a tocar!"
+  },
+  "stop": {
+    "description": "Você interrompe a reprodução e limpa a fila",
+    "message": "A reprodução foi interrompida por {user}",
+    "done": "A reprodução foi interrompida e a fila foi limpa!"
+  },
+  "shuffle": {
+    "description": "Você embaralha a ordem das músicas da fila",
+    "tooShort": "Opa! a fila precisa de pelo menos 2 músicas para embaralhar..",
+    "title": "Fila Embaralhada",
+    "message": "{user} embaralhou as **{count}** músicas da fila",
+    "done": "As {count} músicas da fila foram embaralhadas!"
+  },
+  "volume": {
+    "description": "Você ajusta o volume de reprodução",
+    "options": {
+      "level": {
+        "name": "nivel",
+        "description": "Volume de 0 a 10"
+      }
+    },
+    "title": "Volume Ajustado",
+    "message": "{user} ajustou o volume para (**{volume}**/10)",
+    "done": "O volume foi ajustado para {volume}/10!"
+  },
+  "pet": {
+    "description": "Você faz carinho no Đoge",
+    "text": "{user} fez carinho no Đoge!\nWoof woof. Abana o rabinho!",
+    "done": "Você fez carinho no Đoge!"
+  },
+  "kiss": {
+    "description": "Você dá um beijo em alguém",
+    "done": "Seu beijo foi enviado!",
+    "texts": [
+      "{author} acabou de beijar {target} com entusiasmo!",
+      "{author} roubou um beijo de {target}!",
+      "{author} deu um beijão em {target}!",
+      "{author} tascou um beijo em {target} sem aviso!"
+    ],
+    "self": "{author} tentou se beijar... e acabou beijando o espelho!",
+    "bot": "O Đoge ficou todo sem graça com o beijo de {author}!"
+  },
+  "slap": {
+    "description": "Você dá um tapa em alguém",
+    "done": "Seu tapa foi dado!",
+    "texts": [
+      "{author} deu um tapa em {target}! Essa doeu...",
+      "{author} deu um tapa estalado em {target}!",
+      "{author} meteu a mão na cara de {target}!",
+      "{author} acertou um tapão em {target}! Foi merecido?"
+    ],
+    "self": "{author} deu um tapa em si mesmo. Tá tudo bem aí?",
+    "bot": "{author} tentou dar um tapa no Đoge, mas ele desviou!"
+  },
+  "ship": {
+    "description": "Mostra a compatibilidade entre duas pessoas",
+    "options": {
+      "person": {
+        "name": "pessoa",
+        "description": "Uma pessoa do casal"
+      },
+      "otherPerson": {
+        "name": "outra-pessoa",
+        "description": "A outra pessoa (se ficar vazio, é você)"
+      }
+    },
+    "titles": [
+      "Será que {a} e {b} combinam?",
+      "O cupido analisou {a} e {b}...",
+      "Medindo a química entre {a} e {b}...",
+      "{a} + {b}: vai ou não vai?"
+    ],
+    "tiers": {
+      "0": "Nem com reza braba 💀",
+      "30": "Melhor ficar só na amizade 🤝",
+      "50": "Pode dar certo, com um pouquinho de esforço 😅",
+      "70": "Tem química aí... 👀",
+      "90": "Almas gêmeas! Já podem marcar o casamento 💍"
+    },
+    "self": "{user} resolveu medir a química consigo mesmo...\n\n{bar} **100%**\n\nAmor próprio em primeiro lugar 💅",
+    "result": "{title}\n\n{bar} **{score}%**\nNome do casal: **{couple}**\n\n{verdict}",
+    "footer": "Pedido por @{user}",
+    "done": "O resultado do ship saiu!"
+  },
+  "announce": {
+    "description": "Publica um anúncio em um canal",
+    "options": {
+      "mention": {
+        "name": "mencionar",
+        "description": "Quem será notificado (padrão: ninguém)"
+      },
+      "channel": {
+        "name": "canal",
+        "description": "Onde publicar (padrão: canal de alertas)"
+      },
+      "image": {
+        "name": "imagem",
+        "description": "Imagem exibida no anúncio"
+      }
+    },
+    "choices": {
+      "none": "Ninguém",
+      "everyone": "@everyone",
+      "subscribers": "Assinantes dos alertas"
+    },
+    "errors": {
+      "noChannel": "Opa! não há canal de alertas configurado, escolha um canal na opção **canal**..",
+      "noRole": "Opa! nenhum cargo de assinantes foi escolhido nos alertas de jogos em **/setup**..",
+      "cannotSend": "Opa! parece que você não pode enviar mensagens em {channel}..",
+      "cannotEveryone": "Opa! parece que você não pode mencionar @everyone..",
+      "notImage": "Opa! o anexo precisa ser uma imagem.."
+    },
+    "modal": {
+      "title": "Novo Anúncio",
+      "announcementTitle": "Título",
+      "message": "Mensagem"
+    },
+    "footer": "Por: @{user}",
+    "sent": "Encaminhei o anúncio para {channel}!",
+    "failed": "Desculpe! não consegui publicar o anúncio em {channel}.."
+  },
+  "delete": {
+    "description": "Apaga as últimas mensagens de um canal",
+    "options": {
+      "amount": {
+        "name": "quantidade",
+        "description": "Quantas mensagens apagar"
+      },
+      "channel": {
+        "name": "canal",
+        "description": "Canal a limpar (padrão: este canal)"
+      }
+    },
+    "cannot": "Opa! parece que você não pode apagar mensagens em {channel}..",
+    "title": "Novinho em Folha!",
+    "none": "Não havia mensagens para apagar em {channel}",
+    "done_one": "Apaguei a última mensagem em {channel}",
+    "done_other": "Apaguei as {count} últimas mensagens em {channel}",
+    "old": "Mensagens com mais de 14 dias não podem ser apagadas em massa.",
+    "footer": "Limpeza Concluída"
+  },
+  "status": {
+    "description": "Modifica o status do bot em todos os servidores",
+    "options": {
+      "type": {
+        "name": "tipo",
+        "description": "Tipo de atividade"
+      },
+      "text": {
+        "name": "texto",
+        "description": "Texto exibido no status"
+      },
+      "url": {
+        "name": "url",
+        "description": "Link da transmissão (Twitch ou YouTube), só para \"Transmitindo\""
+      }
+    },
+    "choices": {
+      "playing": "Jogando",
+      "watching": "Assistindo",
+      "listening": "Ouvindo",
+      "competing": "Competindo",
+      "streaming": "Transmitindo",
+      "custom": "Personalizado"
+    },
+    "labels": {
+      "playing": "Jogando",
+      "watching": "Assistindo",
+      "listening": "Ouvindo",
+      "competing": "Competindo em",
+      "streaming": "Transmitindo",
+      "custom": ""
+    },
+    "notOwner": "Opa! só o dono do bot pode mudar o status, porque ele aparece em todos os servidores..",
+    "title": "Novo Status",
+    "changed": "Status modificado para {status}"
+  },
+  "room": {
+    "description": "Cria uma sala de voz anônima e temporária / configura a sala atual",
+    "options": {
+      "name": {
+        "name": "nome",
+        "description": "O nome da sala nova"
+      }
+    },
+    "defaultName": "👽 Sala de {name}",
+    "created": {
+      "moved": "👽 Criei sua sala {channel} e te levei para lá!",
+      "notMoved": "👽 Criei sua sala: {channel}. Entre nela em até {minutes} minutos, senão ela é apagada!"
+    },
+    "existing": {
+      "moved": "👽 Te levei de volta para a sua sala {channel}!",
+      "notMoved": "👽 Você já tem uma sala: {channel}"
+    },
+    "errors": {
+      "notInRoom": "Opa! você precisa estar em uma sala temporária..",
+      "alreadyOwner": "Você já é o dono desta sala!",
+      "ownerPresent": "Opa! o dono ainda está na sala..",
+      "onlyOwner": "Opa! só o dono da sala pode fazer isso.."
+    },
+    "claimed": "👑 {user} agora é o dono desta sala!",
+    "locked": "🔒 Sala fechada! Agora só quem está nela ou foi convidado consegue ver e entrar.",
+    "unlocked": "🔓 Sala aberta! Agora todo mundo pode ver e entrar.",
+    "rename": {
+      "title": "Renomear sala",
+      "label": "Nome",
+      "empty": "Opa! o nome não pode ficar vazio..",
+      "done": "✏️ Sala renomeada!",
+      "limited": "Opa! o Discord só permite renomear uma sala 2 vezes a cada 10 minutos.."
+    },
+    "limit": {
+      "title": "Limite de pessoas",
+      "label": "Quantas pessoas (0 = sem limite)",
+      "invalid": "Opa! o limite deve ser um número de 0 a 99..",
+      "set_one": "👥 Limite definido em {count} pessoa!",
+      "set_other": "👥 Limite definido em {count} pessoas!",
+      "removed": "👥 Limite removido!"
+    },
+    "invite": {
+      "title": "Convidar para a sala",
+      "label": "Quem pode ver e entrar com a sala fechada",
+      "done": "➕ Convidei {users}!",
+      "dmSent": "Quem não está na sala recebeu o convite por mensagem direta.",
+      "dmFailed": "Não consegui mandar o convite por mensagem direta para {users}, mas a sala já está liberada. Avise por aqui!"
+    }
+  },
+  "tempVoice": {
+    "reason": {
+      "empty": "Sala temporária vazia",
+      "created": "Sala temporária de {user}"
+    },
+    "panel": {
+      "title": "Sala Temporária",
+      "description": "<@{owner}> é o dono desta sala.\n\nA sala começa fechada: só aparece para quem está nela ou foi convidado. Use **Abrir** para todo mundo ver e entrar.\n\nUse os botões abaixo para controlar a sala em que você está. Ela é apagada automaticamente quando todos saírem.",
+      "rename": "Renomear",
+      "limit": "Limite",
+      "invite": "Convidar",
+      "unlock": "Abrir",
+      "lock": "Fechar",
+      "claim": "Reivindicar"
+    },
+    "inviteMessage": {
+      "title": "Convite para Sala",
+      "description": "**{inviter}** te convidou para a sala **{room}** no servidor **{server}**",
+      "button": "Entrar na Sala"
+    }
+  },
+  "guildMemberAdd": {
+    "title": "Bem-vindo(a)!",
+    "description": "@**{user}** acabou de entrar na {server}!",
+    "dm": {
+      "title": "Fala, @{user}!",
+      "description": "É bom saber que agora você também faz parte da **{server}**!\n\n{rules}Se precisar de ajuda ou tiver algum problema é só chamar alguém da staff. Espero que se divirta!",
+      "rules": "Antes de embarcar nessa jornada não esqueça de ler as regras em <#{channel}>\n\n"
+    }
+  },
+  "guildMemberRemove": {
+    "title": "Ah Não!",
+    "description": "@**{user}** nos abandonou!"
+  },
+  "messageCreate": {
+    "warning": "{user}, este canal é só para comandos: digite **/** para ver o que dá para fazer.."
+  },
+  "updates": {
+    "userId": "ID do Usuário: {id}",
+    "nameChange": {
+      "description": "Teve seu **nickname** alterado",
+      "before": "Antes",
+      "after": "Agora"
+    },
+    "avatarChange": {
+      "description": "Teve sua **foto** de perfil alterada\n\n(Antes e depois)"
+    }
+  },
+  "onboarding": {
+    "title": "👋 Olá, {server}!",
+    "description": "Eu sou o **Đoge Bot**: música, salas de voz temporárias, alertas de jogos grátis, boas-vindas e mais.\n\nClique em **Configurar** (ou use **/setup**) e eu guio você: primeiro o idioma, depois as minhas permissões, depois as funções. Fora a música e as interações, todas começam desligadas até um admin configurá-las.\n\nAo me usar você concorda com os Termos de Serviço e a Política de Privacidade abaixo.",
+    "noChannel": "Entrei no **{server}** mas não consigo escrever em nenhum canal, por isso estou falando por aqui.\n\nDê ao meu cargo **Ver canais**, **Enviar mensagens** e **Inserir links** (ou **Administrador**) em **Configurações do Servidor → Cargos → Đoge Bot** e depois use **/setup** no servidor: eu guio você pelo idioma, pelas minhas permissões e pelas funções.\n\nAo me usar você concorda com os Termos de Serviço e a Política de Privacidade abaixo.",
+    "footer": "Só quem pode gerenciar o servidor consegue configurar",
+    "button": "Configurar"
+  },
+  "legal": {
+    "terms": "Termos de Serviço",
+    "privacy": "Política de Privacidade",
+    "termsUrl": "{repository}/blob/master/TERMS.pt-BR.md",
+    "privacyUrl": "{repository}/blob/master/PRIVACY.pt-BR.md"
+  },
+  "cleanup": {
+    "title": "Novinho em Folha!",
+    "description": "Por segurança e privacidade as mensagens deste canal de texto foram apagadas permanentemente, tenha atenção que esta limpeza acontece diariamente às **06:00 (BRA)** neste canal!",
+    "footer": "Limpeza Concluída"
+  },
+  "shiba": {
+    "photoBy": "Foto: {author}"
+  },
+  "gameAlerts": {
+    "freeTitle": "🎁 **Jogos grátis para resgatar!**",
+    "dealsTitle": "💸 **Promoções da semana**",
+    "freeAuthor": "Grátis na {store}",
+    "partnerStore": "loja parceira",
+    "dealAuthor": "-{discount}% na Steam",
+    "price": "Preço",
+    "priceFree": "~~{price}~~ **Grátis**",
+    "priceDeal": "~~{price}~~ **{final}**",
+    "free": "**Grátis**",
+    "claimBy": "Resgate até",
+    "saleUntil": "Promoção até",
+    "reviews": "Análises",
+    "reviewsValue": "{rating}% positivas de {reviews}"
+  }
+}

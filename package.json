@@ -1,0 +1,39 @@
+{
+  "name": "doge-bot",
+  "version": "2.0.0",
+  "description": "Bot do servidor Đoge Style",
+  "type": "module",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --import ./test/setup.js --test --test-force-exit --test-timeout=30000 \"test/**/*.test.js\"",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26"
+  },
+  "author": "jorgsiq",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/voice": "^0.19.2",
+    "@distube/ytdl-core": "^5.2.0",
+    "@napi-rs/canvas": "^1.1.0",
+    "discord.js": "^14.28.0",
+    "ffmpeg-static": "^5.3.0",
+    "gifenc": "^1.0.3",
+    "opusscript": "^0.0.8"
+  },
+  "allowScripts": {
+    "ffmpeg-static@5.3.0": true
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1"
+  }
+}
